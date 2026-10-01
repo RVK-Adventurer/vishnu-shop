@@ -18,17 +18,17 @@
     "default_language": "en"
   },
   "business": {
-    "name": "REPLACE_ME",
-    "legal_name": "REPLACE_ME",
+    "name": "Raj Vishnu Kumar's Shop",
+    "legal_name": "Raj Vishnu Kumar's Shop",
     "tagline": "Quality products, delivered to your door",
-    "phone": "REPLACE_ME",
-    "whatsapp": "REPLACE_ME",
-    "email": "REPLACE_ME",
-    "address_line1": "REPLACE_ME",
-    "address_line2": "",
-    "city": "REPLACE_ME",
-    "state": "REPLACE_ME",
-    "pincode": "REPLACE_ME",
+    "phone": "9629563236",
+    "whatsapp": "9629563236",
+    "email": "vishnumatrix4599@gmail.com",
+    "address_line1": "70A, Lakshmipuram",
+    "address_line2": "6th Street, peelamedu",
+    "city": "Coimbatore",
+    "state": "Tamil Nadu",
+    "pincode": "641004",
     "gstin": "",
     "hours_text": "Mon–Sat, 9 AM – 9 PM"
   },
@@ -42,8 +42,8 @@
     "home_layout": "A"
   },
   "seo": {
-    "default_title": "REPLACE_ME",
-    "default_description": "REPLACE_ME",
+    "default_title": "Raj Vishnu Kumar's Shop",
+    "default_description": "Its a funny E-commerce site for testing",
     "og_image": "client/assets/og-default.png"
   },
   "social": {
@@ -53,7 +53,7 @@
     "x": ""
   },
   "seller": {
-    "name": "REPLACE_ME",
-    "upgrade_contact_text": "REPLACE_ME"
+    "name": "RVK",
+    "upgrade_contact_text": "Text Me on 9629563236"
   }
 }
