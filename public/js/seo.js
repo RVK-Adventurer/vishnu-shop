@@ -38,13 +38,14 @@ export function headTags(opts) {
   return html`<title>${opts.title}</title>
 <meta name="description" content="${clip(opts.description, 160)}">
 <link rel="canonical" href="${url}">
+${(opts.alternates || []).map((a) => html`<link rel="alternate" hreflang="${a.hreflang}" href="${abs(opts.siteUrl, a.href)}">`)}
 ${opts.noindex ? raw('<meta name="robots" content="noindex, nofollow">') : ''}
 <meta property="og:site_name" content="${opts.siteName}">
 <meta property="og:type" content="${opts.type || 'website'}">
 <meta property="og:title" content="${opts.title}">
 <meta property="og:description" content="${clip(opts.description, 200)}">
 <meta property="og:url" content="${url}">
-<meta property="og:locale" content="en_IN">
+<meta property="og:locale" content="${opts.ogLocale || 'en_IN'}">
 ${img ? html`<meta property="og:image" content="${img}">${opts.imageWidth ? html`<meta property="og:image:width" content="${opts.imageWidth}"><meta property="og:image:height" content="${opts.imageHeight}">` : ''}` : ''}
 <meta name="twitter:card" content="${img ? 'summary_large_image' : 'summary'}">
 <meta name="twitter:title" content="${opts.title}">

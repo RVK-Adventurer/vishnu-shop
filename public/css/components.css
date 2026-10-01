@@ -17,7 +17,9 @@
   line-height: 1.2;
   text-decoration: none;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;          /* long labels (e.g. Tamil) wrap instead of spilling off small phones */
+  overflow-wrap: break-word;
+  padding-block: 6px;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out),

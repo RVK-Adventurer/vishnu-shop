@@ -5,7 +5,11 @@
  */
 
 import { loadStrings } from './i18n.js';
-import { loadSettings, refreshStoreState } from './settings.js';
+import { loadSettings, refreshStoreState, settings } from './settings.js';
+import { setBase } from './templates.js';
+import { initSchedules } from './ui/schedule.js';
+import { initPromos } from './ui/promo.js';
+import { initRows } from './ui/rows.js';
 import { session } from './state.js';
 import { initDialogs } from './ui/dialog.js';
 import { initDrawers } from './ui/drawer.js';
@@ -39,8 +43,14 @@ async function boot() {
   document.documentElement.classList.add('js');
   initAnnouncement();
   initHeaderShadow();
+  const root = document.documentElement;
+  const lang = root.getAttribute('data-lang') || 'en';
+  setBase(root.getAttribute('data-base') || '');
+  initSchedules();
   try {
-    await Promise.all([loadStrings('en'), loadSettings()]);
+    await loadSettings();
+    const overrides = (settings().text_overrides_json || {})[lang] || null;
+    await loadStrings(lang, overrides);
   } catch (e) {
     console.warn('Could not load shop text or settings', e);
   }
@@ -54,8 +64,10 @@ async function boot() {
   initPrefetch();
   wirePhoneLinks();
   refreshStoreState();
+  initRows();
   await route();
   initPwa();
+  initPromos();
 }
 
 boot();

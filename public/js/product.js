@@ -10,7 +10,7 @@ import { formatRupees } from './money.js';
 import { setHtml, local, $ } from './state.js';
 import { settings } from './settings.js';
 import { loadCatalog, addRecent, recentIds } from './catalog.js';
-import { priceBlock, productCard, icon, leadVariant, codEnabled } from './templates.js';
+import { priceBlock, productCard, icon, leadVariant, codEnabled, link } from './templates.js';
 import { matchPincode, isPincode, deliveryDate } from './validators.js';
 import { wireVariantPicker, variantImageIndex } from './variants.js';
 import { initGallery } from './ui/gallery.js';
@@ -81,7 +81,7 @@ export async function init() {
   buyBtn.addEventListener('click', () => {
     if (!variant.in_stock) return;
     if (!cart.qtyOf(variant.sku)) cart.add(variant.sku, stepperValue(stepperEl), cart.snapshotFor(p, variant));
-    location.href = '/checkout/';
+    location.href = link('/checkout/');
   });
 
   /* ---- sticky add-to-cart bar (phones only, after the main button scrolls away) */
@@ -144,7 +144,7 @@ export async function init() {
   const row = page.querySelector('[data-row="recent"]');
   if (row && before.length >= 2) {
     const cat = await loadCatalog();
-    const items = before.map((id) => cat.byId[id]).filter(Boolean).slice(0, 8);
+    const items = before.map((id) => cat.byId[id]).filter(Boolean).slice(0, 16);
     if (items.length >= 2) {
       const ctx = { s, t, cat, now: new Date() };
       setHtml(row.querySelector('[data-row-track]'), html`${items.map((x) => productCard(x, ctx))}`);

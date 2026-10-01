@@ -35,9 +35,40 @@ export function indexCatalog(catalog) {
   return { version: catalog.catalog_version, isSample: !!catalog.is_sample, categories, products, byId, bySlug, bySku, catById, catBySlug };
 }
 
-export function productUrl(p) { return `/p/${encodeURIComponent(p.slug)}/`; }
-export function categoryUrl(c) { return `/c/${encodeURIComponent(c.slug)}/`; }
-export function pageUrl(slug) { return `/pages/${encodeURIComponent(slug)}/`; }
+/* ------------------------------------------------------------------ language-aware links */
+/*
+ * The default language lives at the site root (/p/kaju-katli/); every other language under its code
+ * (/ta/p/kaju-katli/). All page links go through link() so they stay in the visitor's language.
+ * Files (pictures, catalog.json, scripts) are never prefixed.
+ */
+let BASE = '';
+
+/** Sets the language prefix: '' for the default language, '/ta' for Tamil, etc. */
+export function setBase(prefix) {
+  BASE = prefix && prefix !== '/' ? '/' + String(prefix).replace(/^\/+|\/+$/g, '') : '';
+}
+
+export function getBase() {
+  return BASE;
+}
+
+/** A page address in the current language: link('/cart/') -> '/ta/cart/'. */
+export function link(path) {
+  const p = String(path || '/');
+  if (!p.startsWith('/') || p.startsWith('//')) return p;
+  return BASE + p;
+}
+
+/** Removes any language prefix from a path (used by the language switcher). */
+export function stripBase(path, codes) {
+  const m = /^\/([a-z]{2})(\/.*)?$/.exec(path || '/');
+  if (m && (codes || []).includes(m[1])) return m[2] || '/';
+  return path || '/';
+}
+
+export function productUrl(p) { return link(`/p/${encodeURIComponent(p.slug)}/`); }
+export function categoryUrl(c) { return link(`/c/${encodeURIComponent(c.slug)}/`); }
+export function pageUrl(slug) { return link(`/pages/${encodeURIComponent(slug)}/`); }
 
 /** Cheapest variant that is in stock (or the cheapest overall if none are). */
 export function leadVariant(p) {
@@ -65,6 +96,43 @@ export function isNew(p, now) {
 export function hasPriceRange(p) {
   const prices = (p.variants || []).map((v) => v.price);
   return prices.length > 1 && Math.min(...prices) !== Math.max(...prices);
+}
+
+/**
+ * "Bought" counts (v1.9). Publish writes counts already rounded DOWN to a bucket, so the exact sales
+ * of a shop are never public: 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000…
+ */
+export const SOLD_BUCKETS = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000];
+
+export function roundSold(n) {
+  const v = Math.floor(Number(n) || 0);
+  let out = 0;
+  SOLD_BUCKETS.forEach((b) => { if (v >= b) out = b; });
+  return out;
+}
+
+/** 100 -> "100+", 2000 -> "2K+", 100000 -> "1L+" (Indian lakh). */
+export function soldLabel(bucket) {
+  if (bucket >= 100000) return Math.floor(bucket / 100000) + 'L+';
+  if (bucket >= 1000) return Math.floor(bucket / 1000) + 'K+';
+  return bucket + '+';
+}
+
+/**
+ * The "bought" lines to show for a product, following the owner's settings:
+ * sold_counts_mode OFF | MONTH | TOTAL | BOTH, and sold_counts_min (hide below this).
+ * where = 'card' shows one line (month preferred), 'page' may show both.
+ */
+export function soldLines(p, s, t, where = 'card') {
+  const mode = s.sold_counts_mode || 'OFF';
+  if (mode === 'OFF') return [];
+  const min = Math.max(1, Number(s.sold_counts_min) || 10);
+  const out = [];
+  const month = roundSold(p.sold_30d);
+  const total = roundSold(p.sold_total);
+  if ((mode === 'MONTH' || mode === 'BOTH') && month >= min) out.push(t('sold.month', { n: soldLabel(month) }));
+  if ((mode === 'TOTAL' || mode === 'BOTH') && total >= min) out.push(t('sold.total', { n: soldLabel(total) }));
+  return where === 'card' ? out.slice(0, 1) : out;
 }
 
 export function bestDiscount(p) {
@@ -148,6 +216,7 @@ export function productCard(p, ctx, { eager = false } = {}) {
   const hint = variantHint(p, t);
   const showRating = s.reviews_enabled && p.rating_count > 0;
   const fit = s.product_image_fit === 'cover' ? 'fit-cover' : 'fit-contain';
+  const sold = soldLines(p, s, t, 'card');
   return html`<article class="${cls('pcard', { 'pcard--oos': !inStock })}" data-pid="${p.id}">
   <a class="pcard__link" href="${productUrl(p)}" data-prefetch="${p.slug}">
     <span class="${cls('pcard__media', fit)}">
@@ -160,6 +229,7 @@ export function productCard(p, ctx, { eager = false } = {}) {
       <span class="pcard__name">${p.name}</span>
       ${showRating ? html`<span class="pcard__rating">${stars(p.rating_avg, p.rating_count, t)}<span class="pcard__count">(${p.rating_count})</span></span>` : ''}
       <span class="pcard__price">${priceInline(lead.price, lead.mrp, { from: hasPriceRange(p) }, t)}</span>
+      ${sold.length ? html`<span class="pcard__sold">${sold[0]}</span>` : ''}
       ${hint ? html`<span class="pcard__hint">${hint}</span>` : ''}
     </span>
   </a>
@@ -197,22 +267,46 @@ export function categoryTiles(categories, ctx) {
 </section>`;
 }
 
+/**
+ * Is a scheduled item showing at `now`? Items without dates always show.
+ * starts_at / ends_at are ISO date-times (India time), e.g. 2026-10-20T00:00:00+05:30.
+ */
+export function isLive(item, now = new Date()) {
+  if (!item) return false;
+  const t = now.getTime();
+  const start = item.starts_at ? Date.parse(item.starts_at) : NaN;
+  const end = item.ends_at ? Date.parse(item.ends_at) : NaN;
+  if (!Number.isNaN(start) && t < start) return false;
+  if (!Number.isNaN(end) && t >= end) return false;
+  return true;
+}
+
+/** Attributes the browser uses to show/hide a scheduled item on time (dates are re-checked on every visit). */
+function scheduleAttrs(item) {
+  const parts = [];
+  if (item.starts_at) parts.push(`data-starts="${esc(item.starts_at)}"`);
+  if (item.ends_at) parts.push(`data-ends="${esc(item.ends_at)}"`);
+  return raw(parts.join(' '));
+}
+
 export function hero(ctx) {
   const { s, t } = ctx;
-  const banners = Array.isArray(s.hero_banners_json) ? s.hero_banners_json.filter((b) => b && b.image) : [];
-  if (!banners.length) {
-    return html`<section class="hero hero--brand" aria-labelledby="hero-title">
+  // Banners whose end date has already passed are dropped at build time; the rest are re-checked in the browser.
+  const banners = Array.isArray(s.hero_banners_json) ? s.hero_banners_json.filter((b) => b && b.image && !(b.ends_at && Date.parse(b.ends_at) <= ctx.now.getTime())) : [];
+  const brand = (hidden) => html`<section class="hero hero--brand" aria-labelledby="hero-title" data-hero-fallback ${hidden ? raw('hidden') : ''}>
   <div class="container hero__brand">
     <p class="hero__eyebrow">${t('home.welcome_to')}</p>
-    <h1 class="hero__title" id="hero-title">${s.business_name}</h1>
+    ${hidden ? html`<p class="hero__title" id="hero-title">${s.business_name}</p>` : html`<h1 class="hero__title" id="hero-title">${s.business_name}</h1>`}
     ${s.tagline ? html`<p class="hero__sub">${s.tagline}</p>` : ''}
     <a class="btn btn--light btn--lg" href="#main-products">${t('home.shop_now')}</a>
   </div>
   <span class="hero__shape hero__shape--a" aria-hidden="true"></span><span class="hero__shape hero__shape--b" aria-hidden="true"></span>
 </section>`;
-  }
-  return html`<section class="hero" aria-roledescription="${t('home.carousel')}" aria-label="${t('home.highlights')}" data-hero ${s.hero_autorotate ? raw('data-autorotate') : ''}>
-  <div class="hero__track" data-hero-track>${banners.map((b, i) => html`<div class="hero__slide" role="group" aria-roledescription="${t('home.slide')}" aria-label="${t('home.slide_n', { n: i + 1, total: banners.length })}">
+  if (!banners.length) return brand(false);
+  const anyScheduled = banners.some((b) => b.starts_at || b.ends_at);
+  const liveNow = banners.filter((b) => isLive(b, ctx.now));
+  return html`${anyScheduled ? brand(liveNow.length > 0) : ''}<section class="hero" ${anyScheduled && !liveNow.length ? raw('hidden') : ''} aria-roledescription="${t('home.carousel')}" aria-label="${t('home.highlights')}" data-hero ${s.hero_autorotate ? raw('data-autorotate') : ''}>
+  <div class="hero__track" data-hero-track>${banners.map((b, i) => html`<div class="hero__slide" ${scheduleAttrs(b)} ${isLive(b, ctx.now) ? '' : raw('hidden')} role="group" aria-roledescription="${t('home.slide')}" aria-label="${t('home.slide_n', { n: i + 1, total: banners.length })}">
     <picture>${b.image_mobile ? html`<source media="(max-width: 767px)" srcset="${b.image_mobile}">` : ''}<img class="hero__img" src="${b.image}" alt="${b.alt || ''}" width="1600" height="900" data-focal="${focalKey(b)}" ${i === 0 ? raw('fetchpriority="high" loading="eager"') : raw('loading="lazy"')} decoding="async"></picture>
     ${b.headline || b.subline || b.cta_text ? html`<span class="hero__overlay" aria-hidden="true"></span><div class="hero__text">
       ${b.headline ? (i === 0 ? html`<h1 class="hero__title">${b.headline}</h1>` : html`<p class="hero__title">${b.headline}</p>`) : ''}
@@ -294,10 +388,24 @@ export function trustStrip(s, t, opts) {
 export function announcementBar(ctx) {
   const text = announcementText(ctx.s, ctx.t);
   if (!text) return '';
-  return html`<div class="announce" data-announce>
+  const sched = ctx.s.announcement_text ? { starts_at: ctx.s.announcement_starts_at, ends_at: ctx.s.announcement_ends_at } : {};
+  if (sched.ends_at && Date.parse(sched.ends_at) <= ctx.now.getTime()) return '';
+  const scheduled = !!(sched.starts_at || sched.ends_at);
+  return html`<div class="announce" data-announce ${scheduleAttrs(sched)} ${scheduled && !isLive(sched, ctx.now) ? raw('hidden') : ''}>
   <div class="container announce__inner"><p class="announce__text">${text}</p>
   <button class="icon-btn icon-btn--sm announce__close" type="button" data-announce-close aria-label="${ctx.t('common.dismiss')}">${icon('close', 16)}</button></div>
 </div>`;
+}
+
+/** Language picker (shown only when the shop has more than one language). */
+export function langSwitcher(ctx, where) {
+  const langs = ctx.langs || [];
+  if (langs.length < 2) return '';
+  const current = langs.find((l) => l.current) || langs[0];
+  return html`<details class="lang" data-lang-menu>
+    <summary class="icon-btn lang__btn" aria-label="${ctx.t('lang.label')}: ${current.name}">${icon('globe', 22)}<span class="lang__code">${current.short}</span></summary>
+    <div class="lang__menu">${langs.map((l) => html`<a class="lang__item" href="${l.href}" hreflang="${l.code}" lang="${l.code}" ${l.current ? raw('aria-current="true"') : ''}>${l.name}${l.current ? icon('check', 16) : ''}</a>`)}</div>
+  </details>`;
 }
 
 export function header(ctx) {
@@ -308,11 +416,11 @@ export function header(ctx) {
   return html`<header class="site-header" data-header>
   <div class="container site-header__bar">
     <button class="icon-btn site-header__menu" type="button" data-open-dialog="menu-drawer" aria-label="${t('header.menu')}" aria-haspopup="dialog">${icon('menu', 24)}</button>
-    <a class="brand" href="/" aria-label="${t('header.home_label', { name: s.business_name })}">
+    <a class="brand" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}">
       ${s.logo_path ? html`<img class="brand__logo" src="${s.logo_path}" alt="" width="160" height="40">` : ''}
       <span class="${cls('brand__name', { 'brand__name--with-logo': !!s.logo_path })}">${s.business_name}</span>
     </a>
-    <form class="site-search" role="search" action="/search/" method="get" data-search-form>
+    <form class="site-search" role="search" action="${link('/search/')}" method="get" data-search-form>
       <label class="sr-only" for="q-desktop">${t('search.label')}</label>
       <input class="input site-search__input" id="q-desktop" type="search" name="q" autocomplete="off" enterkeyhint="search"
         placeholder="${t('search.placeholder')}" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest-desktop" data-search-input>
@@ -320,6 +428,7 @@ export function header(ctx) {
       <div class="suggest" id="suggest-desktop" role="listbox" aria-label="${t('search.suggestions')}" hidden data-suggest></div>
     </form>
     <div class="site-header__actions">
+      ${langSwitcher(ctx, 'header')}
       <button class="icon-btn site-header__search" type="button" data-open-search aria-label="${t('search.open')}" aria-haspopup="dialog">${icon('search', 24)}</button>
       <button class="icon-btn cart-btn" type="button" data-open-cart aria-haspopup="dialog" aria-label="${t('cart.open', { n: 0 })}">${icon('cart', 24)}<span class="cart-btn__badge" data-cart-count hidden>0</span></button>
     </div>
@@ -344,11 +453,12 @@ export function sharedDialogs(ctx) {
     <button class="icon-btn" type="button" data-close-dialog aria-label="${t('common.close')}">${icon('close', 24)}</button></div>
   <nav class="drawer__body" aria-label="${t('header.categories')}">
     <ul class="menu-list" role="list">
-      <li><a class="menu-list__link" href="/search/">${icon('grid', 20)}<span>${t('header.all_products')}</span>${icon('chevron-right', 16, 'menu-list__chev')}</a></li>
+      <li><a class="menu-list__link" href="${link('/search/')}">${icon('grid', 20)}<span>${t('header.all_products')}</span>${icon('chevron-right', 16, 'menu-list__chev')}</a></li>
       ${top.map((c) => html`<li><a class="menu-list__link" href="${categoryUrl(c)}"><span>${c.name}</span>${icon('chevron-right', 16, 'menu-list__chev')}</a></li>`)}
     </ul>
+    ${(ctx.langs || []).length > 1 ? html`<ul class="menu-list menu-list--secondary" role="list" aria-label="${t('lang.label')}">${ctx.langs.map((l) => html`<li><a class="menu-list__link" href="${l.href}" hreflang="${l.code}" lang="${l.code}" ${l.current ? raw('aria-current="true"') : ''}>${icon('globe', 20)}<span>${l.name}</span>${l.current ? icon('check', 16, 'menu-list__chev') : ''}</a></li>`)}</ul>` : ''}
     <ul class="menu-list menu-list--secondary" role="list">
-      <li><a class="menu-list__link" href="/cart/">${icon('cart', 20)}<span>${t('cart.title_plain')}</span></a></li>
+      <li><a class="menu-list__link" href="${link('/cart/')}">${icon('cart', 20)}<span>${t('cart.title_plain')}</span></a></li>
       <li><a class="menu-list__link" href="${pageUrl('contact')}">${icon('phone', 20)}<span>${t('footer.contact')}</span></a></li>
       ${s.whatsapp_number ? html`<li><a class="menu-list__link" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank">${icon('whatsapp', 20)}<span>${t('footer.whatsapp_us')}</span></a></li>` : ''}
     </ul>
@@ -361,7 +471,7 @@ export function sharedDialogs(ctx) {
   <div class="drawer__foot" data-cart-foot></div>
 </dialog>
 <dialog class="search-sheet" id="search-overlay" aria-label="${t('search.label')}">
-  <form class="search-sheet__bar" role="search" action="/search/" method="get" data-search-form>
+  <form class="search-sheet__bar" role="search" action="${link('/search/')}" method="get" data-search-form>
     <button class="icon-btn" type="button" data-close-dialog aria-label="${t('common.back')}">${icon('arrow-left', 24)}</button>
     <label class="sr-only" for="q-mobile">${t('search.label')}</label>
     <input class="input search-sheet__input" id="q-mobile" type="search" name="q" autocomplete="off" enterkeyhint="search"
@@ -373,6 +483,7 @@ export function sharedDialogs(ctx) {
 <dialog class="sheet" id="quick-add" aria-labelledby="quick-add-title"><div class="sheet__inner" data-quick-add-body></div></dialog>
 <dialog class="sheet sheet--wide" id="zoom-dialog" aria-label="${t('product.zoom')}"><div class="sheet__inner zoom" data-zoom-body></div></dialog>
 <dialog class="sheet" id="confirm-dialog" aria-labelledby="confirm-title"><div class="sheet__inner" data-confirm-body></div></dialog>
+<dialog class="sheet promo" id="promo-dialog" aria-labelledby="promo-title"><div class="sheet__inner" data-promo-body></div></dialog>
 <div class="toasts" data-toasts aria-live="polite"></div>
 <div class="sr-only" aria-live="assertive" data-live-assertive></div>
 <div class="sr-only" aria-live="polite" data-live-polite></div>`;
@@ -410,7 +521,7 @@ export function footer(ctx, pages) {
         <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${t('footer.care')}${icon('chevron-down', 16)}</button></h2>
         <div class="footer-sec__panel" data-acc-panel><ul class="footer-list" role="list">
           <li><a class="footer-link" href="${pageUrl('contact')}">${t('footer.contact')}</a></li>
-          <li><a class="footer-link" href="/cart/">${t('cart.title_plain')}</a></li>
+          <li><a class="footer-link" href="${link('/cart/')}">${t('cart.title_plain')}</a></li>
           ${footerPages.filter((p) => /shipping|refund|return/.test(p.slug)).map((p) => html`<li><a class="footer-link" href="${pageUrl(p.slug)}">${p.title}</a></li>`)}
         </ul></div>
       </section>
@@ -462,17 +573,17 @@ ${trustStrip(s, t, { hasReturnPolicy })}
 ${listingMain(ctx, { mode: 'all', title: t('home.all_products'), products: active, hideTitle: true })}`;
   }
   const inStockFirst = (list) => list.slice().sort((a, b) => Number(isInStock(b)) - Number(isInStock(a)));
-  const best = inStockFirst(active.filter((p) => p.bestseller_rank).sort((a, b) => a.bestseller_rank - b.bestseller_rank)).slice(0, 8);
-  const newest = active.slice().sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, 8);
-  const deals = active.filter((p) => bestDiscount(p) > 0 && isInStock(p)).sort((a, b) => bestDiscount(b) - bestDiscount(a)).slice(0, 8);
+  const best = inStockFirst(active.filter((p) => p.bestseller_rank).sort((a, b) => a.bestseller_rank - b.bestseller_rank)).slice(0, 16);
+  const newest = active.slice().sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, 16);
+  const deals = active.filter((p) => bestDiscount(p) > 0 && isInStock(p)).sort((a, b) => bestDiscount(b) - bestDiscount(a)).slice(0, 16);
   const rows = [];
   pinnedRows.forEach((r, i) => {
     const list = (r.product_ids || []).map((id) => cat.byId[id]).filter(Boolean);
-    if (list.length >= 4) rows.push(productRow({ id: 'pin' + i, title: r.title, products: list.slice(0, 8), ctx }));
+    if (list.length >= 4) rows.push(productRow({ id: 'pin' + i, title: r.title, products: list.slice(0, 16), ctx }));
   });
-  if (best.length >= 4) rows.push(productRow({ id: 'best', title: t('home.bestsellers'), products: best, viewAll: '/search/?sort=bestseller', ctx }));
-  if (newest.length >= 4) rows.push(productRow({ id: 'new', title: t('home.new_arrivals'), products: newest, viewAll: '/search/?sort=newest', ctx }));
-  if (deals.length >= 4) rows.push(productRow({ id: 'deals', title: t('home.deals'), products: deals, viewAll: '/search/?sort=discount', ctx }));
+  if (best.length >= 4) rows.push(productRow({ id: 'best', title: t('home.bestsellers'), products: best, viewAll: link('/search/?sort=bestseller'), ctx }));
+  if (newest.length >= 4) rows.push(productRow({ id: 'new', title: t('home.new_arrivals'), products: newest, viewAll: link('/search/?sort=newest'), ctx }));
+  if (deals.length >= 4) rows.push(productRow({ id: 'deals', title: t('home.deals'), products: deals, viewAll: link('/search/?sort=discount'), ctx }));
   const topCats = cat.categories.filter((c) => !c.parent_id);
   return html`${hero(ctx)}
 <div class="container home">
@@ -481,7 +592,7 @@ ${listingMain(ctx, { mode: 'all', title: t('home.all_products'), products: activ
     ${categoryTiles(topCats, ctx)}
     ${rows}
     ${productRow({ id: 'recent', title: t('home.recently_viewed'), products: [], ctx, hidden: true })}
-    ${!rows.length && active.length ? html`<section class="row" aria-labelledby="row-all"><div class="row__head"><h2 class="row__title" id="row-all">${t('home.all_products')}</h2><a class="btn btn--ghost btn--sm" href="/search/">${t('common.view_all')}</a></div>${productGrid(active.slice(0, 12), ctx)}</section>` : ''}
+    ${!rows.length && active.length ? html`<section class="row" aria-labelledby="row-all"><div class="row__head"><h2 class="row__title" id="row-all">${t('home.all_products')}</h2><a class="btn btn--ghost btn--sm" href="${link('/search/')}">${t('common.view_all')}</a></div>${productGrid(active.slice(0, 12), ctx)}</section>` : ''}
     ${!active.length ? emptyState({ iconName: 'box', title: t('home.no_products_title'), text: t('home.no_products_text') }) : ''}
   </div>
 </div>`;
@@ -616,7 +727,7 @@ export function productMain(ctx, p, detail, related) {
   const lead = leadVariant(p);
   const images = (detail && detail.images && detail.images.length ? detail.images : p.images) || [];
   const category = cat.catById[p.category_id];
-  const crumbs = [{ name: t('common.home'), href: '/' }];
+  const crumbs = [{ name: t('common.home'), href: link('/') }];
   if (category) crumbs.push({ name: category.name, href: categoryUrl(category) });
   crumbs.push({ name: p.name });
   const showRating = s.reviews_enabled && p.rating_count > 0;
@@ -644,6 +755,7 @@ export function productMain(ctx, p, detail, related) {
       ${p.brand ? html`<p class="pdp__brand">${p.brand}</p>` : ''}
       <h1 class="pdp__title">${p.name}</h1>
       ${showRating ? html`<a class="pdp__rating" href="#reviews">${stars(p.rating_avg, p.rating_count, t, 16)}<span>${t('product.reviews_count', { n: p.rating_count })}</span></a>` : ''}
+      ${soldLines(p, s, t, 'page').map((line) => html`<p class="pdp__sold">${icon('tag', 16)}<span>${line}</span></p>`)}
       ${lead ? priceBlock(p, lead, t, s) : ''}
       <form class="pdp__buy" data-buy-form novalidate>
         ${variantSelectors(p, lead, t)}
@@ -674,7 +786,7 @@ export function productMain(ctx, p, detail, related) {
     <table class="spec-table"><tbody>${specs.map((row) => html`<tr><th scope="row">${row[0]}</th><td>${row[1]}</td></tr>`)}</tbody></table></section>` : ''}
   ${showRating ? html`<section class="pdp__section" id="reviews" aria-labelledby="rev-title"><h2 class="pdp__h2" id="rev-title">${t('product.reviews')}</h2>
     <p class="pdp__rating-big"><span class="pdp__rating-num">${Number(p.rating_avg).toFixed(1)}</span>${stars(p.rating_avg, p.rating_count, t, 20)}<span>${t('product.reviews_count', { n: p.rating_count })}</span></p></section>` : ''}
-  ${related && related.length >= 2 ? productRow({ id: 'related', title: t('product.related'), products: related.slice(0, 8), ctx }) : ''}
+  ${related && related.length >= 2 ? productRow({ id: 'related', title: t('product.related'), products: related.slice(0, 16), ctx }) : ''}
   ${productRow({ id: 'recent', title: t('home.recently_viewed'), products: [], ctx, hidden: true })}
   <div class="sticky-buy" data-sticky-buy hidden>
     <div class="sticky-buy__price" data-sticky-price>${lead ? formatRupees(lead.price) : ''}</div>
@@ -687,7 +799,7 @@ export function productMain(ctx, p, detail, related) {
 export function pageMain(ctx, page) {
   const { t } = ctx;
   return html`<div class="container container--prose static-page">
-  ${breadcrumbs([{ name: t('common.home'), href: '/' }, { name: page.title }], t)}
+  ${breadcrumbs([{ name: t('common.home'), href: link('/') }, { name: page.title }], t)}
   <h1 class="static-page__title">${page.title}</h1>
   <div class="prose">${sanitizeRichText(page.html)}</div>
   ${page.is_template ? html`<p class="static-page__note">${icon('info', 16)}${t('pages.template_note')}</p>` : ''}
@@ -699,7 +811,7 @@ export function contactMain(ctx, page) {
   const address = [s.address_line1, s.address_line2, [s.city, s.shop_pincode].filter(Boolean).join(' '), s.state].filter(Boolean).join(', ');
   const maps = s.maps_url || (address ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.business_name + ', ' + address) : '');
   return html`<div class="container static-page">
-  ${breadcrumbs([{ name: t('common.home'), href: '/' }, { name: page ? page.title : t('footer.contact') }], t)}
+  ${breadcrumbs([{ name: t('common.home'), href: link('/') }, { name: page ? page.title : t('footer.contact') }], t)}
   <h1 class="static-page__title">${page ? page.title : t('footer.contact')}</h1>
   ${page && page.html ? html`<div class="prose">${sanitizeRichText(page.html)}</div>` : ''}
   <div class="contact-grid">
@@ -747,14 +859,14 @@ export function checkoutSoonMain(ctx) {
     <p>${t('checkout_soon.text')}</p>
     <div data-checkout-soon-summary></div>
     ${s.whatsapp_number ? html`<a class="btn btn--primary btn--lg btn--block" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank" data-wa-order>${icon('whatsapp', 20)}${t('checkout_soon.send')}</a>` : ''}
-    <a class="btn btn--ghost btn--block" href="/cart/">${t('checkout_soon.back')}</a>
+    <a class="btn btn--ghost btn--block" href="${link('/cart/')}">${t('checkout_soon.back')}</a>
   </div>
 </div>`;
 }
 
 export function notFoundMain(ctx) {
   const { t } = ctx;
-  return html`<div class="container center-page">${emptyState({ iconName: 'search', title: t('notfound.title'), text: t('notfound.text'), action: html`<a class="btn btn--primary btn--lg" href="/">${t('notfound.back')}</a>` })}</div>`;
+  return html`<div class="container center-page">${emptyState({ iconName: 'search', title: t('notfound.title'), text: t('notfound.text'), action: html`<a class="btn btn--primary btn--lg" href="${link('/')}">${t('notfound.back')}</a>` })}</div>`;
 }
 
 export function offlineMain(ctx) {

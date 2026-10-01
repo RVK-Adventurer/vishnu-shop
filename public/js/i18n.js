@@ -7,30 +7,119 @@
 let STRINGS = {};
 let LANG = 'en';
 
-/** Used by the build (Node) and by tests: give the strings object directly. */
+/** The languages the shop can offer. Add a strings/<code>.json file and an entry here to add one. */
+export const LANGUAGES = {
+  en: { name: 'English', short: 'EN', locale: 'en-IN' },
+  ta: { name: 'தமிழ்', short: 'த', locale: 'ta-IN' },
+  hi: { name: 'हिन्दी', short: 'हि', locale: 'hi-IN' }
+};
+
+function isObj(v) {
+  return v && typeof v === 'object' && !Array.isArray(v);
+}
+
+/** Deep copy of `base` with `over` laid on top (missing translations fall back to English). */
+export function mergeStrings(base, over) {
+  const out = {};
+  Object.keys(base || {}).forEach((k) => { out[k] = isObj(base[k]) ? mergeStrings(base[k], {}) : base[k]; });
+  Object.keys(over || {}).forEach((k) => {
+    if (k.startsWith('_')) return;
+    if (isObj(over[k]) && isObj(out[k])) out[k] = mergeStrings(out[k], over[k]);
+    else if (typeof over[k] === 'string' && over[k].trim() !== '') out[k] = over[k];
+    else if (isObj(over[k]) && out[k] === undefined) out[k] = mergeStrings({}, over[k]);
+  });
+  return out;
+}
+
+function getPath(obj, key) {
+  let node = obj;
+  for (const part of key.split('.')) {
+    if (isObj(node) && part in node) node = node[part];
+    else return undefined;
+  }
+  return node;
+}
+
+function setPath(obj, key, value) {
+  const parts = key.split('.');
+  let node = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!isObj(node[parts[i]])) node[parts[i]] = {};
+    node = node[parts[i]];
+  }
+  node[parts[parts.length - 1]] = value;
+}
+
+/** The {placeholders} in a piece of text, sorted, e.g. "{n} items" -> ["n"]. */
+export function placeholders(text) {
+  return [...new Set(String(text || '').match(/\{(\w+)\}/g) || [])].map((x) => x.slice(1, -1)).sort();
+}
+
+/**
+ * Checks one owner-written replacement for a shop sentence (Admin → Shop wording).
+ * Rules: the sentence must exist, keep exactly the same {placeholders}, be plain text, and be at
+ * most 300 characters. Returns '' when fine, otherwise the reason in plain words.
+ */
+export function checkOverride(base, key, text) {
+  const original = getPath(base, key);
+  if (typeof original !== 'string') return `"${key}" is not a sentence on the shop.`;
+  const value = String(text ?? '');
+  if (!value.trim()) return 'The new wording is empty.';
+  if (value.length > 300) return 'Please keep it to 300 characters or fewer.';
+  if (/[<>]/.test(value)) return 'Please don\'t use < or > (plain text only).';
+  const a = placeholders(original).join(',');
+  const b = placeholders(value).join(',');
+  if (a !== b) return `Keep these exactly as they are: ${placeholders(original).map((x) => '{' + x + '}').join(' ') || '(none)'}.`;
+  return '';
+}
+
+/**
+ * Lays the owner's wording changes over the shop's text. Invalid ones are skipped and returned,
+ * so the build can list them. overrides = { "cart.add": "Add to bag", … }.
+ */
+export function applyOverrides(strings, overrides) {
+  const skipped = [];
+  const out = mergeStrings(strings, {});
+  Object.entries(overrides || {}).forEach(([key, text]) => {
+    const problem = checkOverride(strings, key, text);
+    if (problem) skipped.push({ key, problem });
+    else setPath(out, key, String(text));
+  });
+  return { strings: out, skipped };
+}
+
+/** Used by the build and tests: give the strings object directly. */
 export function setStrings(obj, lang = 'en') {
   STRINGS = obj || {};
   LANG = lang;
 }
 
-/** Browser: loads /strings/<lang>.json once (the service worker keeps a copy for offline use). */
-export async function loadStrings(lang = 'en') {
-  const res = await fetch(`/strings/${lang}.json`, { cache: 'no-cache' });
-  if (!res.ok) throw new Error('strings ' + res.status);
-  setStrings(await res.json(), lang);
+/**
+ * Browser: loads the words for a language (English underneath, so any untranslated sentence still
+ * shows in English), then the owner's wording changes for that language.
+ */
+export async function loadStrings(lang = 'en', overrides = null) {
+  const get = (code) => fetch(`/strings/${code}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))));
+  const base = await get('en');
+  let merged = base;
+  if (lang !== 'en' && LANGUAGES[lang]) {
+    try { merged = mergeStrings(base, await get(lang)); } catch (e) { merged = base; }
+  }
+  if (overrides) merged = applyOverrides(merged, overrides).strings;
+  setStrings(merged, lang);
 }
 
 export function currentLang() {
   return LANG;
 }
 
+export function currentLocale() {
+  return (LANGUAGES[LANG] || LANGUAGES.en).locale;
+}
+
 function lookup(key) {
-  let node = STRINGS;
-  for (const part of key.split('.')) {
-    if (node && typeof node === 'object' && part in node) node = node[part];
-    else return undefined;
-  }
-  return typeof node === 'string' ? node : undefined;
+  const v = getPath(STRINGS, key);
+  return typeof v === 'string' ? v : undefined;
 }
 
 /**
@@ -55,7 +144,7 @@ const TZ = 'Asia/Kolkata';
 
 function parts(date) {
   const p = {};
-  new Intl.DateTimeFormat('en-IN', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
+  new Intl.DateTimeFormat(currentLocale(), { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
     .formatToParts(date).forEach((x) => { p[x.type] = x.value; });
   return p;
 }

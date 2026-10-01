@@ -7,7 +7,7 @@
 import { loadCatalog } from '../catalog.js';
 import { buildIndex } from '../search.js';
 import * as F from '../filters.js';
-import { productCard, emptyState, icon } from '../templates.js';
+import { productCard, emptyState, icon, link } from '../templates.js';
 import { html } from '../html.js';
 import { t } from '../i18n.js';
 import { settings } from '../settings.js';
@@ -128,7 +128,7 @@ export async function init() {
       emptyEl.hidden = list.length > 0;
       if (!list.length) {
         setHtml(emptyEl, state.q && !F.activeCount(state)
-          ? emptyState({ iconName: 'search', title: t('search.no_results_title', { q: state.q }), text: t('search.no_results_text'), action: html`<a class="btn btn--primary" href="/search/">${t('header.all_products')}</a>` })
+          ? emptyState({ iconName: 'search', title: t('search.no_results_title', { q: state.q }), text: t('search.no_results_text'), action: html`<a class="btn btn--primary" href="${link('/search/')}">${t('header.all_products')}</a>` })
           : emptyState({ iconName: 'filter', title: t('listing.empty_title'), text: t('listing.empty_text'), action: html`<button class="btn btn--ghost" type="button" data-clear-filters>${t('filters.clear_all')}</button>` }));
       }
     }

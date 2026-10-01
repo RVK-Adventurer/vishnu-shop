@@ -13,6 +13,7 @@ import { initDialogs, openDialog, confirmDialog } from './ui/dialog.js';
 import { initSteppers } from './ui/stepper.js';
 import { toast } from './ui/toast.js';
 import { formatRupees } from './money.js';
+import { DISPLAY_OPTIONS, DISPLAY_DEFAULTS, applyDisplayInline } from './display.js';
 
 const DAY = 86400000;
 
@@ -28,7 +29,7 @@ function sample(id, name, opts = {}) {
     id, slug: id, name, brand: opts.brand || 'Sample Brand', category_id: 'c1', tags: [], short: '',
     rating_avg: opts.rating ?? 4.4, rating_count: opts.count ?? 86, images: [img(opts.label || 'Photo', opts.hue ?? 240)],
     option_names: opts.option_names || [], variants, created_at: new Date(Date.now() - (opts.age ?? 60) * DAY).toISOString(),
-    bestseller_rank: opts.best || null, order_mode: 'DEFAULT'
+    bestseller_rank: opts.best || null, order_mode: 'DEFAULT', sold_30d: opts.sold || 0, sold_total: 0
   };
 }
 
@@ -37,7 +38,7 @@ const PRODUCTS = [
   sample('n2', 'On sale — 20% off', { label: 'Sale', hue: 30, variants: [{ sku: 'n2-1', options: {}, price: 79900, mrp: 99900, in_stock: true, low_stock: false }] }),
   sample('n3', 'Brand new arrival', { label: 'New', hue: 200, age: 2 }),
   sample('n4', 'Bestseller with sizes', {
-    label: 'Best', hue: 140, best: 1, option_names: ['Size'],
+    label: 'Best', hue: 140, best: 1, sold: 230, option_names: ['Size'],
     variants: ['S', 'M', 'L'].map((s, i) => ({ sku: 'n4-' + i, options: { Size: s }, price: 59900, mrp: 69900, in_stock: true, low_stock: false }))
   }),
   sample('n5', 'Only a few left', { label: 'Low', hue: 45, variants: [{ sku: 'n5-1', options: {}, price: 25000, mrp: 25000, in_stock: true, low_stock: true }] }),
@@ -57,7 +58,7 @@ const PICKER = sample('v1', 'Printed Kurti', {
   ]
 });
 
-const SETTINGS = { reviews_enabled: true, product_image_fit: 'contain', prices_include_tax: true, show_inclusive_tax_note: true };
+const SETTINGS = { sold_counts_mode: 'MONTH', sold_counts_min: 10, reviews_enabled: true, product_image_fit: 'contain', prices_include_tax: true, show_inclusive_tax_note: true };
 
 function hexOf(cssColour) {
   const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(cssColour);
@@ -76,6 +77,8 @@ function token(name) {
 
 let mode = 'auto';
 let preset = 'ROYAL_INDIGO';
+let display = { ...DISPLAY_DEFAULTS, page_width: 'STANDARD' };
+let FONTS = [];
 
 function isDark() {
   return mode === 'dark' || (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -88,6 +91,7 @@ function applyTheme() {
   const { light, dark } = brandVariables({ primary: p.primary, secondary: p.secondary, accent: p.accent });
   const vars = isDark() ? { ...light, ...dark } : light;
   Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
+  applyDisplayInline(display, FONTS, isDark());
   renderSwatches();
 }
 
@@ -214,6 +218,15 @@ async function boot() {
   initDialogs();
   initSteppers();
 
+  try { FONTS = (await (await fetch('/assets/fonts/fonts.json')).json()).fonts || []; } catch (e) { FONTS = []; }
+  const nice = (v) => v.charAt(0) + v.slice(1).toLowerCase().replace('xlarge', 'Extra large');
+  document.querySelectorAll('[data-sg-display]').forEach((el) => {
+    const key = el.dataset.sgDisplay;
+    const opts = key === 'font_body' ? [['system', 'Phone\'s own font'], ...FONTS.map((f) => [f.id, f.name])] : DISPLAY_OPTIONS[key].map((v) => [v, nice(v)]);
+    setHtml(el, html`${opts.map(([v, label]) => html`<option value="${v}">${label}</option>`)}`);
+    el.value = display[key];
+    el.addEventListener('change', () => { display = { ...display, [key]: el.value, ...(key === 'font_body' ? { font_heading: el.value } : {}) }; applyTheme(); });
+  });
   const sel = $('[data-sg-preset]');
   setHtml(sel, html`${Object.entries(THEME_PRESETS).map(([k, p]) => html`<option value="${k}">${p.name}</option>`)}`);
   sel.addEventListener('change', () => { preset = sel.value; applyTheme(); });

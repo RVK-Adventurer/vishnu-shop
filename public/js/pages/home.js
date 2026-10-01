@@ -47,7 +47,7 @@ async function initRecent() {
   const ids = recentIds();
   if (!row || ids.length < 4) return;
   const cat = await loadCatalog();
-  const items = ids.map((id) => cat.byId[id]).filter(Boolean).slice(0, 8);
+  const items = ids.map((id) => cat.byId[id]).filter(Boolean).slice(0, 16);
   if (items.length < 4) return;
   const ctx = { s: settings(), t, cat, now: new Date() };
   setHtml($('[data-row-track]', row), html`${items.map((p) => productCard(p, ctx))}`);

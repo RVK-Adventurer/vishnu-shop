@@ -7,7 +7,7 @@ import { watch } from './breakpoints.js';
 
 export function initMenus() {
   // "More" drop-down: close on outside click, Esc, or after choosing.
-  document.querySelectorAll('[data-more-menu]').forEach((details) => {
+  document.querySelectorAll('[data-more-menu], [data-lang-menu]').forEach((details) => {
     document.addEventListener('click', (e) => {
       if (details.open && !details.contains(e.target)) details.open = false;
     });

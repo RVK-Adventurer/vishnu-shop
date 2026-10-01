@@ -124,10 +124,11 @@
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
 @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); } }
 @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 1440px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+/* Wide screens and zoomed-out pages: as many columns as fit, so the page always fills the width (v1.9) */
+@media (min-width: 1440px) { .grid { grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); } }
 .listing .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (min-width: 768px) { .listing .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 1440px) { .listing .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1440px) { .listing .grid { grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); } }
 
 /* Home rows: swipe on phones, grid on tablets and up */
 .row { margin-top: var(--space-7); }
@@ -143,19 +144,12 @@
 }
 .row__track::-webkit-scrollbar { display: none; }
 .row__track > * { scroll-snap-align: start; }
+/* Tablets and up: one line of cards, as many as fit (ui/rows.js hides the ones that would wrap) */
 @media (min-width: 768px) {
-  .row__track { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding: 0; gap: var(--space-4); }
-  .row__track > :nth-child(n + 7) { display: none; }
+  .row__track { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); overflow: visible; margin-inline: 0; padding: 0; gap: var(--space-4); }
+  html:not(.js) .row__track > :nth-child(n + 4) { display: none; }
 }
-@media (min-width: 1024px) {
-  .row__track { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .row__track > :nth-child(n + 7) { display: flex; }
-  .row__track > :nth-child(n + 9) { display: none; }
-}
-@media (min-width: 1440px) {
-  .row__track { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .row__track > :nth-child(n + 6) { display: none; }
-}
+@media (min-width: 1440px) { html:not(.js) .row__track > :nth-child(n + 4) { display: flex; } }
 
 /* Category tiles: circles in a swipe row on phones, square tiles in a grid on md+ */
 .cat-tiles {
@@ -176,15 +170,15 @@
   .cat-tile__img { width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: var(--radius-md); }
   .cat-tile__name { font-size: var(--fs-body); font-weight: 600; }
 }
-@media (min-width: 1024px) { .cat-tiles { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+@media (min-width: 1024px) { .cat-tiles { grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); } }
 
 /* ---------------------------------------------------------------- Listing pages: filters + grid */
 .listing-page { padding-bottom: var(--space-6); }
 .listing__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-4); }
 .listing__head--compact { margin-top: var(--space-5); }
 .listing__count { color: var(--muted); font-size: var(--fs-small); }
-.listing { display: grid; gap: var(--space-5); }
-.listing__main { min-width: 0; display: grid; gap: var(--space-4); align-content: start; }
+.listing { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+.listing__main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-content: start; }
 .listing__bar {
   position: sticky; top: calc(var(--safe-top) + var(--header-h) + 1px); z-index: 5;
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
@@ -192,7 +186,9 @@
   background: var(--bg);
 }
 .listing__filter-btn .count-dot { margin-left: var(--space-1); }
-.sort { display: inline-flex; align-items: center; gap: var(--space-2); }
+.listing__filter-btn { flex: none; }
+.sort { display: inline-flex; align-items: center; justify-content: flex-end; gap: var(--space-2); min-width: 0; flex: 1 1 auto; }
+.sort .select { width: auto; min-width: 0; max-width: 280px; flex: 0 1 auto; text-overflow: ellipsis; }
 .sort__label { font-size: var(--fs-small); color: var(--muted); white-space: nowrap; }
 @media (max-width: 479px) { .sort__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
 .sort .select { width: auto; }

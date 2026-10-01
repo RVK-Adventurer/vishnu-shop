@@ -11,7 +11,7 @@ import { on, $, setHtml } from '../state.js';
 import { html } from '../html.js';
 import { t } from '../i18n.js';
 import { formatRupees } from '../money.js';
-import { cartLine, emptyState, icon, notice } from '../templates.js';
+import { cartLine, emptyState, icon, notice, link } from '../templates.js';
 import { openDialog, confirmDialog } from './dialog.js';
 import { toast } from './toast.js';
 import { announce, prefersReducedMotion } from '../a11y.js';
@@ -56,7 +56,7 @@ export async function renderCart({ body, foot, title, mode }) {
       iconName: 'cart', title: t('cart.empty_title'), text: t('cart.empty_text'),
       action: mode === 'drawer'
         ? html`<button class="btn btn--ghost" type="button" data-close-dialog>${t('cart.continue')}</button>`
-        : html`<a class="btn btn--primary" href="/">${t('cart.continue')}</a>`
+        : html`<a class="btn btn--primary" href="${link('/')}">${t('cart.continue')}</a>`
     }));
     if (foot) { setHtml(foot, ''); if (mode === 'page') foot.hidden = true; }
     return;
@@ -74,8 +74,8 @@ export async function renderCart({ body, foot, title, mode }) {
     </div>
     ${blocked
       ? html`<button class="btn btn--primary btn--lg btn--block" type="button" disabled aria-disabled="true">${t('cart.closed_button')}</button><p class="caption">${blocked}</p>`
-      : html`<a class="btn btn--primary btn--lg btn--block btn--with-price" href="/checkout/" data-go-checkout><span>${t('cart.checkout')}</span><span class="btn__amount">${formatRupees(sub)}</span></a>`}
-    ${mode === 'drawer' ? html`<a class="btn btn--ghost btn--block" href="/cart/">${t('cart.view_full')}</a>` : ''}`);
+      : html`<a class="btn btn--primary btn--lg btn--block btn--with-price" href="${link('/checkout/')}" data-go-checkout><span>${t('cart.checkout')}</span><span class="btn__amount">${formatRupees(sub)}</span></a>`}
+    ${mode === 'drawer' ? html`<a class="btn btn--ghost btn--block" href="${link('/cart/')}">${t('cart.view_full')}</a>` : ''}`);
 }
 
 /** Wires quantity / remove / checkout inside a container (event delegation, set once). */
@@ -133,7 +133,7 @@ function renderDrawer() {
 
 export async function openCart(opener) {
   const d = drawer();
-  if (!d) { location.href = '/cart/'; return; }
+  if (!d) { location.href = link('/cart/'); return; }
   await renderDrawer();
   openDialog(d, { opener });
   refreshStoreState({ live: true }).then(() => { if (d.open) renderDrawer(); });

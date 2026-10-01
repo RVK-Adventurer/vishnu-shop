@@ -107,6 +107,7 @@
   --tap: 44px;
   --header-h: 64px;
   --container: 1280px;
+  --card-min: 210px;      /* narrowest product card before another column is added on wide screens */
   --container-prose: 720px;
   --gutter: var(--space-4);
   --safe-top: env(safe-area-inset-top, 0px);

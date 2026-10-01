@@ -9,7 +9,7 @@ import { buildIndex, suggest, highlight } from '../search.js';
 import { html } from '../html.js';
 import { t } from '../i18n.js';
 import { local, debounce, setHtml } from '../state.js';
-import { icon, productUrl, categoryUrl, leadVariant } from '../templates.js';
+import { icon, productUrl, categoryUrl, leadVariant, link } from '../templates.js';
 import { formatRupees } from '../money.js';
 import { openDialog, closeDialog } from './dialog.js';
 
@@ -36,7 +36,7 @@ function remember(q) {
 
 function goSearch(q) {
   remember(q);
-  location.href = '/search/?q=' + encodeURIComponent(q.trim());
+  location.href = link('/search/?q=') + encodeURIComponent(q.trim());
 }
 
 let uid = 0;
@@ -66,7 +66,7 @@ function renderSuggestions(box, q, isSheet) {
         <span class="suggest__name">${highlight(p.name, query)}</span>${v ? html`<span class="suggest__meta">${formatRupees(v.price)}</span>` : ''}</a>`;
     })}
     ${categories.map((c) => html`<a class="suggest__row" role="option" id="sg-${++uid}" href="${categoryUrl(c)}"><span class="suggest__icon">${icon('grid', 20)}</span><span class="suggest__name">${highlight(c.name, query)}</span><span class="suggest__meta">${t('search.in_categories')}</span></a>`)}
-    <a class="suggest__row suggest__all" role="option" id="sg-${++uid}" href="/search/?q=${encodeURIComponent(query)}" data-see-all><span class="suggest__icon">${icon('search', 20)}</span><span class="suggest__name">${t('search.see_all', { q: query })}</span></a>`);
+    <a class="suggest__row suggest__all" role="option" id="sg-${++uid}" href="${link('/search/?q=' + encodeURIComponent(query))}" data-see-all><span class="suggest__icon">${icon('search', 20)}</span><span class="suggest__name">${t('search.see_all', { q: query })}</span></a>`);
   box.hidden = false;
   return Array.from(box.querySelectorAll('[role="option"]'));
 }
