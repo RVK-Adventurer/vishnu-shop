@@ -1,0 +1,42 @@
+<!doctype html>
+<!--
+  Living style guide (Section 23.9). Not linked from the shop, not listed in search engines.
+  Open https://<your-shop>/styleguide.html to see every building block in light and dark mode
+  with all six colour themes. It loads no real data and calls no server.
+-->
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Style guide</title>
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/styleguide.css">
+<script type="module" src="/js/styleguide.js"></script>
+</head>
+<body data-page="styleguide">
+<header class="sg-bar">
+  <div class="container sg-bar__inner">
+    <h1 class="sg-bar__title">Style guide</h1>
+    <div class="sg-bar__controls">
+      <div class="segmented" role="group" aria-label="Colour mode" data-sg-mode>
+        <button type="button" aria-pressed="true" data-mode="auto">Phone setting</button>
+        <button type="button" aria-pressed="false" data-mode="light">Light</button>
+        <button type="button" aria-pressed="false" data-mode="dark">Dark</button>
+      </div>
+      <label class="sort"><span class="sort__label">Theme</span><select class="select select--sm" data-sg-preset></select></label>
+    </div>
+  </div>
+</header>
+<main id="main" class="container sg" data-sg-root>
+  <p class="muted">Loading…</p>
+</main>
+<dialog class="drawer drawer--right" id="cart-drawer" aria-labelledby="cart-drawer-title"><div class="drawer__head"><h2 class="drawer__title" id="cart-drawer-title">Your cart</h2><button class="icon-btn" type="button" data-close-dialog aria-label="Close"><svg class="icon" width="24" height="24" aria-hidden="true"><use href="/icons/sprite.svg#i-close"></use></svg></button></div><div class="drawer__body" data-cart-body></div><div class="drawer__foot" data-cart-foot></div></dialog>
+<dialog class="sheet" id="sg-sheet" aria-labelledby="sg-sheet-title"><div class="sheet__inner" data-sg-sheet-body></div></dialog>
+<dialog class="sheet" id="confirm-dialog" aria-labelledby="confirm-title"><div class="sheet__inner" data-confirm-body></div></dialog>
+<div class="toasts" data-toasts aria-live="polite"></div>
+<div class="sr-only" aria-live="assertive" data-live-assertive></div>
+<div class="sr-only" aria-live="polite" data-live-polite></div>
+</body>
+</html>

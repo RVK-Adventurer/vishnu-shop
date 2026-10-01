@@ -1,0 +1,52 @@
+# Security and caching rules for Cloudflare Pages (Section 14.4). Copied to the site by the build.
+# Keep every line under 2,000 characters (Cloudflare limit).
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://checkout.razorpay.com; style-src 'self'; img-src 'self' data: blob: https://*.razorpay.com; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://api.razorpay.com https://lumberjack.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; worker-src 'self'; manifest-src 'self'; media-src 'self' data:; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'
+
+/*.json
+  Cache-Control: no-cache
+
+/js/*
+  Cache-Control: no-cache
+
+/css/*
+  Cache-Control: no-cache
+
+/strings/*
+  Cache-Control: no-cache
+
+/sw.js
+  Cache-Control: no-cache
+
+/icons/*
+  Cache-Control: public, max-age=86400
+
+/client/assets/*
+  Cache-Control: public, max-age=86400
+
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/search/*
+  X-Robots-Tag: noindex
+
+/cart/*
+  X-Robots-Tag: noindex
+
+/checkout/*
+  X-Robots-Tag: noindex
+
+/styleguide.html
+  X-Robots-Tag: noindex, nofollow
+
+/tests.html
+  X-Robots-Tag: noindex, nofollow

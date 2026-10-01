@@ -1,0 +1,10 @@
+# Friendly short addresses for Cloudflare Pages (Section 10.3). "301" = moved permanently.
+/products/:slug   /p/:slug/   301
+/product/:slug    /p/:slug/   301
+/category/:slug   /c/:slug/   301
+/privacy          /pages/privacy-policy/   301
+/terms            /pages/terms/            301
+/refunds          /pages/refund-policy/    301
+/shipping         /pages/shipping-policy/  301
+/contact          /pages/contact/          301
+/about            /pages/about/            301

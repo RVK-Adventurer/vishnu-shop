@@ -1,0 +1,19 @@
+{
+  "name": "My Shop",
+  "short_name": "My Shop",
+  "description": "Shop online",
+  "lang": "en-IN",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F8FAFC",
+  "theme_color": "#4338CA",
+  "categories": ["shopping"],
+  "icons": [
+    { "src": "/client/assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/client/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/client/assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

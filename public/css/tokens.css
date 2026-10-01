@@ -1,0 +1,177 @@
+/*
+ * tokens.css — the design system's exact values (Sections 23.0.2 and 23.1). Shared unchanged by the
+ * storefront and the admin. Brand colours (--primary-color etc.) come from brand.css, written by the build.
+ * Use these variables everywhere — never type a raw colour or pixel size in another file.
+ */
+
+:root {
+  /* Brand fallbacks (Royal Indigo) — brand.css overrides these */
+  --primary-color: #4338CA;
+  --on-primary: #FFFFFF;
+  --primary-hover: #3730A3;
+  --primary-text: #4338CA;
+  --primary-tint-6: rgba(67, 56, 202, 0.06);
+  --primary-tint-10: rgba(67, 56, 202, 0.10);
+  --primary-tint-16: rgba(67, 56, 202, 0.16);
+  --secondary-color: #0F766E;
+  --on-secondary: #FFFFFF;
+  --accent-color: #F59E0B;
+  --on-accent: #0F172A;
+  --focus: #4338CA;
+
+  /* Neutrals and surfaces — light */
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --border: #E2E8F0;
+  --border-strong: #64748B;
+  --text: #0F172A;
+  --text-2: #475569;
+  --muted: #64748B;
+  --danger: #DC2626;
+  --on-danger: #FFFFFF;
+  --success: #15803D;
+  --warning: #B45309;
+  --scrim: rgba(15, 23, 42, 0.5);
+  --qr-bg: #FFFFFF;
+  --qr-fg: #000000;
+
+  /* Status pairs (background / text) */
+  --st-green-bg: #DCFCE7;  --st-green-fg: #166534;
+  --st-amber-bg: #FEF3C7;  --st-amber-fg: #92400E;
+  --st-red-bg: #FEE2E2;    --st-red-fg: #991B1B;
+  --st-blue-bg: #DBEAFE;   --st-blue-fg: #1E40AF;
+  --st-grey-bg: #F1F5F9;   --st-grey-fg: #334155;
+
+  /* Spacing — 8px rhythm */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Type */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, "Noto Sans Tamil", "Noto Sans Devanagari", sans-serif;
+  --font-heading: var(--font-body);
+  --fs-display: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+  --fs-h1: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  --fs-h2: clamp(1.25rem, 1.15rem + 0.6vw, 1.75rem);
+  --fs-h3: 1.125rem;
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-caption: 0.75rem;
+  --fs-button: 0.9375rem;
+  --fs-price-card: 1.125rem;
+  --fs-price-page: 1.5rem;
+  --fs-price-summary: 1.25rem;
+  --lh-display: 1.15;
+  --lh-h1: 1.2;
+  --lh-h2: 1.25;
+  --lh-h3: 1.3;
+  --lh-body: 1.5;
+  --lh-small: 1.45;
+  --lh-caption: 1.4;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadows (soft only) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.14);
+
+  /* Motion */
+  --dur-micro: 110ms;
+  --dur-std: 220ms;
+  --dur-route: 150ms;
+  --ease-out: ease-out;
+  --ease-std: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layers */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-popover: 20;
+  --z-toast: 30;
+  --z-drawer: 40;
+  --z-modal: 50;
+  --z-interstitial: 60;
+
+  /* Sizes */
+  --tap: 44px;
+  --header-h: 64px;
+  --container: 1280px;
+  --container-prose: 720px;
+  --gutter: var(--space-4);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: light;
+}
+
+/* Dark mode — follows the phone's setting unless the page forces light (data-theme="light") */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1120;
+    --surface: #111827;
+    --surface-2: #1F2937;
+    --border: #334155;
+    --border-strong: #94A3B8;
+    --text: #F1F5F9;
+    --text-2: #CBD5E1;
+    --muted: #94A3B8;
+    --danger: #F87171;
+    --on-danger: #0F172A;
+    --success: #4ADE80;
+    --warning: #FBBF24;
+    --scrim: rgba(0, 0, 0, 0.6);
+    --st-green-bg: #052E16;  --st-green-fg: #86EFAC;
+    --st-amber-bg: #451A03;  --st-amber-fg: #FCD34D;
+    --st-red-bg: #450A0A;    --st-red-fg: #FCA5A5;
+    --st-blue-bg: #172554;   --st-blue-fg: #93C5FD;
+    --st-grey-bg: #1F2937;   --st-grey-fg: #CBD5E1;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0B1120;
+  --surface: #111827;
+  --surface-2: #1F2937;
+  --border: #334155;
+  --border-strong: #94A3B8;
+  --text: #F1F5F9;
+  --text-2: #CBD5E1;
+  --muted: #94A3B8;
+  --danger: #F87171;
+  --on-danger: #0F172A;
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --st-green-bg: #052E16;  --st-green-fg: #86EFAC;
+  --st-amber-bg: #451A03;  --st-amber-fg: #FCD34D;
+  --st-red-bg: #450A0A;    --st-red-fg: #FCA5A5;
+  --st-blue-bg: #172554;   --st-blue-fg: #93C5FD;
+  --st-grey-bg: #1F2937;   --st-grey-fg: #CBD5E1;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
+}
+
+@media (min-width: 768px) {
+  :root { --header-h: 72px; --gutter: var(--space-5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-micro: 0ms; --dur-std: 0ms; --dur-route: 0ms; }
+}

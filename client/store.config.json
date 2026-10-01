@@ -1,0 +1,59 @@
+{
+  "_help": {
+    "what_is_this": "The white-label values for ONE shop. Every value marked REPLACE_ME must be changed before going live; the build refuses to publish a live site (PRODUCTION=1) while any REPLACE_ME remains. Everything the owner can change later in Admin → Settings (colours, texts, contact details) only needs a sensible starting value here — once the owner saves Settings and the shop publishes, settings.public.json takes over.",
+    "site.url": "The shop's public address, no trailing slash. Start with the free Cloudflare address, e.g. https://priya-sweets.pages.dev, and change it when a custom domain is added.",
+    "site.apps_script_url": "The Web app URL from Apps Script → Deploy (Setup Guide step 5). It ends in /exec.",
+    "site.razorpay_key_id": "Optional. Only if the shop uses Razorpay: the Key Id (rzp_test_... while testing, rzp_live_... when live). Leave empty otherwise. The Key SECRET never goes in this file.",
+    "business": "Starting values for the shop's name and contact details. phone and whatsapp are 10-digit Indian mobile numbers without +91. gstin may stay empty for unregistered shops. state must be the exact state name (it decides CGST+SGST vs IGST).",
+    "branding.theme_preset": "One of ROYAL_INDIGO, FRESH_GREEN, SAFFRON, ROSE, OCEAN, CHARCOAL_GOLD. The colours below should match the preset unless you choose custom colours.",
+    "branding.logo": "Optional. Path to the shop's logo inside the repository, e.g. client/assets/logo.svg (a placeholder logo is included there). Leave empty to show the shop name as text in the header. See docs/ASSETS_NEEDED.md for sizes.",
+    "seo": "Used for Google results and WhatsApp link previews.",
+    "seller": "Your own (the website provider's) details, shown to the owner only when the shop outgrows the free plan."
+  },
+  "schema_version": 1,
+  "site": {
+    "url": "REPLACE_ME",
+    "apps_script_url": "REPLACE_ME",
+    "razorpay_key_id": "",
+    "default_language": "en"
+  },
+  "business": {
+    "name": "REPLACE_ME",
+    "legal_name": "REPLACE_ME",
+    "tagline": "Quality products, delivered to your door",
+    "phone": "REPLACE_ME",
+    "whatsapp": "REPLACE_ME",
+    "email": "REPLACE_ME",
+    "address_line1": "REPLACE_ME",
+    "address_line2": "",
+    "city": "REPLACE_ME",
+    "state": "REPLACE_ME",
+    "pincode": "REPLACE_ME",
+    "gstin": "",
+    "hours_text": "Mon–Sat, 9 AM – 9 PM"
+  },
+  "branding": {
+    "theme_preset": "ROYAL_INDIGO",
+    "primary_color": "#4338CA",
+    "secondary_color": "#0F766E",
+    "accent_color": "#F59E0B",
+    "logo": "",
+    "favicon": "client/assets/favicon.svg",
+    "home_layout": "A"
+  },
+  "seo": {
+    "default_title": "REPLACE_ME",
+    "default_description": "REPLACE_ME",
+    "og_image": "client/assets/og-default.png"
+  },
+  "social": {
+    "instagram": "",
+    "facebook": "",
+    "youtube": "",
+    "x": ""
+  },
+  "seller": {
+    "name": "REPLACE_ME",
+    "upgrade_contact_text": "REPLACE_ME"
+  }
+}

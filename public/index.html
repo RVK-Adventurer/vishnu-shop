@@ -1,0 +1,39 @@
+<!doctype html>
+<!--
+  Page shell used by tools/build.mjs for EVERY storefront page. Do not open this file directly in a
+  browser — the build fills in the {{…}} parts. No inline scripts or styles anywhere (strict security policy).
+-->
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="{{THEME_COLOR}}">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+{{HEAD}}
+{{META}}
+<link rel="icon" href="/client/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/client/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/client/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/css/site.css?v={{BUILD}}">
+<link rel="stylesheet" href="/css/brand.css?v={{BUILD}}">
+<link rel="modulepreload" href="/js/app.js?v={{BUILD}}">
+<link rel="modulepreload" href="/js/templates.js">
+<link rel="modulepreload" href="/js/html.js">
+<link rel="modulepreload" href="/js/cart.js">
+<link rel="modulepreload" href="/js/state.js">
+<script type="module" src="/js/app.js?v={{BUILD}}"></script>
+<script nomodule src="/js/legacy.js"></script>
+</head>
+<body {{BODY_ATTRS}}>
+<a class="skip-link" href="#main">{{SKIP}}</a>
+{{ANNOUNCE}}
+{{HEADER}}
+<main id="main" tabindex="-1">
+{{MAIN}}
+</main>
+{{FOOTER}}
+{{DIALOGS}}
+</body>
+</html>

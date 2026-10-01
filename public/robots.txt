@@ -1,0 +1,13 @@
+# Shop robots.txt — the build fills in the sitemap address. (In practice mode the build replaces
+# this whole file with "Disallow: /" so the test shop stays out of search engines.)
+User-agent: *
+Disallow: /admin/
+Disallow: /search/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /order/
+Disallow: /track/
+Disallow: /styleguide.html
+Disallow: /tests.html
+
+Sitemap: __SITEMAP__

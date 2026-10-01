@@ -1,0 +1,51 @@
+[
+ {
+  "slug": "about",
+  "title": "About us",
+  "show_in_footer": false,
+  "html": "<p>Welcome to {business_name}. We are a small, family-run business that believes in honest products, fair prices and friendly service.</p><p>Every order is packed with care and checked before it leaves us. If you ever have a question, message us on WhatsApp or give us a call — a real person will answer.</p><h2>Visit us</h2><p>{address}</p>",
+  "is_template": true
+ },
+ {
+  "slug": "contact",
+  "title": "Contact us",
+  "show_in_footer": false,
+  "html": "<p>We're happy to help with orders, delivery or anything else.</p>",
+  "is_template": true
+ },
+ {
+  "slug": "privacy-policy",
+  "title": "Privacy policy",
+  "show_in_footer": true,
+  "html": "<p>This policy explains what personal information {legal_name} (\"we\") collects when you shop at {business_name}, why we collect it and how you can control it.</p><h2>What we collect</h2><ul><li>Your name, mobile number, delivery address and (optionally) email address, when you place an order or contact us.</li><li>Your order details: items, amounts, payment method and payment reference numbers.</li><li>If you choose to upload a payment screenshot, that image.</li></ul><p>We do <strong>not</strong> collect or store your card number, UPI PIN or net-banking password. Online payments are handled by our payment partner.</p><h2>Why we use it</h2><ul><li>To process, deliver and support your order, and to send you your invoice.</li><li>To contact you about your order by phone or WhatsApp.</li><li>To keep accounts and meet tax and legal requirements.</li></ul><p>We never sell your information and we do not use it for advertising.</p><h2>How long we keep it</h2><p>We keep order records for as long as tax law requires. Payment screenshots are deleted automatically after a few months.</p><h2>Your rights</h2><p>You can ask us to correct or erase your personal information at any time (we will keep only what the law requires for accounts). Contact us at {email} or {phone}.</p><h2>Cookies and storage</h2><p>Our website stores your cart and, if you choose, your delivery details on your own device so you don't have to type them again. We use no advertising or tracking cookies.</p><h2>Contact</h2><p>{legal_name}, {address}. Email: {email}. Phone: {phone}.</p>",
+  "is_template": true
+ },
+ {
+  "slug": "terms",
+  "title": "Terms & conditions",
+  "show_in_footer": true,
+  "html": "<p>These terms apply when you buy from {business_name}, operated by {legal_name}. By placing an order you agree to them.</p><h2>Orders</h2><p>An order is accepted once it shows as <strong>Confirmed</strong>. We may cancel an order (with a full refund of anything paid) if an item is unavailable, a price was shown wrongly, or we cannot deliver to your address.</p><h2>Prices and payment</h2><p>Prices are in Indian Rupees and include GST unless shown otherwise. The total you see before you pay is the total you are charged.</p><h2>Delivery</h2><p>Delivery dates are estimates. Please see our Shipping policy for details.</p><h2>Returns and refunds</h2><p>Please see our Refund &amp; Returns policy.</p><h2>Liability</h2><p>Our liability for any order is limited to the amount you paid for it.</p><h2>Governing law</h2><p>These terms are governed by the laws of India, and courts in {state} have jurisdiction.</p><h2>Contact</h2><p>{legal_name}, {address}. Email: {email}. Phone: {phone}.</p>",
+  "is_template": true
+ },
+ {
+  "slug": "refund-policy",
+  "title": "Refund & returns policy",
+  "show_in_footer": true,
+  "html": "<h2>Cancellations</h2><p>You can cancel an order any time before it is shipped by contacting us on WhatsApp or by phone. Anything you paid is refunded in full.</p><h2>Returns</h2><p>If an item arrives damaged, defective or different from what you ordered, tell us within <strong>48 hours</strong> of delivery with a photo, and we will replace it or refund you. For hygiene reasons, food items and opened products cannot be returned unless they arrived damaged.</p><h2>Refunds</h2><ul><li>Online payments are refunded to the same card, UPI or bank account. Banks usually take 5–7 working days.</li><li>UPI, bank-transfer and Cash on Delivery payments are refunded to your bank account or UPI ID; we will share the refund reference number with you.</li></ul><h2>Contact</h2><p>Email {email} or call {phone}.</p>",
+  "is_template": true
+ },
+ {
+  "slug": "shipping-policy",
+  "title": "Shipping policy",
+  "show_in_footer": true,
+  "html": "<p>We ship across the delivery areas shown when you check your pincode on any product page.</p><h2>Dispatch</h2><p>Orders are usually packed and dispatched within 1–2 working days of confirmation.</p><h2>Delivery time</h2><p>Most orders arrive within the number of days shown at checkout. Remote areas may take longer.</p><h2>Shipping charges</h2><p>Any shipping charge is shown clearly before you pay.</p><h2>Tracking</h2><p>Once shipped, you can follow your order from the Track Order page using your order number and phone number.</p>",
+  "is_template": true
+ },
+ {
+  "slug": "grievance",
+  "title": "Grievance & seller information",
+  "show_in_footer": true,
+  "html": "<h2>Seller details</h2><p><strong>{legal_name}</strong><br>{address}<br>GSTIN: {gstin}</p><h2>Grievance officer</h2><p>If you have a complaint about an order, our grievance officer will respond within 48 hours and try to resolve it within one month.</p><p>Name: {legal_name}<br>Email: {email}<br>Phone: {phone}</p>",
+  "is_template": true
+ }
+]
