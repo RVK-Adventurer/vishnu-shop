@@ -59,6 +59,7 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .icon-btn {
+  position: relative; /* keeps the small button's larger tap area (::after) around the button itself */
   display: inline-flex; align-items: center; justify-content: center;
   width: var(--tap); height: var(--tap); flex: none;
   padding: 0; border: 0; border-radius: var(--radius-md);
