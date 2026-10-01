@@ -413,4 +413,35 @@ Until the admin website arrives (Phase 2), you change these in one place: the **
 
 ⚠️ **If the shop didn't change:** open Cloudflare → your project → **Deployments** → the newest one → build log. A line starting with `!` explains a wrong value (for example `display.ui_corners should be one of SHARP, STANDARD, ROUND`). The shop keeps working with the default for that one setting.
 
+#### 8c. Show your own poster as the offer popup
+
+1. **Get the poster ready.** Make it in Canva or any app.
+   - Best size: **1080 × 1350** pixels (portrait). Square (1080 × 1080) also works.
+   - Save it as **JPG**, under **500 KB**.
+   - Give it a simple name: small letters, no spaces. Example: `poster-diwali.jpg`.
+2. **Put it in the shop.** On GitHub open **client** → **assets** → **Add file** → **Upload files**. Drag the poster in, then click **Commit changes**.
+3. **Point the popup at it.** Open **client** → **store.config.json** → ✏️ pencil. In `"popups_json"`, replace the whole sample popup (from its `{` to its `}`) with:
+
+```json
+{"id": "diwali26", "active": true,
+ "image": "client/assets/poster-diwali.jpg",
+ "image_alt": "Diwali sale, 20% off all sweets",
+ "code": "DIWALI20",
+ "cta_link": "/c/sweets-snacks/",
+ "starts_at": "2026-10-20T00:00:00+05:30", "ends_at": "2026-11-02T23:59:00+05:30",
+ "frequency": "DAY", "pages": "ALL", "delay_seconds": 2}
+```
+
+   Change the file name, description, code, link and dates to yours.
+   - `image_alt` is a short description of the poster. It's read aloud for blind customers.
+   - Leave out `"code"` if there is no coupon. Leave out `"cta_link"` if tapping the poster shouldn't open anything.
+
+4. Click **Commit changes…** → **Commit changes**. Wait 2 minutes and reload the shop.
+
+✅ **You should now see** your poster pop up, whole and uncropped, sized to fit the phone or computer screen. Tapping it opens the link. The **Copy code** box sits under it.
+
+⚠️ **If it doesn't appear:** it shows only once a day per visitor. Test in a private/incognito window, or change the `"id"` to something new. Also check the Cloudflare build log for a line starting with `! Popup` — it says if the file name doesn't match (capital letters count: `Poster.JPG` and `poster.jpg` are different) or the picture is too big.
+
+Want words as well as the poster? Add `"title"` and `"text"`; the picture then sits above them.
+
 Every option, with examples, is explained in **docs/V1.9_ADDITIONS.md**.
