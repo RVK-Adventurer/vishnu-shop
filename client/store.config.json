@@ -41,6 +41,46 @@
     "favicon": "client/assets/favicon.svg",
     "home_layout": "A"
   },
+    "display": {
+    "page_width": "FULL",
+    "ui_corners": "STANDARD",
+    "ui_shadows": "SOFT",
+    "ui_spacing": "COMFORTABLE",
+    "ui_text_size": "NORMAL",
+    "font_body": "system",
+    "font_heading": "system",
+    "reviews_enabled": true,
+    "sold_counts_mode": "MONTH",
+    "sold_counts_min": 10,
+    "languages_json": [
+      "en",
+      "ta"
+    ],
+    "default_language": "en",
+    "text_overrides_json": {
+      "en": {},
+      "ta": {}
+    },
+    "announcement_text": "",
+    "announcement_starts_at": "",
+    "announcement_ends_at": "",
+    "popups_json": [
+      {
+        "id": "welcome-demo",
+        "active": true,
+        "title": "Festive offer — 10% off",
+        "text": "A sample offer popup. Change or remove it in client/store.config.json (later: Admin → Offers & popups).",
+        "code": "FESTIVE10",
+        "cta_text": "Shop sweets",
+        "cta_link": "/c/sweets-snacks/",
+        "starts_at": "2026-10-01T00:00:00+05:30",
+        "ends_at": "2026-12-31T23:59:00+05:30",
+        "frequency": "DAY",
+        "pages": "ALL",
+        "delay_seconds": 2
+      }
+    ]
+  },
   "seo": {
     "default_title": "Raj Vishnu Kumar's Shop",
     "default_description": "Its a funny E-commerce site for testing",
