@@ -368,6 +368,28 @@ ${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" t
     .split('\u0000').map((piece) => (piece in fill ? fill[piece] : piece)).join('');
 }
 
+/** Offer posters: the picture must be inside the shop, exist (spelling and capital letters matter) and be small. */
+function checkPopupImages(settings) {
+  (Array.isArray(settings.popups_json) ? settings.popups_json : []).forEach((pp) => {
+    if (!pp || !pp.image) return;
+    const name = `Popup "${pp.id || '?'}"`;
+    const src = T.localImagePath(pp.image);
+    if (!src) {
+      warn(`${name}: the picture must be a .jpg, .png or .webp file inside client/assets (example: "client/assets/poster-diwali.jpg"). It was not shown.`);
+      return;
+    }
+    const rel = decodeURI(src).replace(/^\//, '');
+    const file = rel.startsWith('client/') ? path.join(ROOT, rel) : path.join(PUB, rel);
+    if (!fs.existsSync(file)) {
+      warn(`${name}: the picture "${rel}" was not found. Check the spelling and capital letters (Poster.JPG and poster.jpg are different).`);
+      return;
+    }
+    const kb = Math.round(fs.statSync(file).size / 1024);
+    if (kb > 500) warn(`${name}: the picture is ${kb} KB — please make it smaller than 500 KB (about 1080 × 1350 pixels, saved as JPG or WebP) so it opens quickly on phones.`);
+    if (!pp.title && !pp.text && !pp.image_alt) warn(`${name}: add "image_alt" — a short description of the poster for blind customers (example: "Diwali sale, 20% off all sweets").`);
+  });
+}
+
 /* ======================================================================== main */
 
 function main() {
@@ -388,6 +410,7 @@ function main() {
   SHELL = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
 
   const settings = buildSettings(cfg);
+  checkPopupImages(settings);
 
   /* --- languages: the default at the site root, others under /<code>/ */
   const wanted = Array.isArray(settings.languages_json) ? settings.languages_json : ['en'];
