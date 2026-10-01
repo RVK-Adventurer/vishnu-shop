@@ -11,6 +11,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RE, INDIAN_STATES } from '../public/js/validators.js';
 import { THEME_PRESETS } from '../public/js/color.js';
+import { DISPLAY_OPTIONS } from '../public/js/display.js';
 
 const MARK = 'REPLACE_ME';
 
@@ -72,6 +73,32 @@ export function checkConfig(cfg, { production = false } = {}) {
     if (brand[k] && !/^#[0-9A-Fa-f]{6}$/.test(brand[k])) problem(`branding.${k} must be a colour code like #4338CA.`, true);
   }
   if (brand.home_layout && !['A', 'B'].includes(brand.home_layout)) problem('branding.home_layout must be "A" or "B".', true);
+
+  // v1.9 "display" section: a wrong value is never fatal — the build uses the default instead.
+  const disp = cfg.display || {};
+  const choice = (k, list) => {
+    if (disp[k] !== undefined && !list.includes(disp[k])) warnings.push(`display.${k} should be one of ${list.join(', ')} — using the default.`);
+  };
+  Object.entries(DISPLAY_OPTIONS).forEach(([k, list]) => choice(k, list));
+  choice('sold_counts_mode', ['OFF', 'MONTH', 'TOTAL', 'BOTH']);
+  const fonts = ['system', 'poppins', 'lora', 'mukta', 'hind-madurai', 'noto-sans-tamil', 'baloo-2'];
+  choice('font_body', fonts);
+  choice('font_heading', fonts);
+  if (disp.languages_json !== undefined && (!Array.isArray(disp.languages_json) || disp.languages_json.some((c) => !['en', 'ta', 'hi'].includes(c)))) {
+    warnings.push('display.languages_json should look like ["en"] or ["en", "ta"].');
+  }
+  if (disp.default_language && Array.isArray(disp.languages_json) && !disp.languages_json.includes(disp.default_language)) {
+    warnings.push('display.default_language must also be listed in display.languages_json.');
+  }
+  const isDate = (v) => !v || !Number.isNaN(Date.parse(v));
+  ['announcement_starts_at', 'announcement_ends_at'].forEach((k) => { if (!isDate(disp[k])) warnings.push(`display.${k} is not a valid date-time (example: 2026-10-20T09:00:00+05:30).`); });
+  (Array.isArray(disp.popups_json) ? disp.popups_json : []).forEach((pp, i) => {
+    if (!pp || !pp.id) warnings.push(`display.popups_json item ${i + 1} needs an "id".`);
+    else {
+      if (!isDate(pp.starts_at) || !isDate(pp.ends_at)) warnings.push(`Popup "${pp.id}": starts_at / ends_at must be date-times like 2026-10-20T00:00:00+05:30.`);
+      if (pp.frequency && !['DAY', 'SESSION', 'ONCE'].includes(pp.frequency)) warnings.push(`Popup "${pp.id}": frequency should be DAY, SESSION or ONCE.`);
+    }
+  });
 
   return { errors, warnings };
 }

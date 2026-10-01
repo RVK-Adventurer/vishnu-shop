@@ -333,14 +333,17 @@ The file `client/store.config.json` holds this shop's name and contact details. 
 
 ## Step 8 — Open the shop window on Cloudflare (about 15 minutes)
 
+> ⚠️ **Important — Cloudflare's "Create" page makes a *Worker* by default.** We need a ***Pages*** project. A Worker shows tabs like **Bindings**, **Observability** and "No URLs enabled", and its address ends in `.workers.dev`. A Pages project's address ends in **`.pages.dev`**. Follow the steps below exactly to get Pages.
+
 1. Sign in to **dash.cloudflare.com**.
-2. In the left menu click **Workers & Pages** (it may be under **Compute**).
-3. Click **Create application** (or **Create**) → choose the **Pages** tab (not Workers) → **Connect to Git**.
-4. Click **GitHub** → **Connect GitHub**. GitHub opens and asks where to install Cloudflare: choose **Only select repositories** → pick your shop repository → **Install & Authorize**.
-5. Back in Cloudflare, select your shop repository → **Begin setup**.
-6. **Project name:** this becomes your free address, e.g. `priya-sweets` → `priya-sweets.pages.dev`. Use lowercase letters and dashes.
-7. **Production branch:** `main`.
-8. **Build settings** — type exactly:
+2. In the left menu click **Compute** (or **Compute & AI**) → **Workers & Pages**.
+3. Click the blue **Create application** (or **Create**) button.
+4. **Do not** pick any option at the top of the page (those make Workers). **Scroll to the very bottom** of the page and click the small link **"Looking to deploy Pages? Get started"** (it may also appear as a **Pages** tab).
+5. Next to **Import an existing Git repository**, click **Get started**. If GitHub isn't connected yet, click **Connect GitHub**; GitHub asks where to install Cloudflare → choose **Only select repositories** → pick your shop repository → **Install & Authorize**.
+6. Select your shop repository → **Begin setup**.
+7. **Project name:** this becomes your free address, e.g. `priya-sweets` → `priya-sweets.pages.dev`. Use lowercase letters and dashes.
+8. **Production branch:** `main`.
+9. **Build settings** — type exactly:
 
 | Field | Value |
 |---|---|
@@ -348,7 +351,7 @@ The file `client/store.config.json` holds this shop's name and contact details. 
 | **Build command** | `node tools/build.mjs` |
 | **Build output directory** | `dist` |
 
-9. Open **Environment variables (advanced)** and add two variables (click **Add variable** for each):
+10. Open **Environment variables (advanced)** and add two variables (click **Add variable** for each):
 
 | Variable name | Value |
 |---|---|
@@ -357,15 +360,17 @@ The file `client/store.config.json` holds this shop's name and contact details. 
 
    (`0` = practice mode. You change it to `1` on go-live day.)
 
-10. Click **Save and Deploy**. Wait 1–2 minutes while it builds.
+11. Click **Save and Deploy**. Wait 1–2 minutes while it builds.
 
 ✅ **You should now see** **Success! Your project is deployed** and a link like `https://priya-sweets.pages.dev`. In the build log near the end you'll see lines like `✓ 24 products, 4 categories (SAMPLE catalogue…)`.
 
-11. Click the link. ✅ **You should now see** your shop with 24 sample products (sweets, spices, kitchen items and clothing), in your theme colours, with your shop name.
+12. Click the link. ✅ **You should now see** your shop with 24 sample products (sweets, spices, kitchen items and clothing), in your theme colours, with your shop name.
 
-12. Copy that address. Go back to step 7 and put it in `"url"` (e.g. `https://priya-sweets.pages.dev`, no `/` at the end) → **Commit changes**. Cloudflare rebuilds automatically within a minute or two.
+13. Copy that address. Go back to step 7 and put it in `"url"` (e.g. `https://priya-sweets.pages.dev`, no `/` at the end) → **Commit changes**. Cloudflare rebuilds automatically within a minute or two.
 
 ⚠️ **If the build fails:** in Cloudflare open the failed deployment → **View details** / build log. The last lines say in plain words what's wrong (for example a mistake in `store.config.json`). Fix it on GitHub; Cloudflare rebuilds automatically.
+
+⚠️ **If you accidentally created a Worker:** open it → **Settings** → scroll to the bottom → **Delete** → type its name to confirm. Then start again at point 3. (Nothing is lost — your files are safe on GitHub.)
 
 ⚠️ **If you see** "You can't create a project yet": new Cloudflare accounts have limits for the first 48 hours. Wait and try again.
 
@@ -381,3 +386,31 @@ On your phone, open the address and check:
 - On a computer, open `https://your-address.pages.dev/styleguide.html` — the **style guide** showing every button, card and colour in light and dark mode and all six themes. Use it to approve the look.
 
 ✅ **You should now see** everything above working. The sample products disappear automatically the first time you publish your own products from the admin website (step 9).
+
+### 8b. Try the new options (look and feel, Tamil, counts, popups)
+
+Until the admin website arrives (Phase 2), you change these in one place: the **`display`** section of `client/store.config.json`.
+
+1. On GitHub open **client** → **store.config.json** → click the **✏️ pencil icon**.
+2. Scroll to `"display": {`. Change a value, keeping the quotation marks. For example:
+
+| To… | Change this line to… |
+|---|---|
+| Make corners rounder | `"ui_corners": "ROUND",` |
+| Make all text bigger | `"ui_text_size": "LARGE",` |
+| Use a different font | `"font_body": "poppins",` (others: `lora`, `mukta`, `hind-madurai`, `noto-sans-tamil`, `baloo-2`, `system`) |
+| Stop the page at a fixed width | `"page_width": "STANDARD",` |
+| Show English only (no Tamil) | `"languages_json": ["en"],` |
+| Make Tamil the main language | `"default_language": "ta",` |
+| Hide "bought" counts | `"sold_counts_mode": "OFF",` |
+| Hide star ratings | `"reviews_enabled": false,` |
+| Change a sentence | Inside `"en": { }` of `"text_overrides_json"`, add `"cart.add": "Add to bag"` |
+| Remove the sample offer popup | change `"active": true` to `"active": false` in `"popups_json"` |
+
+3. Click **Commit changes…** → **Commit changes**. Wait 1–2 minutes and reload your shop.
+
+✅ **You should now see** the change on the shop. To compare looks before choosing, open `/styleguide.html` and use the **Corners / Shadows / Spacing / Text size / Font** pickers at the top. They change the preview instantly and save nothing.
+
+⚠️ **If the shop didn't change:** open Cloudflare → your project → **Deployments** → the newest one → build log. A line starting with `!` explains a wrong value (for example `display.ui_corners should be one of SHARP, STANDARD, ROUND`). The shop keeps working with the default for that one setting.
+
+Every option, with examples, is explained in **docs/V1.9_ADDITIONS.md**.

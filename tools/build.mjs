@@ -24,7 +24,8 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 import { checkConfig } from './check-config.mjs';
-import { setStrings, t } from '../public/js/i18n.js';
+import { setStrings, t, mergeStrings, applyOverrides, LANGUAGES } from '../public/js/i18n.js';
+import { displayCss, fontPreload, DISPLAY_DEFAULTS } from '../public/js/display.js';
 import { brandCss, THEME_PRESETS } from '../public/js/color.js';
 import { html, raw } from '../public/js/html.js';
 import * as T from '../public/js/templates.js';
@@ -107,6 +108,11 @@ function defaultPublicSettings() {
     customer_full_message: 'Thank you for shopping with us! We have received the maximum number of orders we can handle today. Please come back {reopen_time} — your cart is saved.',
     customer_busy_message: 'We are very busy right now. Please try again in a few minutes — your cart is saved.',
     reopen_time_text: 'tomorrow morning', reviews_enabled: true,
+    // v1.9 additions (owner-controlled; see docs/V1.9_ADDITIONS.md)
+    ...DISPLAY_DEFAULTS,
+    sold_counts_mode: 'MONTH', sold_counts_min: 10,
+    text_overrides_json: {}, languages_json: ['en'], default_language: 'en',
+    popups_json: [], announcement_starts_at: '', announcement_ends_at: '',
     payment_options: [
       { id: 'RAZORPAY', label: 'UPI, Cards & Net Banking', sub: ['upi', 'card', 'netbanking', 'wallet', 'emi', 'paylater'] },
       { id: 'COD', label: 'Cash on Delivery', sub: [] }
@@ -160,6 +166,12 @@ function buildSettings(cfg) {
     social_json: Object.fromEntries(Object.entries(cfg.social || {}).filter(([, v]) => v && !String(v).includes('REPLACE_ME')))
   });
   s.gst_mode = s.gstin ? 'REGISTERED' : 'UNREGISTERED';
+  // Until the admin website exists, the owner's v1.9 choices can be tried from the "display" section.
+  const DISPLAY_KEYS = ['page_width', 'ui_corners', 'ui_shadows', 'ui_spacing', 'ui_text_size', 'font_body', 'font_heading',
+    'sold_counts_mode', 'sold_counts_min', 'reviews_enabled', 'text_overrides_json', 'languages_json', 'default_language',
+    'popups_json', 'announcement_text', 'announcement_starts_at', 'announcement_ends_at', 'hero_banners_json', 'hero_autorotate',
+    'product_image_fit', 'trust_strip_json'];
+  Object.entries(cfg.display || {}).forEach(([k, v]) => { if (DISPLAY_KEYS.includes(k) && v !== null && v !== undefined) s[k] = v; });
   if (!(cfg.site || {}).razorpay_key_id) s.payment_options = s.payment_options.filter((o) => o.id !== 'RAZORPAY');
   if (THEME_PRESETS[s.theme_preset] && !br.primary_color) {
     const p = THEME_PRESETS[s.theme_preset];
@@ -233,7 +245,9 @@ function loadCatalog() {
       price_min: Math.min(...prices), price_max: Math.max(...prices),
       rating_avg: p.rating_avg || 0, rating_count: p.rating_count || 0,
       images: (p.images || []).slice(0, 2), option_names: p.option_names || [], variants,
-      created_at: createdAt || '', bestseller_rank: p.bestseller_rank || null, order_mode: p.order_mode || 'DEFAULT'
+      created_at: createdAt || '', bestseller_rank: p.bestseller_rank || null, order_mode: p.order_mode || 'DEFAULT',
+      // "Bought" counts are always published rounded down (100+, 1K+…), never exact.
+      sold_30d: T.roundSold(p.sold_30d), sold_total: T.roundSold(p.sold_total)
     };
     products.push(light);
     if (detail) details[p.slug] = { ...detail, images: detail.images && detail.images.length ? detail.images : light.images };
@@ -312,7 +326,14 @@ let SHELL = '';
  */
 function renderPage(ctx, page, common) {
   const s = ctx.s;
+  const L = common.lang;
+  const rawPath = T.stripBase(page.path, L.codes);
+  const langs = L.codes.map((code) => ({
+    code, name: LANGUAGES[code].name, short: LANGUAGES[code].short,
+    href: (code === L.default ? '' : '/' + code) + rawPath, current: code === L.current
+  }));
   const head = SEO.headTags({
+    alternates: L.codes.length > 1 && !page.noindex ? langs.map((l) => ({ hreflang: LANGUAGES[l.code].locale, href: l.href })).concat([{ hreflang: 'x-default', href: rawPath }]) : [],
     title: page.title, description: page.description, path: page.path, image: page.image || common.ogImage,
     imageWidth: page.image ? null : 1200, imageHeight: page.image ? null : 630,
     type: page.type === 'product' ? 'product' : 'website', noindex: page.noindex || !PRODUCTION,
@@ -321,14 +342,18 @@ function renderPage(ctx, page, common) {
   const meta = html`<meta name="x-api-url" content="${common.apiUrl}">
 <meta name="x-build" content="${common.buildId}">
 <meta name="x-catalog-version" content="${common.catalogVersion}">
-<meta name="x-production" content="${PRODUCTION ? '1' : '0'}">`;
-  const pageCtx = { ...ctx, currentCategory: page.currentCategory || null };
+<meta name="x-production" content="${PRODUCTION ? '1' : '0'}">
+${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" type="font/woff2" crossorigin>` : ''}`;
+  const pageCtx = { ...ctx, currentCategory: page.currentCategory || null, langs };
   const bodyAttrs = Object.entries({ 'data-page': page.type, ...(page.bodyAttrs || {}) })
     .map(([k, v]) => `${k}="${String(v).replace(/"/g, '&quot;')}"`).join(' ');
   const fill = {
     '{{HEAD}}': head.toString(),
     '{{META}}': meta.toString(),
     '{{THEME_COLOR}}': s.primary_color,
+    '{{LANG}}': LANGUAGES[L.current].locale,
+    '{{LANG_CODE}}': L.current,
+    '{{BASE}}': T.getBase(),
     '{{BUILD}}': common.buildId,
     '{{SKIP}}': t('common.skip'),
     '{{BODY_ATTRS}}': bodyAttrs,
@@ -358,10 +383,26 @@ function main() {
     process.exit(1);
   }
 
-  setStrings(readJson(path.join(PUB, 'strings', 'en.json')), 'en');
+  const EN = readJson(path.join(PUB, 'strings', 'en.json'));
+  setStrings(EN, 'en');
   SHELL = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
 
   const settings = buildSettings(cfg);
+
+  /* --- languages: the default at the site root, others under /<code>/ */
+  const wanted = Array.isArray(settings.languages_json) ? settings.languages_json : ['en'];
+  const codes = wanted.filter((c, i) => LANGUAGES[c] && wanted.indexOf(c) === i && fs.existsSync(path.join(PUB, 'strings', c + '.json')));
+  wanted.filter((c) => !codes.includes(c)).forEach((c) => warn(`Language "${c}" isn't available (no strings/${c}.json) — skipped.`));
+  if (!codes.length) codes.push('en');
+  const defaultLang = codes.includes(settings.default_language) ? settings.default_language : codes[0];
+  const overridesAll = settings.text_overrides_json && typeof settings.text_overrides_json === 'object' ? settings.text_overrides_json : {};
+  const stringsFor = (code) => {
+    const base = code === 'en' ? EN : mergeStrings(EN, readJson(path.join(PUB, 'strings', code + '.json')));
+    const { strings, skipped } = applyOverrides(base, overridesAll[code] || {});
+    skipped.forEach((x) => warn(`Wording change for "${x.key}" (${code}) was not used: ${x.problem}`));
+    return strings;
+  };
+  const fontsList = readJson(path.join(PUB, 'assets', 'fonts', 'fonts.json'), { fonts: [] }).fonts;
   const { light: catalog, details, sample } = loadCatalog();
   const pages = loadPages(settings);
   const pincodeRules = readJson(path.join(DATA, 'pincode-rules.json'), null);
@@ -388,7 +429,8 @@ function main() {
   const banners = Array.isArray(settings.hero_banners_json) ? settings.hero_banners_json : [];
   const focalRules = [...new Set(banners.filter((b) => b && b.image).map((b) => T.focalKey(b)))]
     .map((k) => { const [x, y] = k.split('-'); return `.hero__img[data-focal="${k}"] { object-position: ${x}% ${y}%; }`; }).join('\n');
-  const brand = brandCss({ primary: settings.primary_color, secondary: settings.secondary_color, accent: settings.accent_color }) + (focalRules ? '\n' + focalRules + '\n' : '');
+  const brand = brandCss({ primary: settings.primary_color, secondary: settings.secondary_color, accent: settings.accent_color }) + (focalRules ? '\n' + focalRules + '\n' : '')
+    + '\n' + displayCss(settings, fontsList);
   write('css/brand.css', brand);
 
   /* --- build id = fingerprint of everything that affects the pages */
@@ -406,30 +448,36 @@ function main() {
   write('build.json', JSON.stringify({ build_id: buildId, built_at: NOW.toISOString(), catalog_version: catalog.catalog_version, production: PRODUCTION, sample }));
   const imgCount = sample ? writeSampleImages(catalog) : 0;
 
-  /* --- pages */
+  /* --- pages (one full set per language) */
   const ogImage = '/' + String(cfgValue(seoCfg.og_image) || 'client/assets/og-default.png').replace(/^\//, '');
-  const common = { siteUrl, apiUrl, buildId, catalogVersion: catalog.catalog_version, pages, ogImage };
+  const preload = fontPreload(settings, fontsList);
   const hasReturnPolicy = pages.some((p) => /refund|return/.test(p.slug));
   const sitemap = [];
-  const out = (rel, pageHtml, loc, lastmod) => {
-    write(rel, pageHtml);
-    if (loc) sitemap.push({ loc, lastmod });
-  };
   const orgLd = SEO.organizationLd(settings, siteUrl);
   let productPages = 0;
 
+  for (const lang of codes) {
+  setStrings(stringsFor(lang), lang);
+  T.setBase(lang === defaultLang ? '' : lang);
+  const dir = lang === defaultLang ? '' : lang + '/';
+  const common = { siteUrl, apiUrl, buildId, catalogVersion: catalog.catalog_version, pages, ogImage, preload, lang: { codes, default: defaultLang, current: lang } };
+  const out = (rel, pageHtml, loc, lastmod) => {
+    write(dir + rel, pageHtml);
+    if (loc) sitemap.push({ loc, lastmod });
+  };
+
   // Home
   out('index.html', renderPage(ctx, {
-    path: '/', type: 'home', title: defaultTitle, description: defaultDesc,
+    path: T.link('/'), type: 'home', title: defaultTitle, description: defaultDesc,
     jsonld: [orgLd, SEO.websiteLd(settings, siteUrl)],
     main: T.homeMain(ctx, { hasReturnPolicy, pinnedRows: settings.home_pinned_rows_json || [] })
-  }, common), '/', null);
+  }, common), T.link('/'), null);
 
   // Categories
   for (const c of cat.categories) {
     const list = cat.products.filter((p) => p.category_id === c.id || (cat.catById[p.category_id] && cat.catById[p.category_id].parent_id === c.id));
     const sorted = list.slice().sort((a, b) => Number(T.isInStock(b)) - Number(T.isInStock(a)) || (a.bestseller_rank || 999) - (b.bestseller_rank || 999));
-    const crumbs = [{ name: t('common.home'), href: '/' }, { name: c.name }];
+    const crumbs = [{ name: t('common.home'), href: T.link('/') }, { name: c.name }];
     out(`c/${c.slug}/index.html`, renderPage(ctx, {
       path: T.categoryUrl(c), type: 'category', title: `${c.name} — ${settings.business_name}`,
       description: t('listing.count', { n: list.length }) + ' · ' + c.name + ' · ' + settings.business_name,
@@ -447,7 +495,7 @@ function main() {
       const category = cat.catById[p.category_id] || null;
       const related = cat.products.filter((x) => x.id !== p.id && (x.category_id === p.category_id || (x.tags || []).some((tg) => (p.tags || []).includes(tg))))
         .sort((a, b) => Number(b.category_id === p.category_id) - Number(a.category_id === p.category_id) || (a.bestseller_rank || 999) - (b.bestseller_rank || 999));
-      const crumbs = [{ name: t('common.home'), href: '/' }];
+      const crumbs = [{ name: t('common.home'), href: T.link('/') }];
       if (category) crumbs.push({ name: category.name, href: T.categoryUrl(category) });
       crumbs.push({ name: p.name, href: T.productUrl(p) });
       const firstImg = ((d && d.images) || p.images || [])[0];
@@ -476,19 +524,24 @@ function main() {
     }, common), T.pageUrl(pg.slug), null);
   }
   if (!pages.some((p) => p.slug === 'contact')) {
-    out('pages/contact/index.html', renderPage(ctx, { path: '/pages/contact/', type: 'contact', title: `${t('footer.contact')} — ${settings.business_name}`, description: t('footer.contact'), main: T.contactMain(ctx, null) }, common), '/pages/contact/', null);
+    out('pages/contact/index.html', renderPage(ctx, { path: T.link('/pages/contact/'), type: 'contact', title: `${t('footer.contact')} — ${settings.business_name}`, description: t('footer.contact'), main: T.contactMain(ctx, null) }, common), T.link('/pages/contact/'), null);
   }
 
   // Search, cart, checkout (placeholder until Phase 3), 404, offline
   const allSorted = cat.products.slice().sort((a, b) => Number(T.isInStock(b)) - Number(T.isInStock(a)) || (a.bestseller_rank || 999) - (b.bestseller_rank || 999));
-  out('search/index.html', renderPage(ctx, { path: '/search/', type: 'search', title: `${t('search.title_all')} — ${settings.business_name}`, description: defaultDesc, noindex: true,
-    main: T.listingMain(ctx, { mode: 'search', title: t('search.title_all'), products: allSorted, crumbs: [{ name: t('common.home'), href: '/' }, { name: t('search.title_all') }] }) }, common));
-  out('cart/index.html', renderPage(ctx, { path: '/cart/', type: 'cart', title: `${t('cart.title_plain')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.cartPageMain(ctx) }, common));
+  out('search/index.html', renderPage(ctx, { path: T.link('/search/'), type: 'search', title: `${t('search.title_all')} — ${settings.business_name}`, description: defaultDesc, noindex: true,
+    main: T.listingMain(ctx, { mode: 'search', title: t('search.title_all'), products: allSorted, crumbs: [{ name: t('common.home'), href: T.link('/') }, { name: t('search.title_all') }] }) }, common));
+  out('cart/index.html', renderPage(ctx, { path: T.link('/cart/'), type: 'cart', title: `${t('cart.title_plain')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.cartPageMain(ctx) }, common));
   if (!fs.existsSync(path.join(PUB, 'js', 'checkout.js'))) {
-    out('checkout/index.html', renderPage(ctx, { path: '/checkout/', type: 'checkout-soon', title: `${t('checkout_soon.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.checkoutSoonMain(ctx) }, common));
+    out('checkout/index.html', renderPage(ctx, { path: T.link('/checkout/'), type: 'checkout-soon', title: `${t('checkout_soon.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.checkoutSoonMain(ctx) }, common));
   }
+  if (lang === defaultLang) {
   out('404.html', renderPage(ctx, { path: '/404.html', type: 'notfound', title: `${t('notfound.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: raw(fragment('404.html', T.notFoundMain(ctx))) }, common));
   out('offline.html', renderPage(ctx, { path: '/offline.html', type: 'offline', title: `${t('offline.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: raw(fragment('offline.html', T.offlineMain(ctx))) }, common));
+  }
+  }
+  setStrings(stringsFor(defaultLang), defaultLang);
+  T.setBase('');
 
   /* --- sitemap, robots, manifest, headers, service worker */
   const lastmod = NOW.toISOString().slice(0, 10);
@@ -510,7 +563,7 @@ function main() {
   write('_headers', headers);
 
   const precache = ['/', '/offline.html', `/css/site.css?v=${buildId}`, `/css/brand.css?v=${buildId}`, `/js/app.js?v=${buildId}`,
-    '/icons/sprite.svg', '/strings/en.json', '/settings.public.json', '/catalog.json', '/manifest.webmanifest', '/assets/placeholder-product.svg',
+    '/icons/sprite.svg', ...codes.concat(['en']).filter((c, i, a) => a.indexOf(c) === i).map((c) => `/strings/${c}.json`), '/settings.public.json', '/catalog.json', '/manifest.webmanifest', '/assets/placeholder-product.svg',
     ...CORE_MODULES.map((m) => `/js/${m}`)];
   const sw = fs.readFileSync(path.join(PUB, 'sw.js'), 'utf8')
     .replace(/__BUILD_ID__/g, buildId)
@@ -526,6 +579,7 @@ function main() {
 
   console.log('');
   console.log(`  ✓ ${catalog.products.length} products, ${catalog.categories.length} categories${sample ? ' (SAMPLE catalogue — replaced when you first publish from the admin)' : ''}`);
+  console.log(`  ✓ Languages: ${codes.map((c) => LANGUAGES[c].name + (c === defaultLang ? ' (main)' : ' (/' + c + '/)')).join(', ')}`);
   console.log(`  ✓ ${productPages} product pages, ${cat.categories.length} category pages, ${pages.length} info pages`);
   console.log(`  ✓ ${copied} files copied, ${imgCount} sample pictures drawn, ${fileCount} files in total (Cloudflare limit 20,000)`);
   console.log(`  ✓ Sizes (gzip): first-load JavaScript ${(jsGz / 1024).toFixed(1)} KB (budget 100), CSS ${(cssGz / 1024).toFixed(1)} KB (budget 30), catalogue ${(catGz / 1024).toFixed(1)} KB (budget 300)`);

@@ -1,0 +1,52 @@
+HOW TO USE THIS FILE
+Your shop's client/store.config.json already has your own details, so don't replace that file.
+Instead, add this "display" section to it on GitHub:
+
+1. Open client/store.config.json on GitHub and click the pencil icon (Edit).
+2. Find the line that starts with   "seo": {
+3. Click at the very start of that line and paste everything between the two lines of dashes below
+   (it ends with a comma, so the file stays valid).
+4. Commit changes.
+
+------------------------------------------------------------
+  "display": {
+    "page_width": "FULL",
+    "ui_corners": "STANDARD",
+    "ui_shadows": "SOFT",
+    "ui_spacing": "COMFORTABLE",
+    "ui_text_size": "NORMAL",
+    "font_body": "system",
+    "font_heading": "system",
+    "reviews_enabled": true,
+    "sold_counts_mode": "MONTH",
+    "sold_counts_min": 10,
+    "languages_json": [
+      "en",
+      "ta"
+    ],
+    "default_language": "en",
+    "text_overrides_json": {
+      "en": {},
+      "ta": {}
+    },
+    "announcement_text": "",
+    "announcement_starts_at": "",
+    "announcement_ends_at": "",
+    "popups_json": [
+      {
+        "id": "welcome-demo",
+        "active": true,
+        "title": "Festive offer — 10% off",
+        "text": "A sample offer popup. Change or remove it in client/store.config.json (later: Admin → Offers & popups).",
+        "code": "FESTIVE10",
+        "cta_text": "Shop sweets",
+        "cta_link": "/c/sweets-snacks/",
+        "starts_at": "2026-10-01T00:00:00+05:30",
+        "ends_at": "2026-12-31T23:59:00+05:30",
+        "frequency": "DAY",
+        "pages": "ALL",
+        "delay_seconds": 2
+      }
+    ]
+  },
+------------------------------------------------------------

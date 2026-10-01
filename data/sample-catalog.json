@@ -108,7 +108,7 @@
      "full": "/assets/images/sample/kaju-katli-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Kaju Katli — another view"
+     "alt": "Kaju Katli \u2014 another view"
     }
    ],
    "description_html": "<p>Silky cashew fudge with a thin silver leaf, made fresh every morning.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -135,7 +135,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1498,
+   "sold_30d": 107
   },
   {
    "id": "P0002",
@@ -197,7 +199,7 @@
      "full": "/assets/images/sample/mysore-pak-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Ghee Mysore Pak — another view"
+     "alt": "Ghee Mysore Pak \u2014 another view"
     }
    ],
    "description_html": "<p>Melt-in-the-mouth gram flour sweet made with pure cow ghee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -224,7 +226,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1273,
+   "sold_30d": 87
   },
   {
    "id": "P0003",
@@ -286,7 +290,7 @@
      "full": "/assets/images/sample/motichoor-ladoo-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Motichoor Ladoo — another view"
+     "alt": "Motichoor Ladoo \u2014 another view"
     }
    ],
    "description_html": "<p>Tiny boondi pearls bound with saffron syrup and a hint of cardamom.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -313,7 +317,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 698,
+   "sold_30d": 42
   },
   {
    "id": "P0004",
@@ -375,7 +381,7 @@
      "full": "/assets/images/sample/masala-murukku-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Masala Murukku — another view"
+     "alt": "Masala Murukku \u2014 another view"
     }
    ],
    "description_html": "<p>Crunchy rice and urad dal spirals with a gentle chilli kick.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -402,7 +408,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1103,
+   "sold_30d": 67
   },
   {
    "id": "P0005",
@@ -464,7 +472,7 @@
      "full": "/assets/images/sample/banana-chips-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Kerala Banana Chips — another view"
+     "alt": "Kerala Banana Chips \u2014 another view"
     }
    ],
    "description_html": "<p>Thin nendran banana chips fried in coconut oil.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -491,13 +499,15 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 668,
+   "sold_30d": 32
   },
   {
    "id": "P0006",
    "slug": "badam-halwa",
    "name": "Badam Halwa",
-   "short": "Rich almond halwa slow-cooked in ghee — a festive favourite.",
+   "short": "Rich almond halwa slow-cooked in ghee \u2014 a festive favourite.",
    "category_id": "cat-sweets",
    "tags": [
     "almond",
@@ -538,10 +548,10 @@
      "full": "/assets/images/sample/badam-halwa-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Badam Halwa — another view"
+     "alt": "Badam Halwa \u2014 another view"
     }
    ],
-   "description_html": "<p>Rich almond halwa slow-cooked in ghee — a festive favourite.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+   "description_html": "<p>Rich almond halwa slow-cooked in ghee \u2014 a festive favourite.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
    "specs": [
     [
      "Brand",
@@ -561,7 +571,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 513,
+   "sold_30d": 17
   },
   {
    "id": "P0007",
@@ -634,7 +646,7 @@
      "full": "/assets/images/sample/sambar-powder-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Sambar Powder — another view"
+     "alt": "Sambar Powder \u2014 another view"
     }
    ],
    "description_html": "<p>Stone-ground blend of roasted lentils, coriander and red chillies.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -661,7 +673,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 2192,
+   "sold_30d": 133
   },
   {
    "id": "P0008",
@@ -722,7 +736,7 @@
      "full": "/assets/images/sample/garam-masala-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Garam Masala — another view"
+     "alt": "Garam Masala \u2014 another view"
     }
    ],
    "description_html": "<p>Warm, aromatic whole-spice blend for curries and biryani.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -749,7 +763,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1078,
+   "sold_30d": 49
   },
   {
    "id": "P0009",
@@ -811,7 +827,7 @@
      "full": "/assets/images/sample/turmeric-powder-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Turmeric Powder — another view"
+     "alt": "Turmeric Powder \u2014 another view"
     }
    ],
    "description_html": "<p>Bright Erode turmeric, sun-dried and finely ground.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -838,7 +854,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 944,
+   "sold_30d": 36
   },
   {
    "id": "P0010",
@@ -900,7 +918,7 @@
      "full": "/assets/images/sample/red-chilli-powder-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Red Chilli Powder — another view"
+     "alt": "Red Chilli Powder \u2014 another view"
     }
    ],
    "description_html": "<p>Medium-hot chilli powder with deep red colour.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -927,13 +945,15 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 656,
+   "sold_30d": 11
   },
   {
    "id": "P0011",
    "slug": "filter-coffee",
    "name": "Filter Coffee Powder",
-   "short": "80:20 coffee–chicory blend for strong, frothy filter coffee.",
+   "short": "80:20 coffee\u2013chicory blend for strong, frothy filter coffee.",
    "category_id": "cat-spices",
    "tags": [
     "coffee",
@@ -989,10 +1009,10 @@
      "full": "/assets/images/sample/filter-coffee-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Filter Coffee Powder — another view"
+     "alt": "Filter Coffee Powder \u2014 another view"
     }
    ],
-   "description_html": "<p>80:20 coffee–chicory blend for strong, frothy filter coffee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+   "description_html": "<p>80:20 coffee\u2013chicory blend for strong, frothy filter coffee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
    "specs": [
     [
      "Brand",
@@ -1016,7 +1036,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1985,
+   "sold_30d": 102
   },
   {
    "id": "P0012",
@@ -1078,7 +1100,7 @@
      "full": "/assets/images/sample/green-cardamom-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Green Cardamom — another view"
+     "alt": "Green Cardamom \u2014 another view"
     }
    ],
    "description_html": "<p>Bold 8 mm Idukki cardamom pods, full of aroma.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1105,13 +1127,15 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 549,
+   "sold_30d": 0
   },
   {
    "id": "P0013",
    "slug": "brass-diya-set",
    "name": "Brass Diya Set",
-   "short": "Hand-polished brass lamps for pooja and festive décor.",
+   "short": "Hand-polished brass lamps for pooja and festive d\u00e9cor.",
    "category_id": "cat-kitchen",
    "tags": [
     "pooja",
@@ -1168,10 +1192,10 @@
      "full": "/assets/images/sample/brass-diya-set-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Brass Diya Set — another view"
+     "alt": "Brass Diya Set \u2014 another view"
     }
    ],
-   "description_html": "<p>Hand-polished brass lamps for pooja and festive décor.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+   "description_html": "<p>Hand-polished brass lamps for pooja and festive d\u00e9cor.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
    "specs": [
     [
      "Brand",
@@ -1195,7 +1219,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 667,
+   "sold_30d": 0
   },
   {
    "id": "P0014",
@@ -1257,7 +1283,7 @@
      "full": "/assets/images/sample/copper-bottle-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Copper Water Bottle — another view"
+     "alt": "Copper Water Bottle \u2014 another view"
     }
    ],
    "description_html": "<p>Leak-proof pure copper bottle with a smooth matte finish.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1284,7 +1310,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1499,
+   "sold_30d": 56
   },
   {
    "id": "P0015",
@@ -1346,7 +1374,7 @@
      "full": "/assets/images/sample/steel-tiffin-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Stainless Steel Tiffin — another view"
+     "alt": "Stainless Steel Tiffin \u2014 another view"
     }
    ],
    "description_html": "<p>Food-grade steel lunch box with a sturdy clip lid.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1373,7 +1401,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 644,
+   "sold_30d": 0
   },
   {
    "id": "P0016",
@@ -1420,7 +1450,7 @@
      "full": "/assets/images/sample/cast-iron-tawa-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Cast Iron Dosa Tawa — another view"
+     "alt": "Cast Iron Dosa Tawa \u2014 another view"
     }
    ],
    "description_html": "<p>Pre-seasoned 12-inch tawa for crisp dosas and rotis.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1443,7 +1473,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1021,
+   "sold_30d": 14
   },
   {
    "id": "P0017",
@@ -1505,7 +1537,7 @@
      "full": "/assets/images/sample/clay-pot-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Clay Cooking Pot — another view"
+     "alt": "Clay Cooking Pot \u2014 another view"
     }
    ],
    "description_html": "<p>Unglazed terracotta pot for slow-cooked curries.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1532,7 +1564,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 446,
+   "sold_30d": 0
   },
   {
    "id": "P0018",
@@ -1605,7 +1639,7 @@
      "full": "/assets/images/sample/kitchen-towels-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Cotton Kitchen Towels — another view"
+     "alt": "Cotton Kitchen Towels \u2014 another view"
     }
    ],
    "description_html": "<p>Pack of 4 absorbent checked cotton towels.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1632,7 +1666,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 508,
+   "sold_30d": 0
   },
   {
    "id": "P0019",
@@ -1705,7 +1741,7 @@
      "full": "/assets/images/sample/cotton-saree-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Handloom Cotton Saree — another view"
+     "alt": "Handloom Cotton Saree \u2014 another view"
     }
    ],
    "description_html": "<p>Soft handloom cotton saree with a contrast zari border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1732,7 +1768,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 913,
+   "sold_30d": 0
   },
   {
    "id": "P0020",
@@ -1869,7 +1907,7 @@
      "full": "/assets/images/sample/printed-kurti-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Printed Cotton Kurti — another view"
+     "alt": "Printed Cotton Kurti \u2014 another view"
     }
    ],
    "description_html": "<p>Breathable straight-cut kurti with block-print motifs.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -1896,7 +1934,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 1150,
+   "sold_30d": 7
   },
   {
    "id": "P0021",
@@ -1980,7 +2020,7 @@
      "full": "/assets/images/sample/mens-cotton-shirt-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Men's Cotton Shirt — another view"
+     "alt": "Men's Cotton Shirt \u2014 another view"
     }
    ],
    "description_html": "<p>Regular-fit pure cotton shirt for everyday comfort.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -2007,7 +2047,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 855,
+   "sold_30d": 0
   },
   {
    "id": "P0022",
@@ -2069,7 +2111,7 @@
      "full": "/assets/images/sample/silk-dupatta-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Silk Dupatta — another view"
+     "alt": "Silk Dupatta \u2014 another view"
     }
    ],
    "description_html": "<p>Lightweight art-silk dupatta with woven border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -2096,7 +2138,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 616,
+   "sold_30d": 0
   },
   {
    "id": "P0023",
@@ -2123,7 +2167,7 @@
     {
      "sku": "P0023-1",
      "options": {
-      "Size": "2–3 years"
+      "Size": "2\u20133 years"
      },
      "price": 64900,
      "mrp": 79900,
@@ -2134,7 +2178,7 @@
     {
      "sku": "P0023-2",
      "options": {
-      "Size": "4–5 years"
+      "Size": "4\u20135 years"
      },
      "price": 64900,
      "mrp": 79900,
@@ -2145,7 +2189,7 @@
     {
      "sku": "P0023-3",
      "options": {
-      "Size": "6–7 years"
+      "Size": "6\u20137 years"
      },
      "price": 69900,
      "mrp": 84900,
@@ -2169,7 +2213,7 @@
      "full": "/assets/images/sample/kids-kurta-set-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Kids Kurta Pyjama Set — another view"
+     "alt": "Kids Kurta Pyjama Set \u2014 another view"
     }
    ],
    "description_html": "<p>Festive cotton kurta with matching pyjama.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -2184,7 +2228,7 @@
     ],
     [
      "Size",
-     "2–3 years, 4–5 years, 6–7 years"
+     "2\u20133 years, 4\u20135 years, 6\u20137 years"
     ],
     [
      "HSN code",
@@ -2196,7 +2240,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 552,
+   "sold_30d": 0
   },
   {
    "id": "P0024",
@@ -2243,7 +2289,7 @@
      "full": "/assets/images/sample/handloom-stole-2.svg",
      "w": 600,
      "h": 600,
-     "alt": "Handloom Stole — another view"
+     "alt": "Handloom Stole \u2014 another view"
     }
    ],
    "description_html": "<p>Soft handwoven stole in natural undyed cotton.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
@@ -2266,7 +2312,9 @@
     ]
    ],
    "seo_title": "",
-   "seo_description": ""
+   "seo_description": "",
+   "sold_total": 453,
+   "sold_30d": 0
   }
  ]
 }

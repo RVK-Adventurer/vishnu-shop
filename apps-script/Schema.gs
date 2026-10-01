@@ -239,7 +239,18 @@ var ENUMS = {
     'upi_id', 'upi_payee_name', 'upi_static_qr_image_id', 'bank_account_name', 'bank_account_number',
     'bank_ifsc', 'bank_name', 'bank_branch', 'bank_account_type'
   ],
-  CAPACITY_STATE: ['OPEN', 'WARN', 'BUSY', 'FULL']
+  CAPACITY_STATE: ['OPEN', 'WARN', 'BUSY', 'FULL'],
+  /* v1.9 additions (docs/V1.9_ADDITIONS.md) */
+  PAGE_WIDTH: ['STANDARD', 'WIDE', 'FULL'],
+  UI_CORNERS: ['SHARP', 'STANDARD', 'ROUND'],
+  UI_SHADOWS: ['NONE', 'SOFT', 'STRONG'],
+  UI_SPACING: ['COMPACT', 'COMFORTABLE', 'AIRY'],
+  UI_TEXT_SIZE: ['NORMAL', 'LARGE', 'XLARGE'],
+  FONT: ['system', 'poppins', 'lora', 'mukta', 'hind-madurai', 'noto-sans-tamil', 'baloo-2'],
+  SOLD_COUNTS_MODE: ['OFF', 'MONTH', 'TOTAL', 'BOTH'],
+  LANGUAGE: ['en', 'ta', 'hi'],
+  POPUP_FREQUENCY: ['DAY', 'SESSION', 'ONCE'],
+  POPUP_PAGES: ['ALL', 'HOME']
 };
 
 /** Drop-down lists added to the Sheet for anyone editing it by hand ("Tab.column": ENUMS key). */

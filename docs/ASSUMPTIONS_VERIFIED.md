@@ -7,7 +7,7 @@ This file records every outside fact the shop's code depends on: what it is, whe
 - **UNVERIFIED** = not yet checked. The code is written so that it still works if the fact turns out to be different.
 - **TO CHECK IN PHASE n** = the code that needs this fact is written in a later phase. We will check it then, right before writing that code, so the information is fresh.
 
-Last updated: 1 October 2026 (Phase 1).
+Last updated: 2 October 2026 (Phase 1 + v1.9 additions).
 
 ---
 
@@ -99,6 +99,15 @@ Last updated: 1 October 2026 (Phase 1).
 | 7.5 | Audio autoplay rules (sale sound needs one tap first) | — | — | — | TO CHECK IN PHASE 5 |
 | 7.6 | QR code standard tables (ISO/IEC 18004, versions 1–10, level M) | — | — | — | TO CHECK IN PHASE 3 |
 | 7.7 | Cloudflare dashboard path for a new Pages project: **Workers & Pages → Create application → Pages → Connect to Git**; build settings (build command, build output directory) and **Environment variables** are set before **Save and Deploy**. | Used word-for-word in Setup Guide step 8. | developers.cloudflare.com/pages/get-started/git-integration (updated 21 Apr 2026) | 1 Oct 2026 | VERIFIED |
+
+## 9. v1.9 additions (2 October 2026)
+
+| # | Fact | How the code handles it | Source | Checked | Status |
+|---|---|---|---|---|---|
+| 9.1 | India's *Guidelines for Prevention and Regulation of Dark Patterns, 2023* (CCPA, notified 30 Nov 2023) apply to online platforms and sellers. They prohibit "false urgency" (including deceptive product popularity or quantity claims) and "nagging" (repeated disruptive requests). Sellers must be able to show urgency claims were accurate. | Ratings and "bought" counts come only from real data (never typed), counts are rounded **down**, and popups are rate-limited (once per day / visit / ever), never on checkout, always closable. Documented in docs/V1.9_ADDITIONS.md. | Trilegal update on the Guidelines (PDF); IAPP article | 2 Oct 2026 | VERIFIED |
+| 9.2 | Fonts Poppins, Lora, Mukta, Hind Madurai, Noto Sans Tamil and Baloo 2 are licensed under the SIL Open Font License 1.1, which allows bundling with a website. | Copied with their licence files into `public/assets/fonts/`, from the Fontsource packages (v5.3.0). Only Latin plus Tamil or Devanagari subsets, 400/600/700 weights. | Licence files inside each package | 2 Oct 2026 | VERIFIED |
+| 9.3 | The strict security policy (no inline styles) still allows changing CSS variables from JavaScript and adding fonts with the FontFace API. | The style guide preview uses only these. The shop itself gets its display settings from the generated `brand.css`. | CSP Level 3 (`style-src` governs `<style>`/`style=` attributes, not CSSOM) | 2 Oct 2026 | VERIFIED (tested in Chromium with the shop's CSP) |
+| 9.4 | Tamil translation | `public/strings/ta.json` is a draft; a native speaker must review it before go-live (noted in the file and the docs). | — | — | NEEDS HUMAN REVIEW |
 
 ## 8. Phase 1 design decisions (and why)
 
