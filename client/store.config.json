@@ -12,7 +12,7 @@
   },
   "schema_version": 1,
   "site": {
-    "url": "REPLACE_ME",
+    "url": "https://vishnu-shop.pages.dev/",
     "apps_script_url": "REPLACE_ME",
     "razorpay_key_id": "",
     "default_language": "en"
