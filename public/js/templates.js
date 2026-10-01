@@ -281,6 +281,22 @@ export function isLive(item, now = new Date()) {
   return true;
 }
 
+/**
+ * An owner-chosen picture (offer poster etc.) as a safe address inside the shop, or '' if not allowed.
+ * Only jpg / png / webp / avif / gif files stored in the shop itself (client/assets/… or assets/…);
+ * outside websites are blocked by the security policy anyway. "client/assets/x.jpg" and
+ * "/client/assets/x.jpg" both work; spaces are allowed.
+ */
+export function localImagePath(src) {
+  let s = String(src || '').trim().replace(/\\/g, '/');
+  if (!s) return '';
+  if (!s.startsWith('/')) s = '/' + s;
+  if (s.startsWith('//') || s.includes('..') || /[?#<>"'`]/.test(s)) return '';
+  if (!/^\/(client\/assets|assets)\/[^/]/.test(s)) return '';
+  if (!/\.(jpe?g|png|webp|avif|gif)$/i.test(s)) return '';
+  return s.replace(/ /g, '%20');
+}
+
 /** Attributes the browser uses to show/hide a scheduled item on time (dates are re-checked on every visit). */
 function scheduleAttrs(item) {
   const parts = [];
