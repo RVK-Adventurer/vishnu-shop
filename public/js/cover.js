@@ -79,10 +79,10 @@ export function checkCoverPicture(slot, dims) {
   if (!dims || !dims.width || !dims.height) return `${spec.label} picture: could not be read. Use a JPG, PNG or WebP file.`;
   const ratio = dims.width / dims.height;
   if (Math.abs(ratio - spec.ratio) / spec.ratio > TOLERANCE) {
-    return `${spec.label} picture is ${dims.width} × ${dims.height} (shape ${ratio.toFixed(2)} : 1). It must be ${spec.ratioText} — for example ${spec.best[0]} × ${spec.best[1]} pixels. It was not used.`;
+    return `${spec.label} picture is ${dims.width} × ${dims.height} (shape ${ratio.toFixed(2)} : 1). It must be ${spec.ratioText}. For example ${spec.best[0]} × ${spec.best[1]} pixels. It was not used.`;
   }
-  if (dims.width < spec.min[0]) return `${spec.label} picture is only ${dims.width} pixels wide — it would look blurry. Use at least ${spec.min[0]} × ${spec.min[1]} (best ${spec.best[0]} × ${spec.best[1]}). It was not used.`;
-  if (dims.kb && dims.kb > spec.kb) return `${spec.label} picture is ${dims.kb} KB — please save it smaller than ${spec.kb} KB (JPG quality 75–80 or WebP) so the shop opens fast. It is used, but slows the page.`;
+  if (dims.width < spec.min[0]) return `${spec.label} picture is only ${dims.width} pixels wide. It would look blurry. Use at least ${spec.min[0]} × ${spec.min[1]} (best ${spec.best[0]} × ${spec.best[1]}). It was not used.`;
+  if (dims.kb && dims.kb > spec.kb) return `${spec.label} picture is ${dims.kb} KB. Please save it smaller than ${spec.kb} KB (JPG quality 75 to 80 or WebP) so the shop opens fast. It is used, but slows the page.`;
   return '';
 }
 
@@ -104,8 +104,8 @@ export function coverTextTone(c) {
 export function coverWarnings(c) {
   const out = [];
   if (!c) return out;
-  if (c.mode === 'PHOTO' && c.overlay_opacity < 20) out.push('Cover: the overlay is very light (under 20 %). Words over a busy photo may be hard to read — try 30–45 %.');
-  if (c.mode === 'ARTWORK' && !c.alt) out.push('Cover: add "alt" — the words written in your picture, so blind visitors and Google can read them.');
+  if (c.mode === 'PHOTO' && c.overlay_opacity < 20) out.push('Cover: the overlay is very light (under 20 %). Words over a busy photo may be hard to read. Try 30 to 45 %.');
+  if (c.mode === 'ARTWORK' && !c.alt) out.push('Cover: add "alt". The words written in your picture, so blind visitors and Google can read them.');
   if (c.mode === 'ARTWORK' && (!c.mobile || !c.tablet)) out.push('Cover: for an ARTWORK picture, please add the tablet and phone versions too; otherwise the computer picture is shown small on phones so its words are not cut off.');
   if (c.background && !parsePaint(c.background)) out.push('Cover: "background" is not a colour (use "#7C2D12" or a gradient). The theme colour is used.');
   if (c.overlay !== '' && c.overlay !== null && !parsePaint(c.overlay)) out.push('Cover: "overlay" is not a colour (use "#000000" or a gradient). Black is used.');

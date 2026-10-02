@@ -38,6 +38,7 @@ The shop is built in seven phases. Each phase ends with "how to upload and test 
 | 1.2–1.3 | Poster popups, home sections, menus | ✅ Delivered |
 | 1.4 | Logo/favicon/tab names, banner timing, editable trust strip, any colours and gradients, footer builder, 6 photos per colour, 3 option types, Word-style descriptions, key features, grouped specifications, delivery wording, picture guide (docs/IMAGE_GUIDE.md) | ✅ Delivered |
 | 1.5 | Cover picture (computer/tablet/phone versions, photo or finished design, shade, position, strength), Design preview at /preview/ (all settings, 4 screen sizes, light/dark, try pictures), private test copy on a preview branch | ✅ Delivered |
+| 1.6 | Shop Studio (redesigned /preview/: 15 sections, Get Settings with Copy and Download, undo, product page try out, wording, languages), gradient themes and brand gradient, every word starting with a capital everywhere ("Add To Cart", switchable), big footer logo with a letter badge when no logo is uploaded, no long dashes anywhere | ✅ Delivered |
 | 2 | Backend core + admin website shell: login, staff, products, photos, publishing, settings (including the v1.9 switches) | Next |
 | 3 | Checkout and money: all payment options, orders, refunds, COD, requests, daily limit | — |
 | 4 | Instant PDF invoices and the Bill Designer | — |

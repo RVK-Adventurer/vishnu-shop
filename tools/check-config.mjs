@@ -39,7 +39,7 @@ export function checkConfig(cfg, { production = false } = {}) {
 
   if (!cfg || typeof cfg !== 'object') return { errors: ['client/store.config.json is missing or is not valid JSON.'], warnings };
 
-  for (const p of findPlaceholders(cfg)) problem(`"${p}" still says REPLACE_ME — fill it in.`);
+  for (const p of findPlaceholders(cfg)) problem(`"${p}" still says REPLACE_ME. Fill it in.`);
 
   const site = cfg.site || {};
   const biz = cfg.business || {};
@@ -77,7 +77,7 @@ export function checkConfig(cfg, { production = false } = {}) {
   // v1.9 "display" section: a wrong value is never fatal — the build uses the default instead.
   const disp = cfg.display || {};
   const choice = (k, list) => {
-    if (disp[k] !== undefined && !list.includes(disp[k])) warnings.push(`display.${k} should be one of ${list.join(', ')} — using the default.`);
+    if (disp[k] !== undefined && !list.includes(disp[k])) warnings.push(`display.${k} should be one of ${list.join(', ')}. Using the default.`);
   };
   Object.entries(DISPLAY_OPTIONS).forEach(([k, list]) => choice(k, list));
   choice('sold_counts_mode', ['OFF', 'MONTH', 'TOTAL', 'BOTH']);
@@ -94,7 +94,7 @@ export function checkConfig(cfg, { production = false } = {}) {
   if (disp.home_sections_json !== undefined) {
     if (!Array.isArray(disp.home_sections_json)) warnings.push('display.home_sections_json should look like ["banner", "categories", "bestsellers"].');
     else disp.home_sections_json.filter((x) => !SECTIONS.includes(String(x).trim().toLowerCase()))
-      .forEach((x) => warnings.push(`display.home_sections_json: "${x}" is not a home section (choose from ${SECTIONS.join(', ')}) — skipped.`));
+      .forEach((x) => warnings.push(`display.home_sections_json: "${x}" is not a home section (choose from ${SECTIONS.join(', ')}). Skipped.`));
   }
   ['show_category_menu', 'show_all_products_link', 'reviews_enabled', 'show_trust_strip', 'footer_show_contact', 'footer_show_social', 'footer_show_hours'].forEach((k) => {
     if (disp[k] !== undefined && typeof disp[k] !== 'boolean') warnings.push(`display.${k} must be true or false (no quotes).`);

@@ -307,7 +307,7 @@ export function localImagePath(src, { svg = false } = {}) {
 export function tabTitle(s, pageName) {
   const shop = s.business_name || '';
   if (!pageName) return String(s.tab_title_home || '').trim();
-  const fmt = String(s.tab_title_format || '').includes('{page}') ? String(s.tab_title_format) : '{page} — {shop}';
+  const fmt = String(s.tab_title_format || '').includes('{page}') ? String(s.tab_title_format) : '{page} | {shop}';
   return fmt.replace('{page}', pageName).replace('{shop}', shop).replace(/\s+/g, ' ').trim();
 }
 
@@ -540,15 +540,29 @@ export function header(ctx) {
  * The build adds the logo's real shape (_logo_w/_logo_h) so the page never jumps while it loads.
  * On phones a logo + name shows just the logo, to leave room for search and cart.
  */
+/** Up to two capital letters from the shop's name ("Raj Sweets" gives "RS"), for the letter badge. */
+export function shopInitials(name) {
+  const words = String(name || '').trim().split(/\s+/).filter(Boolean);
+  const first = (w) => Array.from(w)[0] || '';
+  const out = words.length > 1 ? first(words[0]) + first(words[1]) : Array.from(words[0] || 'S').slice(0, 2).join('');
+  return out.toUpperCase();
+}
+
+/** A letter badge in the brand colour, used as the logo until the owner uploads a logo picture. */
+export function monogram(s, extra = '') {
+  return html`<span class="${cls('monogram', extra)}" aria-hidden="true">${shopInitials(s.business_name)}</span>`;
+}
+
 export function brandMark(s, t) {
   const src = localImagePath(s.logo_path, { svg: true });
   const mode = ['LOGO_AND_NAME', 'LOGO_ONLY', 'NAME_ONLY'].includes(s.logo_mode) ? s.logo_mode : 'LOGO_AND_NAME';
   const showLogo = !!src && mode !== 'NAME_ONLY';
+  const showBadge = !src && mode !== 'NAME_ONLY';
   const showName = !showLogo || mode === 'LOGO_AND_NAME';
   const h = Math.max(24, Math.min(72, Number(s.logo_height_px) || 40));
   const w = Math.round(h * (s._logo_w && s._logo_h ? s._logo_w / s._logo_h : 4));
   return html`<a class="brand" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}">
-      ${showLogo ? html`<img class="brand__logo" src="${src}" alt="" width="${w}" height="${h}" decoding="async" fetchpriority="high">` : ''}
+      ${showLogo ? html`<img class="brand__logo" src="${src}" alt="" width="${w}" height="${h}" decoding="async" fetchpriority="high">` : ''}${showBadge ? monogram(s) : ''}
       ${showName ? html`<span class="${cls('brand__name', { 'brand__name--with-logo': showLogo })}">${s.business_name}</span>` : ''}
     </a>`;
 }
@@ -663,19 +677,30 @@ export function footer(ctx, pages) {
   const copyText = s.footer_copyright_text === undefined || s.footer_copyright_text === null ? '© {year} {shop}' : String(s.footer_copyright_text);
   const copy = copyText.replace('{year}', String(year)).replace('{shop}', s.legal_name || s.business_name).trim();
   const showContact = s.footer_show_contact !== false;
-  return html`<footer class="site-footer">
-  <div class="container">
-    ${showContact ? html`<div class="footer-contact">
-      <p class="footer-contact__name">${s.business_name}</p>
-      ${address ? html`<p class="footer-contact__addr">${icon('map-pin', 16)}<span>${address}</span></p>` : ''}
-      <p class="footer-contact__links">
+  // Big logo on the left of the footer (the same logo as the top bar), then the shop's name and contact details.
+  const showFooterLogo = s.footer_show_logo !== false;
+  const logo = showFooterLogo ? localImagePath(s.logo_path, { svg: true }) : '';
+  const fh = Math.max(32, Math.min(120, Number(s.footer_logo_height_px) || 72));
+  const fw = Math.round(fh * (s._logo_w && s._logo_h ? s._logo_w / s._logo_h : 4));
+  const showName = !logo || s.logo_mode !== 'LOGO_ONLY';
+  const brandCol = (showFooterLogo || showContact) ? html`<div class="footer-brand">
+      ${logo ? html`<a class="footer-brand__logo" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}"><img src="${logo}" alt="${s.business_name}" width="${fw}" height="${fh}" loading="lazy" decoding="async"></a>`
+        : showFooterLogo ? html`<a class="footer-brand__logo" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}">${monogram(s, 'monogram--footer')}</a>` : ''}
+      ${showName ? html`<p class="footer-contact__name">${s.business_name}</p>` : ''}
+      ${showContact && address ? html`<p class="footer-contact__addr">${icon('map-pin', 16)}<span>${address}</span></p>` : ''}
+      ${showContact ? html`<p class="footer-contact__links">
         ${s.contact_phone ? html`<a class="footer-link" href="tel:+91${s.contact_phone}" data-tel="${s.contact_phone}">${icon('phone', 16)}${formatPhone(s.contact_phone)}</a>` : ''}
         ${s.contact_email ? html`<a class="footer-link" href="mailto:${s.contact_email}">${icon('mail', 16)}${s.contact_email}</a>` : ''}
         ${s.whatsapp_number ? html`<a class="pill pill--whatsapp" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank">${icon('whatsapp', 16)}${t('footer.shop_on_whatsapp')}</a>` : ''}
-      </p>
+      </p>` : ''}
       ${!wanted.includes('about') ? socialRow : ''}
-    </div>` : (!wanted.includes('about') ? socialRow : '')}
-    ${cols.length ? html`<div class="${cls('footer-cols', { 'footer-cols--flush': !showContact })}">${cols}</div>` : ''}
+    </div>` : (!wanted.includes('about') ? socialRow : '');
+  return html`<footer class="site-footer">
+  <div class="container">
+    <div class="${cls('footer-top', { 'footer-top--solo': !cols.length })}">
+      ${brandCol}
+      ${cols.length ? html`<div class="footer-cols">${cols}</div>` : ''}
+    </div>
     ${s.footer_text ? html`<p class="footer-note">${s.footer_text}</p>` : ''}
     ${copy ? html`<p class="footer-copy">${copy}</p>` : ''}
   </div>

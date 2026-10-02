@@ -191,7 +191,7 @@ export function brandVariables({ primary, secondary, accent }) {
 export function brandCss(colours) {
   const { light, dark } = brandVariables(colours);
   const block = (vars) => Object.keys(vars).map((k) => `  ${k}: ${vars[k]};`).join('\n');
-  return `/* Generated from the shop's brand colours. Do not edit by hand — change colours in Admin → Settings → Branding. */
+  return `/* Generated from the shop's brand colours. Do not edit by hand. Change colours in Admin → Settings → Branding. */
 :root {
 ${block(light)}
 }

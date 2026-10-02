@@ -22,6 +22,17 @@ export function isPreview() {
   return PREVIEW;
 }
 
+let PREVIEW_IMAGES = {};
+/** Design preview only: pictures the owner is trying out (not uploaded yet) are shown from this browser. */
+export function setPreviewImages(map) {
+  PREVIEW_IMAGES = map || {};
+}
+export function previewImage(src) {
+  if (!PREVIEW) return src;
+  const key = decodeURI(String(src || '')).replace(/^\//, '');
+  return PREVIEW_IMAGES[key] || src;
+}
+
 /** Loads settings once (the last copy is remembered so pages paint instantly next time). */
 export async function loadSettings() {
   if (SETTINGS) return SETTINGS;

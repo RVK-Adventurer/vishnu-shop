@@ -16,8 +16,12 @@ export const LIMITS = {
   favicon_file_kb: 200,
   tab_title_chars: 60,                                  // Google shows about 60 characters
 
-  // Banners
+  // Footer logo
+  footer_logo_height_px: { min: 32, max: 120, default: 72 },
+
+  // Banners and offer pop-ups
   banners: 6,
+  popups: 5,
 
   // Trust strip (the row of reasons to buy)
   trust_items: 6,

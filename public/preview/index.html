@@ -4,58 +4,60 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta name="color-scheme" content="light dark">
-<title>Design preview</title>
+<meta name="color-scheme" content="light">
+<title>Shop Studio</title>
 <link rel="icon" href="/client/assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/baloo-2/baloo-2-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/site.css">
-<link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/preview.css">
 <script type="module" src="/js/preview/lab.js"></script>
 </head>
-<body class="lab">
-<header class="lab-bar">
-  <div class="lab-bar__title">
-    <svg class="icon" width="22" height="22" aria-hidden="true"><use href="/icons/sprite.svg#i-eye"></use></svg>
-    <h1>Design preview</h1>
-    <span class="lab-badge">Only you see this · nothing is published</span>
+<body class="studio" data-view="settings">
+<header class="st-top">
+  <div class="st-top__brand">
+    <span class="st-top__mark" aria-hidden="true"><svg class="icon" width="20" height="20"><use href="/icons/sprite.svg#i-palette"></use></svg></span>
+    <span class="st-top__names"><span class="st-top__title">Shop Studio</span><span class="st-top__shop" data-st-shop>Your Shop</span></span>
   </div>
-  <div class="lab-bar__controls">
-    <label class="lab-field"><span>Page</span><select class="select select--sm" data-lab-page></select></label>
-    <label class="lab-field" data-lab-slug-wrap hidden><span data-lab-slug-label>Product</span><select class="select select--sm" data-lab-slug></select></label>
-    <label class="lab-field" data-lab-lang-wrap hidden><span>Language</span><select class="select select--sm" data-lab-lang></select></label>
-    <div class="segmented" role="group" aria-label="Colour mode" data-lab-theme>
-      <button type="button" aria-pressed="true" data-theme="auto">Auto</button>
-      <button type="button" aria-pressed="false" data-theme="light">Light</button>
-      <button type="button" aria-pressed="false" data-theme="dark">Dark</button>
-    </div>
-    <label class="switch lab-switch" title="Show banners as a new customer sees them"><input type="checkbox" checked data-lab-first><span class="switch__track" aria-hidden="true"></span><span>First visit</span></label>
-    <label class="switch lab-switch" title="Show your offer pop-up on the preview"><input type="checkbox" data-lab-popups><span class="switch__track" aria-hidden="true"></span><span>Pop-ups</span></label>
+  <span class="st-status" data-st-status role="status">No Changes Yet</span>
+  <div class="st-top__actions">
+    <button type="button" class="st-top__icon" data-st-undo title="Undo (Ctrl + Z)" aria-label="Undo" disabled><svg class="icon" width="18" height="18" aria-hidden="true"><use href="/icons/sprite.svg#i-undo"></use></svg></button>
+    <button type="button" class="st-top__icon" data-st-redo title="Redo (Ctrl + Y)" aria-label="Redo" disabled><svg class="icon" width="18" height="18" aria-hidden="true"><use href="/icons/sprite.svg#i-redo"></use></svg></button>
+    <button type="button" class="st-top__btn st-top__btn--quiet" data-st-reset>Start Again</button>
+    <button type="button" class="st-top__btn st-top__btn--go" data-st-get><svg class="icon" width="18" height="18" aria-hidden="true"><use href="/icons/sprite.svg#i-upload"></use></svg><span>Get Settings</span></button>
   </div>
 </header>
-<div class="lab-devices" role="group" aria-label="Screen size" data-lab-devices></div>
-<div class="lab-tabs-phone" role="tablist" aria-label="Show">
-  <button type="button" role="tab" aria-selected="true" data-lab-view="controls">Settings</button>
-  <button type="button" role="tab" aria-selected="false" data-lab-view="stage">Preview</button>
+
+<div class="st-views" role="tablist" aria-label="Show">
+  <button type="button" role="tab" aria-selected="true" data-view-btn="settings">Settings</button>
+  <button type="button" role="tab" aria-selected="false" data-view-btn="preview">Preview</button>
 </div>
-<div class="lab-main" data-lab-main>
-  <aside class="lab-panel" aria-label="Settings" data-lab-panel>
-    <div class="lab-tabs" role="tablist">
-      <button type="button" role="tab" aria-selected="true" data-lab-tab="easy">Easy settings</button>
-      <button type="button" role="tab" aria-selected="false" data-lab-tab="pictures">Pictures</button>
-      <button type="button" role="tab" aria-selected="false" data-lab-tab="json">Settings text</button>
-      <button type="button" role="tab" aria-selected="false" data-lab-tab="checks">Checks <span class="count-dot" data-lab-check-count hidden></span></button>
+
+<div class="st-main">
+  <nav class="st-rail" aria-label="Sections" data-st-rail></nav>
+  <aside class="st-panel" aria-label="Settings" data-st-panel></aside>
+  <section class="st-stagewrap" aria-label="Preview">
+    <div class="st-toolbar">
+      <div class="st-seg st-seg--devices" role="radiogroup" aria-label="Screen size" data-st-devices></div>
+      <div class="st-toolbar__group">
+        <label class="st-tool"><span class="st-tool__label">Page</span><select class="st-tool__select" data-st-page></select></label>
+        <label class="st-tool" data-st-slug-wrap hidden><span class="st-tool__label" data-st-slug-label>Product</span><select class="st-tool__select" data-st-slug></select></label>
+        <label class="st-tool" data-st-lang-wrap hidden><span class="st-tool__label">Language</span><select class="st-tool__select" data-st-lang></select></label>
+      </div>
+      <div class="st-toolbar__group st-toolbar__group--end">
+        <div class="st-seg st-seg--small" role="radiogroup" aria-label="Colour mode" data-st-theme>
+          <button type="button" role="radio" aria-checked="true" data-theme="auto">Auto</button>
+          <button type="button" role="radio" aria-checked="false" data-theme="light">Light</button>
+          <button type="button" role="radio" aria-checked="false" data-theme="dark">Dark</button>
+        </div>
+        <label class="st-toggle" title="Show the banner and offers as a new customer sees them"><input type="checkbox" checked data-st-first><span class="st-toggle__track" aria-hidden="true"></span><span>First Visit</span></label>
+        <label class="st-toggle" title="Show your offer pop up on the preview"><input type="checkbox" data-st-popups><span class="st-toggle__track" aria-hidden="true"></span><span>Pop Ups</span></label>
+      </div>
     </div>
-    <div class="lab-pane" data-lab-pane="easy"></div>
-    <div class="lab-pane" data-lab-pane="pictures" hidden></div>
-    <div class="lab-pane" data-lab-pane="json" hidden></div>
-    <div class="lab-pane" data-lab-pane="checks" hidden></div>
-    <div class="lab-actions">
-      <button class="btn btn--primary btn--block" type="button" data-lab-copy>Copy settings for GitHub</button>
-      <button class="btn btn--ghost btn--sm" type="button" data-lab-reset>Start again from the live shop</button>
-    </div>
-  </aside>
-  <section class="lab-stage" aria-label="Preview" data-lab-stage></section>
+    <div class="st-stage" data-st-stage></div>
+  </section>
 </div>
+
+<dialog class="st-dialog" data-st-dialog aria-label="Get settings"><div class="st-dialog__inner" data-st-dialog-body></div></dialog>
 <div class="toasts" data-toasts aria-live="polite"></div>
 </body>
 </html>

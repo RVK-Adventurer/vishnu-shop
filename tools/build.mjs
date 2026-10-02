@@ -112,21 +112,22 @@ function defaultPublicSettings() {
     announcement_text: '', announcement_auto: true, trust_strip_json: [], home_layout: 'A', home_pinned_rows_json: [],
     home_sections_json: ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed'],
     show_category_menu: true, show_all_products_link: true,
-    logo_mode: 'LOGO_AND_NAME', logo_height_px: 40, tab_title_format: '{page} — {shop}', tab_title_home: '',
+    logo_mode: 'LOGO_AND_NAME', logo_height_px: 40, tab_title_format: '{page} | {shop}', tab_title_home: '',
     banner_frequency: 'ALWAYS', banner_start: 'FIRST', product_image_ratio: 'SQUARE',
     header_bg: '', catbar_bg: '', announcement_bg: '', footer_bg: '', hero_bg: '', button_bg: '', page_bg: '',
     delivery_display: 'DATE', delivery_custom_text: '',
     footer_sections_json: ['about', 'care', 'policies', 'payments'], footer_columns_json: [], footer_about_text: '',
     footer_show_contact: true, footer_show_social: true, footer_show_hours: true, footer_copyright_text: '© {year} {shop}',
-    hero_cover_json: null,
-    store_open: true, weekly_hours_json: {}, closed_message: 'We are currently closed. You can still browse — ordering opens again soon.',
+    hero_cover_json: null, brand_gradient: '', brand_gradient_areas: [], ui_text_case: 'TITLE',
+    footer_show_logo: true, footer_logo_height_px: 72,
+    store_open: true, weekly_hours_json: {}, closed_message: 'We are currently closed. You can still browse. Ordering opens again soon.',
     hours_text: '', legal_name: '', contact_phone: '', contact_email: '', whatsapp_number: '', address_line1: '', address_line2: '',
     city: '', state: 'Tamil Nadu', shop_pincode: '', maps_url: '', social_json: {}, gstin: '', gst_mode: 'UNREGISTERED',
     footer_text: '', show_busy_banner: false, prices_include_tax: true, show_inclusive_tax_note: true, shipping_mode: 'FLAT',
     shipping_flat_paise: 4900, shipping_percent: 0, free_shipping_above_paise: 49900, default_delivery_days: 5,
     skip_sundays_delivery: false, cod_max_order_paise: 500000,
-    customer_full_message: 'Thank you for shopping with us! We have received the maximum number of orders we can handle today. Please come back {reopen_time} — your cart is saved.',
-    customer_busy_message: 'We are very busy right now. Please try again in a few minutes — your cart is saved.',
+    customer_full_message: 'Thank you for shopping with us! We have received the maximum number of orders we can handle today. Please come back {reopen_time}. Your cart is saved.',
+    customer_busy_message: 'We are very busy right now. Please try again in a few minutes. Your cart is saved.',
     reopen_time_text: 'tomorrow morning', reviews_enabled: true,
     // v1.9 additions (owner-controlled; see docs/V1.9_ADDITIONS.md)
     ...DISPLAY_DEFAULTS,
@@ -144,7 +145,7 @@ function defaultPublicSettings() {
 const DEMO = {
   name: 'Demo Shop', legal_name: 'Demo Shop (sample details)', phone: '9876543210', whatsapp: '9876543210',
   email: 'hello@example.com', address_line1: '12, Market Road', city: 'Coimbatore', state: 'Tamil Nadu', pincode: '641001',
-  default_title: 'Demo Shop — shop online', default_description: 'Fresh sweets, spices, kitchenware and clothing, delivered to your door.'
+  default_title: 'Demo Shop | Shop Online', default_description: 'Fresh sweets, spices, kitchenware and clothing, delivered to your door.'
 };
 
 function cfgValue(v, demoKey) {
@@ -286,9 +287,9 @@ function loadPages(settings) {
   const fill = (s) => String(s || '')
     .replace(/\{business_name\}/g, settings.business_name)
     .replace(/\{legal_name\}/g, settings.legal_name || settings.business_name)
-    .replace(/\{address\}/g, address || '—')
-    .replace(/\{email\}/g, settings.contact_email || '—')
-    .replace(/\{phone\}/g, settings.contact_phone ? '+91 ' + settings.contact_phone : '—')
+    .replace(/\{address\}/g, address || '-')
+    .replace(/\{email\}/g, settings.contact_email || '-')
+    .replace(/\{phone\}/g, settings.contact_phone ? '+91 ' + settings.contact_phone : '-')
     .replace(/\{gstin\}/g, settings.gstin || 'Not registered')
     .replace(/\{state\}/g, settings.state || 'India');
   return list.filter((p) => p && p.slug && SLUG_RE.test(p.slug) && p.title).map((p) => ({ ...p, html: fill(p.html) }));
@@ -423,7 +424,7 @@ function checkBrandFiles(settings) {
     else if (!fs.existsSync(file)) { warn(`Logo: "${decodeURI(src)}" was not found (spelling and capital letters matter). The shop name is shown instead.`); settings.logo_path = ''; }
     else {
       const kb = Math.round(fs.statSync(file).size / 1024);
-      if (kb > L.logo_file_kb) warn(`Logo: the file is ${kb} KB — please keep it under ${L.logo_file_kb} KB (an SVG, or a PNG about 480 × 120 pixels).`);
+      if (kb > L.logo_file_kb) warn(`Logo: the file is ${kb} KB. Please keep it under ${L.logo_file_kb} KB (an SVG, or a PNG about 480 × 120 pixels).`);
       const dim = imageSize(file);
       if (dim && dim.width && dim.height) {
         settings._logo_w = dim.width; settings._logo_h = dim.height;
@@ -433,7 +434,7 @@ function checkBrandFiles(settings) {
   }
   const raw = Number(settings.logo_height_px);
   if (settings.logo_height_px !== undefined && (!Number.isFinite(raw) || raw < L.logo_height_px.min || raw > L.logo_height_px.max)) {
-    warn(`Logo height: ${settings.logo_height_px} is outside the allowed ${L.logo_height_px.min}–${L.logo_height_px.max} pixels, so ${Math.max(L.logo_height_px.min, Math.min(L.logo_height_px.max, Math.round(raw) || L.logo_height_px.default))} is used. (Phones always use at most 44 pixels.)`);
+    warn(`Logo height: ${settings.logo_height_px} is outside the allowed ${L.logo_height_px.min} to ${L.logo_height_px.max} pixels, so ${Math.max(L.logo_height_px.min, Math.min(L.logo_height_px.max, Math.round(raw) || L.logo_height_px.default))} is used. (Phones always use at most 44 pixels.)`);
   }
   settings._favicon = null;
   if (settings.favicon_path) {
@@ -444,9 +445,9 @@ function checkBrandFiles(settings) {
     else {
       const dim = imageSize(file) || {};
       const kb = Math.round(fs.statSync(file).size / 1024);
-      if (kb > L.favicon_file_kb) warn(`Favicon: the file is ${kb} KB — please keep it under ${L.favicon_file_kb} KB.`);
+      if (kb > L.favicon_file_kb) warn(`Favicon: the file is ${kb} KB. Please keep it under ${L.favicon_file_kb} KB.`);
       if (dim.width && dim.height && dim.width !== dim.height) warn(`Favicon: it is ${dim.width} × ${dim.height}. It should be square (best 512 × 512), otherwise browsers squash it.`);
-      if (dim.type === 'png' && dim.width && dim.width < L.favicon_min_px) warn(`Favicon: ${dim.width} pixels is too small — use at least ${L.favicon_min_px} (best 512 × 512).`);
+      if (dim.type === 'png' && dim.width && dim.width < L.favicon_min_px) warn(`Favicon: ${dim.width} pixels is too small. Use at least ${L.favicon_min_px} (best 512 × 512).`);
       settings._favicon = { src, type: /\.svg$/i.test(src) ? 'image/svg+xml' : /\.ico$/i.test(src) ? 'image/x-icon' : 'image/png', size: dim.width || 0 };
     }
   }
@@ -455,7 +456,7 @@ function checkBrandFiles(settings) {
     const icons = new Set([...sprite.matchAll(/id="i-([a-z0-9-]+)"/g)].map((m) => m[1]));
     if (settings.trust_strip_json.length > L.trust_items) warn(`Trust strip: ${settings.trust_strip_json.length} items; the limit is ${L.trust_items}.`);
     settings.trust_strip_json.forEach((it, i) => {
-      if (!it || !it.text) { warn(`Trust strip item ${i + 1} has no "text" — skipped.`); return; }
+      if (!it || !it.text) { warn(`Trust strip item ${i + 1} has no "text". Skipped.`); return; }
       if (it.icon && !icons.has(it.icon)) {
         warn(`Trust strip "${it.text}": there is no icon called "${it.icon}" (a tick is shown). Icons: ${[...icons].join(', ')}.`);
         settings.trust_strip_json[i] = { ...it, icon: 'check' };
@@ -464,7 +465,7 @@ function checkBrandFiles(settings) {
     });
   }
   const fmt = String(settings.tab_title_format || '');
-  if (fmt && !fmt.includes('{page}')) warn('Tab names: tab_title_format must contain {page} (for example "{page} — {shop}"). The standard format is used.');
+  if (fmt && !fmt.includes('{page}')) warn('Tab names: tab_title_format must contain {page} (for example "{page} | {shop}"). The standard format is used.');
   const homeT = T.tabTitle(settings, '') || '';
   if (homeT.length > L.tab_title_chars) warn(`Tab names: the home page name is ${homeT.length} characters; Google shows about ${L.tab_title_chars}.`);
   checkPaints(settings).forEach(warn);
@@ -530,8 +531,8 @@ function checkPopupImages(settings) {
       return;
     }
     const kb = Math.round(fs.statSync(file).size / 1024);
-    if (kb > 500) warn(`${name}: the picture is ${kb} KB — please make it smaller than 500 KB (about 1080 × 1350 pixels, saved as JPG or WebP) so it opens quickly on phones.`);
-    if (!pp.title && !pp.text && !pp.image_alt) warn(`${name}: add "image_alt" — a short description of the poster for blind customers (example: "Diwali sale, 20% off all sweets").`);
+    if (kb > 500) warn(`${name}: the picture is ${kb} KB. Please make it smaller than 500 KB (about 1080 × 1350 pixels, saved as JPG or WebP) so it opens quickly on phones.`);
+    if (!pp.title && !pp.text && !pp.image_alt) warn(`${name}: add "image_alt". A short description of the poster for blind customers (example: "Diwali sale, 20% off all sweets").`);
   });
 }
 
@@ -633,7 +634,7 @@ function main() {
   /* --- languages: the default at the site root, others under /<code>/ */
   const wanted = Array.isArray(settings.languages_json) ? settings.languages_json : ['en'];
   const codes = wanted.filter((c, i) => LANGUAGES[c] && wanted.indexOf(c) === i && fs.existsSync(path.join(PUB, 'strings', c + '.json')));
-  wanted.filter((c) => !codes.includes(c)).forEach((c) => warn(`Language "${c}" isn't available (no strings/${c}.json) — skipped.`));
+  wanted.filter((c) => !codes.includes(c)).forEach((c) => warn(`Language "${c}" isn't available (no strings/${c}.json). Skipped.`));
   if (!codes.length) codes.push('en');
   const defaultLang = codes.includes(settings.default_language) ? settings.default_language : codes[0];
   const overridesAll = settings.text_overrides_json && typeof settings.text_overrides_json === 'object' ? settings.text_overrides_json : {};
@@ -833,13 +834,13 @@ function main() {
   const fileCount = listFiles(DIST).length;
 
   console.log('');
-  console.log(`  ✓ ${catalog.products.length} products, ${catalog.categories.length} categories${sample ? ' (SAMPLE catalogue — replaced when you first publish from the admin)' : ''}`);
+  console.log(`  ✓ ${catalog.products.length} products, ${catalog.categories.length} categories${sample ? ' (SAMPLE catalogue. Replaced when you first publish from the admin)' : ''}`);
   console.log(`  ✓ Languages: ${codes.map((c) => LANGUAGES[c].name + (c === defaultLang ? ' (main)' : ' (/' + c + '/)')).join(', ')}`);
   console.log(`  ✓ ${productPages} product pages, ${cat.categories.length} category pages, ${pages.length} info pages`);
   console.log(`  ✓ ${copied} files copied, ${imgCount} sample pictures drawn, ${fileCount} files in total (Cloudflare limit 20,000)`);
   console.log(`  ✓ Sizes (gzip): first-load JavaScript ${(jsGz / 1024).toFixed(1)} KB (budget 100), CSS ${(cssGz / 1024).toFixed(1)} KB (budget 30), catalogue ${(catGz / 1024).toFixed(1)} KB (budget 300)`);
   if (log.skipped.length) {
-    console.log(`\n  Skipped ${log.skipped.length} item(s) — fix them in the admin, they will appear on the next publish:`);
+    console.log(`\n  Skipped ${log.skipped.length} item(s). Fix them in the admin, they will appear on the next publish:`);
     log.skipped.forEach((s) => console.log('   - ' + s));
   }
   if (!PRODUCTION) console.log('\n  Practice mode: search engines are told not to list this shop. Set PRODUCTION=1 when going live.');

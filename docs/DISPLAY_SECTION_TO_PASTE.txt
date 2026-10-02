@@ -36,7 +36,7 @@ Instead, add this "display" section to it on GitHub:
       {
         "id": "welcome-demo",
         "active": true,
-        "title": "Festive offer — 10% off",
+        "title": "Festive Offer: 10% Off",
         "text": "A sample offer popup. Change or remove it in client/store.config.json (later: Admin → Offers & popups).",
         "code": "FESTIVE10",
         "cta_text": "Shop sweets",

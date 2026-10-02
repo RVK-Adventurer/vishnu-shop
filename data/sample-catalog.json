@@ -1,3179 +1,3179 @@
 {
- "format": 1,
- "is_sample": true,
- "categories": [
-  {
-   "id": "cat-sweets",
-   "name": "Sweets & Snacks",
-   "slug": "sweets-snacks",
-   "sort": 1,
-   "parent_id": "",
-   "image": "/assets/images/sample/cat-sweets-snacks.svg"
-  },
-  {
-   "id": "cat-spices",
-   "name": "Spices & Masalas",
-   "slug": "spices-masalas",
-   "sort": 2,
-   "parent_id": "",
-   "image": "/assets/images/sample/cat-spices-masalas.svg"
-  },
-  {
-   "id": "cat-kitchen",
-   "name": "Home & Kitchen",
-   "slug": "home-kitchen",
-   "sort": 3,
-   "parent_id": "",
-   "image": "/assets/images/sample/cat-home-kitchen.svg"
-  },
-  {
-   "id": "cat-clothing",
-   "name": "Clothing",
-   "slug": "clothing",
-   "sort": 4,
-   "parent_id": "",
-   "image": "/assets/images/sample/cat-clothing.svg"
-  }
- ],
- "products": [
-  {
-   "id": "P0001",
-   "slug": "kaju-katli",
-   "name": "Kaju Katli",
-   "short": "Silky cashew fudge with a thin silver leaf, made fresh every morning.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "cashew",
-    "festival",
-    "gift"
-   ],
-   "brand": "Sri Annapoorna Sweets",
-   "gst_rate": 5,
-   "hsn": "1704",
-   "rating_avg": 4.7,
-   "rating_count": 214,
-   "created_days_ago": 40,
-   "bestseller_rank": 1,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
+  "format": 1,
+  "is_sample": true,
+  "categories": [
     {
-     "sku": "P0001-1",
-     "options": {
-      "Weight": "250 g"
-     },
-     "price": 32000,
-     "mrp": 36000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "id": "cat-sweets",
+      "name": "Sweets & Snacks",
+      "slug": "sweets-snacks",
+      "sort": 1,
+      "parent_id": "",
+      "image": "/assets/images/sample/cat-sweets-snacks.svg"
     },
     {
-     "sku": "P0001-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 62000,
-     "mrp": 70000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "id": "cat-spices",
+      "name": "Spices & Masalas",
+      "slug": "spices-masalas",
+      "sort": 2,
+      "parent_id": "",
+      "image": "/assets/images/sample/cat-spices-masalas.svg"
     },
     {
-     "sku": "P0001-3",
-     "options": {
-      "Weight": "1 kg"
-     },
-     "price": 119900,
-     "mrp": 140000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "id": "cat-kitchen",
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "sort": 3,
+      "parent_id": "",
+      "image": "/assets/images/sample/cat-home-kitchen.svg"
+    },
+    {
+      "id": "cat-clothing",
+      "name": "Clothing",
+      "slug": "clothing",
+      "sort": 4,
+      "parent_id": "",
+      "image": "/assets/images/sample/cat-clothing.svg"
     }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/kaju-katli-1.svg",
-     "card": "/assets/images/sample/kaju-katli-1.svg",
-     "full": "/assets/images/sample/kaju-katli-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kaju Katli"
-    },
-    {
-     "thumb": "/assets/images/sample/kaju-katli-2.svg",
-     "card": "/assets/images/sample/kaju-katli-2.svg",
-     "full": "/assets/images/sample/kaju-katli-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kaju Katli — another view"
-    }
-   ],
-   "description_html": "<p>Silky cashew fudge with a thin silver leaf, made fresh every morning.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Sri Annapoorna Sweets"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "Weight",
-     "250 g, 500 g, 1 kg"
-    ],
-    [
-     "HSN code",
-     "1704"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1498,
-   "sold_30d": 107,
-   "highlights": [
-    "Made fresh every morning with premium cashews",
-    "Thin edible silver leaf (vark)",
-    "No added colours or preservatives",
-    "Gift-ready box, sealed for freshness"
-   ]
-  },
-  {
-   "id": "P0002",
-   "slug": "mysore-pak",
-   "name": "Ghee Mysore Pak",
-   "short": "Melt-in-the-mouth gram flour sweet made with pure cow ghee.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "ghee",
-    "festival"
-   ],
-   "brand": "Sri Annapoorna Sweets",
-   "gst_rate": 5,
-   "hsn": "1704",
-   "rating_avg": 4.6,
-   "rating_count": 180,
-   "created_days_ago": 60,
-   "bestseller_rank": 2,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0002-1",
-     "options": {
-      "Weight": "250 g"
-     },
-     "price": 28000,
-     "mrp": 30000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0002-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 54000,
-     "mrp": 58000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/mysore-pak-1.svg",
-     "card": "/assets/images/sample/mysore-pak-1.svg",
-     "full": "/assets/images/sample/mysore-pak-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Ghee Mysore Pak"
-    },
-    {
-     "thumb": "/assets/images/sample/mysore-pak-2.svg",
-     "card": "/assets/images/sample/mysore-pak-2.svg",
-     "full": "/assets/images/sample/mysore-pak-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Ghee Mysore Pak — another view"
-    }
-   ],
-   "description_html": "<p>Melt-in-the-mouth gram flour sweet made with pure cow ghee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Sri Annapoorna Sweets"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "Weight",
-     "250 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "1704"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1273,
-   "sold_30d": 87
-  },
-  {
-   "id": "P0003",
-   "slug": "motichoor-ladoo",
-   "name": "Motichoor Ladoo",
-   "short": "Tiny boondi pearls bound with saffron syrup and a hint of cardamom.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "ladoo",
-    "festival"
-   ],
-   "brand": "Sri Annapoorna Sweets",
-   "gst_rate": 5,
-   "hsn": "1704",
-   "rating_avg": 4.4,
-   "rating_count": 96,
-   "created_days_ago": 5,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0003-1",
-     "options": {
-      "Weight": "250 g"
-     },
-     "price": 22000,
-     "mrp": 24000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0003-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 42000,
-     "mrp": 46000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/motichoor-ladoo-1.svg",
-     "card": "/assets/images/sample/motichoor-ladoo-1.svg",
-     "full": "/assets/images/sample/motichoor-ladoo-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Motichoor Ladoo"
-    },
-    {
-     "thumb": "/assets/images/sample/motichoor-ladoo-2.svg",
-     "card": "/assets/images/sample/motichoor-ladoo-2.svg",
-     "full": "/assets/images/sample/motichoor-ladoo-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Motichoor Ladoo — another view"
-    }
-   ],
-   "description_html": "<p>Tiny boondi pearls bound with saffron syrup and a hint of cardamom.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Sri Annapoorna Sweets"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "Weight",
-     "250 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "1704"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 698,
-   "sold_30d": 42
-  },
-  {
-   "id": "P0004",
-   "slug": "masala-murukku",
-   "name": "Masala Murukku",
-   "short": "Crunchy rice and urad dal spirals with a gentle chilli kick.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "snack",
-    "savoury"
-   ],
-   "brand": "Grandma's Kitchen",
-   "gst_rate": 5,
-   "hsn": "2106",
-   "rating_avg": 4.5,
-   "rating_count": 152,
-   "created_days_ago": 30,
-   "bestseller_rank": 4,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0004-1",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 9000,
-     "mrp": 11000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0004-2",
-     "options": {
-      "Weight": "400 g"
-     },
-     "price": 17000,
-     "mrp": 20000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/masala-murukku-1.svg",
-     "card": "/assets/images/sample/masala-murukku-1.svg",
-     "full": "/assets/images/sample/masala-murukku-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Masala Murukku"
-    },
-    {
-     "thumb": "/assets/images/sample/masala-murukku-2.svg",
-     "card": "/assets/images/sample/masala-murukku-2.svg",
-     "full": "/assets/images/sample/masala-murukku-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Masala Murukku — another view"
-    }
-   ],
-   "description_html": "<p>Crunchy rice and urad dal spirals with a gentle chilli kick.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Grandma's Kitchen"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "Weight",
-     "200 g, 400 g"
-    ],
-    [
-     "HSN code",
-     "2106"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1103,
-   "sold_30d": 67
-  },
-  {
-   "id": "P0005",
-   "slug": "banana-chips",
-   "name": "Kerala Banana Chips",
-   "short": "Thin nendran banana chips fried in coconut oil.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "snack",
-    "kerala"
-   ],
-   "brand": "Grandma's Kitchen",
-   "gst_rate": 5,
-   "hsn": "2008",
-   "rating_avg": 4.3,
-   "rating_count": 88,
-   "created_days_ago": 90,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0005-1",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 11000,
-     "mrp": 12000,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    },
-    {
-     "sku": "P0005-2",
-     "options": {
-      "Weight": "400 g"
-     },
-     "price": 21000,
-     "mrp": 23000,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/banana-chips-1.svg",
-     "card": "/assets/images/sample/banana-chips-1.svg",
-     "full": "/assets/images/sample/banana-chips-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kerala Banana Chips"
-    },
-    {
-     "thumb": "/assets/images/sample/banana-chips-2.svg",
-     "card": "/assets/images/sample/banana-chips-2.svg",
-     "full": "/assets/images/sample/banana-chips-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kerala Banana Chips — another view"
-    }
-   ],
-   "description_html": "<p>Thin nendran banana chips fried in coconut oil.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Grandma's Kitchen"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "Weight",
-     "200 g, 400 g"
-    ],
-    [
-     "HSN code",
-     "2008"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 668,
-   "sold_30d": 32
-  },
-  {
-   "id": "P0006",
-   "slug": "badam-halwa",
-   "name": "Badam Halwa",
-   "short": "Rich almond halwa slow-cooked in ghee — a festive favourite.",
-   "category_id": "cat-sweets",
-   "tags": [
-    "almond",
-    "festival"
-   ],
-   "brand": "Sri Annapoorna Sweets",
-   "gst_rate": 5,
-   "hsn": "1704",
-   "rating_avg": 4.8,
-   "rating_count": 64,
-   "created_days_ago": 3,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [],
-   "variants": [
-    {
-     "sku": "P0006-1",
-     "options": {},
-     "price": 45000,
-     "mrp": 45000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/badam-halwa-1.svg",
-     "card": "/assets/images/sample/badam-halwa-1.svg",
-     "full": "/assets/images/sample/badam-halwa-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Badam Halwa"
-    },
-    {
-     "thumb": "/assets/images/sample/badam-halwa-2.svg",
-     "card": "/assets/images/sample/badam-halwa-2.svg",
-     "full": "/assets/images/sample/badam-halwa-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Badam Halwa — another view"
-    }
-   ],
-   "description_html": "<p>Rich almond halwa slow-cooked in ghee — a festive favourite.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Sri Annapoorna Sweets"
-    ],
-    [
-     "Category",
-     "Sweets & Snacks"
-    ],
-    [
-     "HSN code",
-     "1704"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 513,
-   "sold_30d": 17
-  },
-  {
-   "id": "P0007",
-   "slug": "sambar-powder",
-   "name": "Sambar Powder",
-   "short": "Stone-ground blend of roasted lentils, coriander and red chillies.",
-   "category_id": "cat-spices",
-   "tags": [
-    "masala",
-    "south indian"
-   ],
-   "brand": "Amma Masala",
-   "gst_rate": 5,
-   "hsn": "0910",
-   "rating_avg": 4.6,
-   "rating_count": 302,
-   "created_days_ago": 120,
-   "bestseller_rank": 3,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0007-1",
-     "options": {
-      "Weight": "100 g"
-     },
-     "price": 5500,
-     "mrp": 6500,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0007-2",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 9900,
-     "mrp": 12000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0007-3",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 23000,
-     "mrp": 27000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/sambar-powder-1.svg",
-     "card": "/assets/images/sample/sambar-powder-1.svg",
-     "full": "/assets/images/sample/sambar-powder-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Sambar Powder"
-    },
-    {
-     "thumb": "/assets/images/sample/sambar-powder-2.svg",
-     "card": "/assets/images/sample/sambar-powder-2.svg",
-     "full": "/assets/images/sample/sambar-powder-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Sambar Powder — another view"
-    }
-   ],
-   "description_html": "<p>Stone-ground blend of roasted lentils, coriander and red chillies.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Amma Masala"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "100 g, 200 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "0910"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 2192,
-   "sold_30d": 133
-  },
-  {
-   "id": "P0008",
-   "slug": "garam-masala",
-   "name": "Garam Masala",
-   "short": "Warm, aromatic whole-spice blend for curries and biryani.",
-   "category_id": "cat-spices",
-   "tags": [
-    "masala"
-   ],
-   "brand": "Amma Masala",
-   "gst_rate": 5,
-   "hsn": "0910",
-   "rating_avg": 4.5,
-   "rating_count": 141,
-   "created_days_ago": 75,
-   "bestseller_rank": 6,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0008-1",
-     "options": {
-      "Weight": "100 g"
-     },
-     "price": 7000,
-     "mrp": 8000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0008-2",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 13000,
-     "mrp": 15000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/garam-masala-1.svg",
-     "card": "/assets/images/sample/garam-masala-1.svg",
-     "full": "/assets/images/sample/garam-masala-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Garam Masala"
-    },
-    {
-     "thumb": "/assets/images/sample/garam-masala-2.svg",
-     "card": "/assets/images/sample/garam-masala-2.svg",
-     "full": "/assets/images/sample/garam-masala-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Garam Masala — another view"
-    }
-   ],
-   "description_html": "<p>Warm, aromatic whole-spice blend for curries and biryani.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Amma Masala"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "100 g, 200 g"
-    ],
-    [
-     "HSN code",
-     "0910"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1078,
-   "sold_30d": 49
-  },
-  {
-   "id": "P0009",
-   "slug": "turmeric-powder",
-   "name": "Turmeric Powder",
-   "short": "Bright Erode turmeric, sun-dried and finely ground.",
-   "category_id": "cat-spices",
-   "tags": [
-    "haldi",
-    "everyday"
-   ],
-   "brand": "Amma Masala",
-   "gst_rate": 5,
-   "hsn": "0910",
-   "rating_avg": 4.4,
-   "rating_count": 120,
-   "created_days_ago": 200,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0009-1",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 6000,
-     "mrp": 7000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0009-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 14000,
-     "mrp": 16000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/turmeric-powder-1.svg",
-     "card": "/assets/images/sample/turmeric-powder-1.svg",
-     "full": "/assets/images/sample/turmeric-powder-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Turmeric Powder"
-    },
-    {
-     "thumb": "/assets/images/sample/turmeric-powder-2.svg",
-     "card": "/assets/images/sample/turmeric-powder-2.svg",
-     "full": "/assets/images/sample/turmeric-powder-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Turmeric Powder — another view"
-    }
-   ],
-   "description_html": "<p>Bright Erode turmeric, sun-dried and finely ground.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Amma Masala"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "200 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "0910"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 944,
-   "sold_30d": 36
-  },
-  {
-   "id": "P0010",
-   "slug": "red-chilli-powder",
-   "name": "Red Chilli Powder",
-   "short": "Medium-hot chilli powder with deep red colour.",
-   "category_id": "cat-spices",
-   "tags": [
-    "chilli",
-    "everyday"
-   ],
-   "brand": "Amma Masala",
-   "gst_rate": 5,
-   "hsn": "0904",
-   "rating_avg": 4.2,
-   "rating_count": 77,
-   "created_days_ago": 150,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0010-1",
-     "options": {
-      "Weight": "200 g"
-     },
-     "price": 7500,
-     "mrp": 8500,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0010-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 17500,
-     "mrp": 19500,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/red-chilli-powder-1.svg",
-     "card": "/assets/images/sample/red-chilli-powder-1.svg",
-     "full": "/assets/images/sample/red-chilli-powder-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Red Chilli Powder"
-    },
-    {
-     "thumb": "/assets/images/sample/red-chilli-powder-2.svg",
-     "card": "/assets/images/sample/red-chilli-powder-2.svg",
-     "full": "/assets/images/sample/red-chilli-powder-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Red Chilli Powder — another view"
-    }
-   ],
-   "description_html": "<p>Medium-hot chilli powder with deep red colour.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Amma Masala"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "200 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "0904"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 656,
-   "sold_30d": 11
-  },
-  {
-   "id": "P0011",
-   "slug": "filter-coffee",
-   "name": "Filter Coffee Powder",
-   "short": "80:20 coffee–chicory blend for strong, frothy filter coffee.",
-   "category_id": "cat-spices",
-   "tags": [
-    "coffee",
-    "beverage"
-   ],
-   "brand": "Kaapi House",
-   "gst_rate": 5,
-   "hsn": "0901",
-   "rating_avg": 4.8,
-   "rating_count": 265,
-   "created_days_ago": 20,
-   "bestseller_rank": 5,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0011-1",
-     "options": {
-      "Weight": "250 g"
-     },
-     "price": 19000,
-     "mrp": 22000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0011-2",
-     "options": {
-      "Weight": "500 g"
-     },
-     "price": 36000,
-     "mrp": 42000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/filter-coffee-1.svg",
-     "card": "/assets/images/sample/filter-coffee-1.svg",
-     "full": "/assets/images/sample/filter-coffee-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Filter Coffee Powder"
-    },
-    {
-     "thumb": "/assets/images/sample/filter-coffee-2.svg",
-     "card": "/assets/images/sample/filter-coffee-2.svg",
-     "full": "/assets/images/sample/filter-coffee-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Filter Coffee Powder — another view"
-    }
-   ],
-   "description_html": "<p>80:20 coffee–chicory blend for strong, frothy filter coffee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Kaapi House"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "250 g, 500 g"
-    ],
-    [
-     "HSN code",
-     "0901"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1985,
-   "sold_30d": 102
-  },
-  {
-   "id": "P0012",
-   "slug": "green-cardamom",
-   "name": "Green Cardamom",
-   "short": "Bold 8 mm Idukki cardamom pods, full of aroma.",
-   "category_id": "cat-spices",
-   "tags": [
-    "elaichi",
-    "premium"
-   ],
-   "brand": "Amma Masala",
-   "gst_rate": 5,
-   "hsn": "0908",
-   "rating_avg": 4.7,
-   "rating_count": 58,
-   "created_days_ago": 9,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Weight"
-   ],
-   "variants": [
-    {
-     "sku": "P0012-1",
-     "options": {
-      "Weight": "50 g"
-     },
-     "price": 18000,
-     "mrp": 20000,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    },
-    {
-     "sku": "P0012-2",
-     "options": {
-      "Weight": "100 g"
-     },
-     "price": 34000,
-     "mrp": 38000,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/green-cardamom-1.svg",
-     "card": "/assets/images/sample/green-cardamom-1.svg",
-     "full": "/assets/images/sample/green-cardamom-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Green Cardamom"
-    },
-    {
-     "thumb": "/assets/images/sample/green-cardamom-2.svg",
-     "card": "/assets/images/sample/green-cardamom-2.svg",
-     "full": "/assets/images/sample/green-cardamom-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Green Cardamom — another view"
-    }
-   ],
-   "description_html": "<p>Bold 8 mm Idukki cardamom pods, full of aroma.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Amma Masala"
-    ],
-    [
-     "Category",
-     "Spices & Masalas"
-    ],
-    [
-     "Weight",
-     "50 g, 100 g"
-    ],
-    [
-     "HSN code",
-     "0908"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 549,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0013",
-   "slug": "brass-diya-set",
-   "name": "Brass Diya Set",
-   "short": "Hand-polished brass lamps for pooja and festive décor.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "pooja",
-    "diwali",
-    "gift"
-   ],
-   "brand": "Kalai Crafts",
-   "gst_rate": 18,
-   "hsn": "7418",
-   "rating_avg": 4.6,
-   "rating_count": 73,
-   "created_days_ago": 12,
-   "bestseller_rank": 7,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Pack"
-   ],
-   "variants": [
-    {
-     "sku": "P0013-1",
-     "options": {
-      "Pack": "Set of 2"
-     },
-     "price": 49900,
-     "mrp": 65000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0013-2",
-     "options": {
-      "Pack": "Set of 4"
-     },
-     "price": 89900,
-     "mrp": 120000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/brass-diya-set-1.svg",
-     "card": "/assets/images/sample/brass-diya-set-1.svg",
-     "full": "/assets/images/sample/brass-diya-set-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Brass Diya Set"
-    },
-    {
-     "thumb": "/assets/images/sample/brass-diya-set-2.svg",
-     "card": "/assets/images/sample/brass-diya-set-2.svg",
-     "full": "/assets/images/sample/brass-diya-set-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Brass Diya Set — another view"
-    }
-   ],
-   "description_html": "<p>Hand-polished brass lamps for pooja and festive décor.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Kalai Crafts"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "Pack",
-     "Set of 2, Set of 4"
-    ],
-    [
-     "HSN code",
-     "7418"
-    ],
-    [
-     "GST",
-     "18%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 667,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0014",
-   "slug": "copper-bottle",
-   "name": "Copper Water Bottle",
-   "short": "Leak-proof pure copper bottle with a smooth matte finish.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "copper",
-    "health"
-   ],
-   "brand": "Kalai Crafts",
-   "gst_rate": 18,
-   "hsn": "7418",
-   "rating_avg": 4.5,
-   "rating_count": 190,
-   "created_days_ago": 45,
-   "bestseller_rank": 8,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0014-1",
-     "options": {
-      "Size": "750 ml"
-     },
-     "price": 69900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0014-2",
-     "options": {
-      "Size": "1 litre"
-     },
-     "price": 84900,
-     "mrp": 119900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/copper-bottle-1.svg",
-     "card": "/assets/images/sample/copper-bottle-1.svg",
-     "full": "/assets/images/sample/copper-bottle-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Copper Water Bottle"
-    },
-    {
-     "thumb": "/assets/images/sample/copper-bottle-2.svg",
-     "card": "/assets/images/sample/copper-bottle-2.svg",
-     "full": "/assets/images/sample/copper-bottle-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Copper Water Bottle — another view"
-    }
-   ],
-   "description_html": "<p>Leak-proof pure copper bottle with a smooth matte finish.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Kalai Crafts"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "Size",
-     "750 ml, 1 litre"
-    ],
-    [
-     "HSN code",
-     "7418"
-    ],
-    [
-     "GST",
-     "18%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1499,
-   "sold_30d": 56
-  },
-  {
-   "id": "P0015",
-   "slug": "steel-tiffin",
-   "name": "Stainless Steel Tiffin",
-   "short": "Food-grade steel lunch box with a sturdy clip lid.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "lunch",
-    "steel"
-   ],
-   "brand": "Kalai Crafts",
-   "gst_rate": 18,
-   "hsn": "7323",
-   "rating_avg": 4.3,
-   "rating_count": 66,
-   "created_days_ago": 100,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0015-1",
-     "options": {
-      "Size": "2 tier"
-     },
-     "price": 45000,
-     "mrp": 52000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0015-2",
-     "options": {
-      "Size": "3 tier"
-     },
-     "price": 59000,
-     "mrp": 68000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/steel-tiffin-1.svg",
-     "card": "/assets/images/sample/steel-tiffin-1.svg",
-     "full": "/assets/images/sample/steel-tiffin-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Stainless Steel Tiffin"
-    },
-    {
-     "thumb": "/assets/images/sample/steel-tiffin-2.svg",
-     "card": "/assets/images/sample/steel-tiffin-2.svg",
-     "full": "/assets/images/sample/steel-tiffin-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Stainless Steel Tiffin — another view"
-    }
-   ],
-   "description_html": "<p>Food-grade steel lunch box with a sturdy clip lid.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Kalai Crafts"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "Size",
-     "2 tier, 3 tier"
-    ],
-    [
-     "HSN code",
-     "7323"
-    ],
-    [
-     "GST",
-     "18%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 644,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0016",
-   "slug": "cast-iron-tawa",
-   "name": "Cast Iron Dosa Tawa",
-   "short": "Pre-seasoned 12-inch tawa for crisp dosas and rotis.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "cast iron",
-    "cookware"
-   ],
-   "brand": "Iron Craft",
-   "gst_rate": 18,
-   "hsn": "7323",
-   "rating_avg": 4.7,
-   "rating_count": 118,
-   "created_days_ago": 25,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [],
-   "variants": [
-    {
-     "sku": "P0016-1",
-     "options": {},
-     "price": 124900,
-     "mrp": 159900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/cast-iron-tawa-1.svg",
-     "card": "/assets/images/sample/cast-iron-tawa-1.svg",
-     "full": "/assets/images/sample/cast-iron-tawa-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Cast Iron Dosa Tawa"
-    },
-    {
-     "thumb": "/assets/images/sample/cast-iron-tawa-2.svg",
-     "card": "/assets/images/sample/cast-iron-tawa-2.svg",
-     "full": "/assets/images/sample/cast-iron-tawa-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Cast Iron Dosa Tawa — another view"
-    }
-   ],
-   "description_html": "<p>Pre-seasoned 12-inch tawa for crisp dosas and rotis.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Iron Craft"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "HSN code",
-     "7323"
-    ],
-    [
-     "GST",
-     "18%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1021,
-   "sold_30d": 14
-  },
-  {
-   "id": "P0017",
-   "slug": "clay-pot",
-   "name": "Clay Cooking Pot",
-   "short": "Unglazed terracotta pot for slow-cooked curries.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "clay",
-    "cookware"
-   ],
-   "brand": "Mann Pottery",
-   "gst_rate": 5,
-   "hsn": "6912",
-   "rating_avg": 4.1,
-   "rating_count": 34,
-   "created_days_ago": 2,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0017-1",
-     "options": {
-      "Size": "1 litre"
-     },
-     "price": 39900,
-     "mrp": 45000,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0017-2",
-     "options": {
-      "Size": "2 litre"
-     },
-     "price": 54900,
-     "mrp": 62000,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/clay-pot-1.svg",
-     "card": "/assets/images/sample/clay-pot-1.svg",
-     "full": "/assets/images/sample/clay-pot-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Clay Cooking Pot"
-    },
-    {
-     "thumb": "/assets/images/sample/clay-pot-2.svg",
-     "card": "/assets/images/sample/clay-pot-2.svg",
-     "full": "/assets/images/sample/clay-pot-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Clay Cooking Pot — another view"
-    }
-   ],
-   "description_html": "<p>Unglazed terracotta pot for slow-cooked curries.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Mann Pottery"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "Size",
-     "1 litre, 2 litre"
-    ],
-    [
-     "HSN code",
-     "6912"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 446,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0018",
-   "slug": "kitchen-towels",
-   "name": "Cotton Kitchen Towels",
-   "short": "Pack of 4 absorbent checked cotton towels.",
-   "category_id": "cat-kitchen",
-   "tags": [
-    "cotton",
-    "kitchen"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "6302",
-   "rating_avg": 4,
-   "rating_count": 41,
-   "created_days_ago": 60,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Colour"
-   ],
-   "variants": [
-    {
-     "sku": "P0018-1",
-     "options": {
-      "Colour": "Red"
-     },
-     "price": 29900,
-     "mrp": 34900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0018-2",
-     "options": {
-      "Colour": "Blue"
-     },
-     "price": 29900,
-     "mrp": 34900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0018-3",
-     "options": {
-      "Colour": "Green"
-     },
-     "price": 29900,
-     "mrp": 34900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/kitchen-towels-1.svg",
-     "card": "/assets/images/sample/kitchen-towels-1.svg",
-     "full": "/assets/images/sample/kitchen-towels-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Cotton Kitchen Towels"
-    },
-    {
-     "thumb": "/assets/images/sample/kitchen-towels-2.svg",
-     "card": "/assets/images/sample/kitchen-towels-2.svg",
-     "full": "/assets/images/sample/kitchen-towels-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Cotton Kitchen Towels — another view"
-    }
-   ],
-   "description_html": "<p>Pack of 4 absorbent checked cotton towels.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Weave Works"
-    ],
-    [
-     "Category",
-     "Home & Kitchen"
-    ],
-    [
-     "Colour",
-     "Red, Blue, Green"
-    ],
-    [
-     "HSN code",
-     "6302"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 508,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0019",
-   "slug": "cotton-saree",
-   "name": "Handloom Cotton Saree",
-   "short": "Soft handloom cotton saree with a contrast zari border.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "saree",
-    "handloom"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "5208",
-   "rating_avg": 4.6,
-   "rating_count": 97,
-   "created_days_ago": 15,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Colour"
-   ],
-   "variants": [
-    {
-     "sku": "P0019-1",
-     "options": {
-      "Colour": "Maroon"
-     },
-     "price": 189900,
-     "mrp": 249900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0019-2",
-     "options": {
-      "Colour": "Navy"
-     },
-     "price": 189900,
-     "mrp": 249900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0019-3",
-     "options": {
-      "Colour": "Mustard"
-     },
-     "price": 189900,
-     "mrp": 249900,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/cotton-saree-1.svg",
-     "card": "/assets/images/sample/cotton-saree-1.svg",
-     "full": "/assets/images/sample/cotton-saree-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Handloom Cotton Saree"
-    },
-    {
-     "thumb": "/assets/images/sample/cotton-saree-2.svg",
-     "card": "/assets/images/sample/cotton-saree-2.svg",
-     "full": "/assets/images/sample/cotton-saree-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Handloom Cotton Saree — another view"
-    }
-   ],
-   "description_html": "<p>Soft handloom cotton saree with a contrast zari border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Weave Works"
-    ],
-    [
-     "Category",
-     "Clothing"
-    ],
-    [
-     "Colour",
-     "Maroon, Navy, Mustard"
-    ],
-    [
-     "HSN code",
-     "5208"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 913,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0020",
-   "slug": "printed-kurti",
-   "name": "Printed Cotton Kurti",
-   "short": "Breathable straight-cut kurti with block-print motifs.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "kurti",
-    "cotton"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "6204",
-   "rating_avg": 4.3,
-   "rating_count": 129,
-   "created_days_ago": 7,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Colour",
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0020-1",
-     "options": {
-      "Colour": "Pink",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0,
-     "images": [
-      0,
-      1,
-      2
-     ]
-    },
-    {
-     "sku": "P0020-2",
-     "options": {
-      "Colour": "Pink",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0,
-     "images": [
-      0,
-      1,
-      2
-     ]
-    },
-    {
-     "sku": "P0020-3",
-     "options": {
-      "Colour": "Pink",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0,
-     "images": [
-      0,
-      1,
-      2
-     ]
-    },
-    {
-     "sku": "P0020-4",
-     "options": {
-      "Colour": "Pink",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0,
-     "images": [
-      0,
-      1,
-      2
-     ]
-    },
-    {
-     "sku": "P0020-5",
-     "options": {
-      "Colour": "Pink",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0,
-     "images": [
-      0,
-      1,
-      2
-     ]
-    },
-    {
-     "sku": "P0020-6",
-     "options": {
-      "Colour": "Bottle Green",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 3,
-     "images": [
-      3,
-      4,
-      5
-     ]
-    },
-    {
-     "sku": "P0020-7",
-     "options": {
-      "Colour": "Bottle Green",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 3,
-     "images": [
-      3,
-      4,
-      5
-     ]
-    },
-    {
-     "sku": "P0020-8",
-     "options": {
-      "Colour": "Bottle Green",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 3,
-     "images": [
-      3,
-      4,
-      5
-     ]
-    },
-    {
-     "sku": "P0020-9",
-     "options": {
-      "Colour": "Bottle Green",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 3,
-     "images": [
-      3,
-      4,
-      5
-     ]
-    },
-    {
-     "sku": "P0020-10",
-     "options": {
-      "Colour": "Bottle Green",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 3,
-     "images": [
-      3,
-      4,
-      5
-     ]
-    },
-    {
-     "sku": "P0020-11",
-     "options": {
-      "Colour": "Navy Blue",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 6,
-     "images": [
-      6,
-      7,
-      8
-     ]
-    },
-    {
-     "sku": "P0020-12",
-     "options": {
-      "Colour": "Navy Blue",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 6,
-     "images": [
-      6,
-      7,
-      8
-     ]
-    },
-    {
-     "sku": "P0020-13",
-     "options": {
-      "Colour": "Navy Blue",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 6,
-     "images": [
-      6,
-      7,
-      8
-     ]
-    },
-    {
-     "sku": "P0020-14",
-     "options": {
-      "Colour": "Navy Blue",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 6,
-     "images": [
-      6,
-      7,
-      8
-     ]
-    },
-    {
-     "sku": "P0020-15",
-     "options": {
-      "Colour": "Navy Blue",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 6,
-     "images": [
-      6,
-      7,
-      8
-     ]
-    },
-    {
-     "sku": "P0020-16",
-     "options": {
-      "Colour": "Mustard",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 9,
-     "images": [
-      9,
-      10,
-      11
-     ]
-    },
-    {
-     "sku": "P0020-17",
-     "options": {
-      "Colour": "Mustard",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 9,
-     "images": [
-      9,
-      10,
-      11
-     ]
-    },
-    {
-     "sku": "P0020-18",
-     "options": {
-      "Colour": "Mustard",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 9,
-     "images": [
-      9,
-      10,
-      11
-     ]
-    },
-    {
-     "sku": "P0020-19",
-     "options": {
-      "Colour": "Mustard",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 9,
-     "images": [
-      9,
-      10,
-      11
-     ]
-    },
-    {
-     "sku": "P0020-20",
-     "options": {
-      "Colour": "Mustard",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 9,
-     "images": [
-      9,
-      10,
-      11
-     ]
-    },
-    {
-     "sku": "P0020-21",
-     "options": {
-      "Colour": "Maroon",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 12,
-     "images": [
-      12,
-      13,
-      14
-     ]
-    },
-    {
-     "sku": "P0020-22",
-     "options": {
-      "Colour": "Maroon",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 12,
-     "images": [
-      12,
-      13,
-      14
-     ]
-    },
-    {
-     "sku": "P0020-23",
-     "options": {
-      "Colour": "Maroon",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 12,
-     "images": [
-      12,
-      13,
-      14
-     ]
-    },
-    {
-     "sku": "P0020-24",
-     "options": {
-      "Colour": "Maroon",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 12,
-     "images": [
-      12,
-      13,
-      14
-     ]
-    },
-    {
-     "sku": "P0020-25",
-     "options": {
-      "Colour": "Maroon",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 12,
-     "images": [
-      12,
-      13,
-      14
-     ]
-    },
-    {
-     "sku": "P0020-26",
-     "options": {
-      "Colour": "Peach",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 15,
-     "images": [
-      15,
-      16,
-      17
-     ]
-    },
-    {
-     "sku": "P0020-27",
-     "options": {
-      "Colour": "Peach",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 15,
-     "images": [
-      15,
-      16,
-      17
-     ]
-    },
-    {
-     "sku": "P0020-28",
-     "options": {
-      "Colour": "Peach",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 15,
-     "images": [
-      15,
-      16,
-      17
-     ]
-    },
-    {
-     "sku": "P0020-29",
-     "options": {
-      "Colour": "Peach",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 15,
-     "images": [
-      15,
-      16,
-      17
-     ]
-    },
-    {
-     "sku": "P0020-30",
-     "options": {
-      "Colour": "Peach",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 15,
-     "images": [
-      15,
-      16,
-      17
-     ]
-    },
-    {
-     "sku": "P0020-31",
-     "options": {
-      "Colour": "Teal",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 18,
-     "images": [
-      18,
-      19,
-      20
-     ]
-    },
-    {
-     "sku": "P0020-32",
-     "options": {
-      "Colour": "Teal",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 18,
-     "images": [
-      18,
-      19,
-      20
-     ]
-    },
-    {
-     "sku": "P0020-33",
-     "options": {
-      "Colour": "Teal",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 18,
-     "images": [
-      18,
-      19,
-      20
-     ]
-    },
-    {
-     "sku": "P0020-34",
-     "options": {
-      "Colour": "Teal",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 18,
-     "images": [
-      18,
-      19,
-      20
-     ]
-    },
-    {
-     "sku": "P0020-35",
-     "options": {
-      "Colour": "Teal",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 18,
-     "images": [
-      18,
-      19,
-      20
-     ]
-    },
-    {
-     "sku": "P0020-36",
-     "options": {
-      "Colour": "Mango Yellow",
-      "Size": "S"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 21,
-     "images": [
-      21,
-      22,
-      23
-     ]
-    },
-    {
-     "sku": "P0020-37",
-     "options": {
-      "Colour": "Mango Yellow",
-      "Size": "M"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 21,
-     "images": [
-      21,
-      22,
-      23
-     ]
-    },
-    {
-     "sku": "P0020-38",
-     "options": {
-      "Colour": "Mango Yellow",
-      "Size": "L"
-     },
-     "price": 74900,
-     "mrp": 99900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 21,
-     "images": [
-      21,
-      22,
-      23
-     ]
-    },
-    {
-     "sku": "P0020-39",
-     "options": {
-      "Colour": "Mango Yellow",
-      "Size": "XL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 21,
-     "images": [
-      21,
-      22,
-      23
-     ]
-    },
-    {
-     "sku": "P0020-40",
-     "options": {
-      "Colour": "Mango Yellow",
-      "Size": "XXL"
-     },
-     "price": 84900,
-     "mrp": 109900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 21,
-     "images": [
-      21,
-      22,
-      23
-     ]
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/printed-kurti-pink-1.svg",
-     "card": "/assets/images/sample/printed-kurti-pink-1.svg",
-     "full": "/assets/images/sample/printed-kurti-pink-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Pink, front view",
-     "sample_color": "#EC4899"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-pink-2.svg",
-     "card": "/assets/images/sample/printed-kurti-pink-2.svg",
-     "full": "/assets/images/sample/printed-kurti-pink-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Pink, back view",
-     "sample_color": "#EC4899"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-pink-3.svg",
-     "card": "/assets/images/sample/printed-kurti-pink-3.svg",
-     "full": "/assets/images/sample/printed-kurti-pink-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Pink, detail view",
-     "sample_color": "#EC4899"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
-     "card": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
-     "full": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Bottle Green, front view",
-     "sample_color": "#14532D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
-     "card": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
-     "full": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Bottle Green, back view",
-     "sample_color": "#14532D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
-     "card": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
-     "full": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Bottle Green, detail view",
-     "sample_color": "#14532D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
-     "card": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
-     "full": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Navy Blue, front view",
-     "sample_color": "#1E3A8A"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
-     "card": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
-     "full": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Navy Blue, back view",
-     "sample_color": "#1E3A8A"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
-     "card": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
-     "full": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Navy Blue, detail view",
-     "sample_color": "#1E3A8A"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mustard-1.svg",
-     "card": "/assets/images/sample/printed-kurti-mustard-1.svg",
-     "full": "/assets/images/sample/printed-kurti-mustard-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mustard, front view",
-     "sample_color": "#CA8A04"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mustard-2.svg",
-     "card": "/assets/images/sample/printed-kurti-mustard-2.svg",
-     "full": "/assets/images/sample/printed-kurti-mustard-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mustard, back view",
-     "sample_color": "#CA8A04"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mustard-3.svg",
-     "card": "/assets/images/sample/printed-kurti-mustard-3.svg",
-     "full": "/assets/images/sample/printed-kurti-mustard-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mustard, detail view",
-     "sample_color": "#CA8A04"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-maroon-1.svg",
-     "card": "/assets/images/sample/printed-kurti-maroon-1.svg",
-     "full": "/assets/images/sample/printed-kurti-maroon-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Maroon, front view",
-     "sample_color": "#7F1D1D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-maroon-2.svg",
-     "card": "/assets/images/sample/printed-kurti-maroon-2.svg",
-     "full": "/assets/images/sample/printed-kurti-maroon-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Maroon, back view",
-     "sample_color": "#7F1D1D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-maroon-3.svg",
-     "card": "/assets/images/sample/printed-kurti-maroon-3.svg",
-     "full": "/assets/images/sample/printed-kurti-maroon-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Maroon, detail view",
-     "sample_color": "#7F1D1D"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-peach-1.svg",
-     "card": "/assets/images/sample/printed-kurti-peach-1.svg",
-     "full": "/assets/images/sample/printed-kurti-peach-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Peach, front view",
-     "sample_color": "#FDBA74"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-peach-2.svg",
-     "card": "/assets/images/sample/printed-kurti-peach-2.svg",
-     "full": "/assets/images/sample/printed-kurti-peach-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Peach, back view",
-     "sample_color": "#FDBA74"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-peach-3.svg",
-     "card": "/assets/images/sample/printed-kurti-peach-3.svg",
-     "full": "/assets/images/sample/printed-kurti-peach-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Peach, detail view",
-     "sample_color": "#FDBA74"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-teal-1.svg",
-     "card": "/assets/images/sample/printed-kurti-teal-1.svg",
-     "full": "/assets/images/sample/printed-kurti-teal-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Teal, front view",
-     "sample_color": "#0F766E"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-teal-2.svg",
-     "card": "/assets/images/sample/printed-kurti-teal-2.svg",
-     "full": "/assets/images/sample/printed-kurti-teal-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Teal, back view",
-     "sample_color": "#0F766E"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-teal-3.svg",
-     "card": "/assets/images/sample/printed-kurti-teal-3.svg",
-     "full": "/assets/images/sample/printed-kurti-teal-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Teal, detail view",
-     "sample_color": "#0F766E"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
-     "card": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
-     "full": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mango Yellow, front view",
-     "sample_color": "#F2B705"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
-     "card": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
-     "full": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mango Yellow, back view",
-     "sample_color": "#F2B705"
-    },
-    {
-     "thumb": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
-     "card": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
-     "full": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Printed Cotton Kurti, Mango Yellow, detail view",
-     "sample_color": "#F2B705"
-    }
-   ],
-   "description_html": "<h3>Made for everyday comfort</h3><p class=\"rt-lh-15\">This <strong>printed cotton kurti</strong> is cut from soft cambric cotton and <em>hand block-printed</em> by artisans, so no two pieces are exactly alike. It is a <u>sample product</u> showing what the Word-style description can do.</p><ul class=\"rt-list-check\"><li>Breathable for long, warm days</li><li>Pairs with leggings, palazzos or jeans</li><li>Colour-fast natural dyes</li></ul><table class=\"rt-table-striped\"><caption>Size chart (inches)</caption><thead><tr><th>Size</th><th>Bust</th><th>Waist</th><th>Length</th></tr></thead><tbody><tr><td>S</td><td>36</td><td>32</td><td>44</td></tr><tr><td>M</td><td>38</td><td>34</td><td>44</td></tr><tr><td>L</td><td>40</td><td>36</td><td>45</td></tr><tr><td>XL</td><td>42</td><td>38</td><td>45</td></tr><tr><td>XXL</td><td>44</td><td>40</td><td>46</td></tr></tbody></table><p class=\"rt-note\">Tip: if you are between two sizes, choose the larger one for a relaxed fit.</p><p class=\"rt-sm rt-c-grey rt-right\">Colours may look slightly different on different screens.</p>",
-   "specs": [
-    {
-     "group": "General",
-     "rows": [
-      [
-       "Brand",
-       "Weave Works"
+  ],
+  "products": [
+    {
+      "id": "P0001",
+      "slug": "kaju-katli",
+      "name": "Kaju Katli",
+      "short": "Silky cashew fudge with a thin silver leaf, made fresh every morning.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "cashew",
+        "festival",
+        "gift"
       ],
-      [
-       "Fabric",
-       "100% cotton (cambric)"
+      "brand": "Sri Annapoorna Sweets",
+      "gst_rate": 5,
+      "hsn": "1704",
+      "rating_avg": 4.7,
+      "rating_count": 214,
+      "created_days_ago": 40,
+      "bestseller_rank": 1,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
       ],
-      [
-       "Pattern",
-       "Hand block print"
+      "variants": [
+        {
+          "sku": "P0001-1",
+          "options": {
+            "Weight": "250 g"
+          },
+          "price": 32000,
+          "mrp": 36000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0001-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 62000,
+          "mrp": 70000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0001-3",
+          "options": {
+            "Weight": "1 kg"
+          },
+          "price": 119900,
+          "mrp": 140000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
       ],
-      [
-       "Fit",
-       "Straight, regular fit"
+      "images": [
+        {
+          "thumb": "/assets/images/sample/kaju-katli-1.svg",
+          "card": "/assets/images/sample/kaju-katli-1.svg",
+          "full": "/assets/images/sample/kaju-katli-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kaju Katli"
+        },
+        {
+          "thumb": "/assets/images/sample/kaju-katli-2.svg",
+          "card": "/assets/images/sample/kaju-katli-2.svg",
+          "full": "/assets/images/sample/kaju-katli-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kaju Katli, another view"
+        }
       ],
-      [
-       "Sleeve",
-       "Three-quarter"
+      "description_html": "<p>Silky cashew fudge with a thin silver leaf, made fresh every morning.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Sri Annapoorna Sweets"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "Weight",
+          "250 g, 500 g, 1 kg"
+        ],
+        [
+          "HSN code",
+          "1704"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1498,
+      "sold_30d": 107,
+      "highlights": [
+        "Made fresh every morning with premium cashews",
+        "Thin edible silver leaf (vark)",
+        "No added colours or preservatives",
+        "Gift-ready box, sealed for freshness"
       ]
-     ]
     },
     {
-     "group": "Size & fit",
-     "rows": [
-      [
-       "Length",
-       "44 inches (size M)"
+      "id": "P0002",
+      "slug": "mysore-pak",
+      "name": "Ghee Mysore Pak",
+      "short": "Melt-in-the-mouth gram flour sweet made with pure cow ghee.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "ghee",
+        "festival"
       ],
-      [
-       "Model wears",
-       "Size M, height 5 ft 5 in"
+      "brand": "Sri Annapoorna Sweets",
+      "gst_rate": 5,
+      "hsn": "1704",
+      "rating_avg": 4.6,
+      "rating_count": 180,
+      "created_days_ago": 60,
+      "bestseller_rank": 2,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
       ],
-      [
-       "Sizes",
-       "S, M, L, XL, XXL"
+      "variants": [
+        {
+          "sku": "P0002-1",
+          "options": {
+            "Weight": "250 g"
+          },
+          "price": 28000,
+          "mrp": 30000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0002-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 54000,
+          "mrp": 58000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/mysore-pak-1.svg",
+          "card": "/assets/images/sample/mysore-pak-1.svg",
+          "full": "/assets/images/sample/mysore-pak-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Ghee Mysore Pak"
+        },
+        {
+          "thumb": "/assets/images/sample/mysore-pak-2.svg",
+          "card": "/assets/images/sample/mysore-pak-2.svg",
+          "full": "/assets/images/sample/mysore-pak-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Ghee Mysore Pak, another view"
+        }
+      ],
+      "description_html": "<p>Melt-in-the-mouth gram flour sweet made with pure cow ghee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Sri Annapoorna Sweets"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "Weight",
+          "250 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "1704"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1273,
+      "sold_30d": 87
+    },
+    {
+      "id": "P0003",
+      "slug": "motichoor-ladoo",
+      "name": "Motichoor Ladoo",
+      "short": "Tiny boondi pearls bound with saffron syrup and a hint of cardamom.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "ladoo",
+        "festival"
+      ],
+      "brand": "Sri Annapoorna Sweets",
+      "gst_rate": 5,
+      "hsn": "1704",
+      "rating_avg": 4.4,
+      "rating_count": 96,
+      "created_days_ago": 5,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0003-1",
+          "options": {
+            "Weight": "250 g"
+          },
+          "price": 22000,
+          "mrp": 24000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0003-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 42000,
+          "mrp": 46000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/motichoor-ladoo-1.svg",
+          "card": "/assets/images/sample/motichoor-ladoo-1.svg",
+          "full": "/assets/images/sample/motichoor-ladoo-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Motichoor Ladoo"
+        },
+        {
+          "thumb": "/assets/images/sample/motichoor-ladoo-2.svg",
+          "card": "/assets/images/sample/motichoor-ladoo-2.svg",
+          "full": "/assets/images/sample/motichoor-ladoo-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Motichoor Ladoo, another view"
+        }
+      ],
+      "description_html": "<p>Tiny boondi pearls bound with saffron syrup and a hint of cardamom.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Sri Annapoorna Sweets"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "Weight",
+          "250 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "1704"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 698,
+      "sold_30d": 42
+    },
+    {
+      "id": "P0004",
+      "slug": "masala-murukku",
+      "name": "Masala Murukku",
+      "short": "Crunchy rice and urad dal spirals with a gentle chilli kick.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "snack",
+        "savoury"
+      ],
+      "brand": "Grandma's Kitchen",
+      "gst_rate": 5,
+      "hsn": "2106",
+      "rating_avg": 4.5,
+      "rating_count": 152,
+      "created_days_ago": 30,
+      "bestseller_rank": 4,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0004-1",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 9000,
+          "mrp": 11000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0004-2",
+          "options": {
+            "Weight": "400 g"
+          },
+          "price": 17000,
+          "mrp": 20000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/masala-murukku-1.svg",
+          "card": "/assets/images/sample/masala-murukku-1.svg",
+          "full": "/assets/images/sample/masala-murukku-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Masala Murukku"
+        },
+        {
+          "thumb": "/assets/images/sample/masala-murukku-2.svg",
+          "card": "/assets/images/sample/masala-murukku-2.svg",
+          "full": "/assets/images/sample/masala-murukku-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Masala Murukku, another view"
+        }
+      ],
+      "description_html": "<p>Crunchy rice and urad dal spirals with a gentle chilli kick.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Grandma's Kitchen"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "Weight",
+          "200 g, 400 g"
+        ],
+        [
+          "HSN code",
+          "2106"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1103,
+      "sold_30d": 67
+    },
+    {
+      "id": "P0005",
+      "slug": "banana-chips",
+      "name": "Kerala Banana Chips",
+      "short": "Thin nendran banana chips fried in coconut oil.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "snack",
+        "kerala"
+      ],
+      "brand": "Grandma's Kitchen",
+      "gst_rate": 5,
+      "hsn": "2008",
+      "rating_avg": 4.3,
+      "rating_count": 88,
+      "created_days_ago": 90,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0005-1",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 11000,
+          "mrp": 12000,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        },
+        {
+          "sku": "P0005-2",
+          "options": {
+            "Weight": "400 g"
+          },
+          "price": 21000,
+          "mrp": 23000,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/banana-chips-1.svg",
+          "card": "/assets/images/sample/banana-chips-1.svg",
+          "full": "/assets/images/sample/banana-chips-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kerala Banana Chips"
+        },
+        {
+          "thumb": "/assets/images/sample/banana-chips-2.svg",
+          "card": "/assets/images/sample/banana-chips-2.svg",
+          "full": "/assets/images/sample/banana-chips-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kerala Banana Chips, another view"
+        }
+      ],
+      "description_html": "<p>Thin nendran banana chips fried in coconut oil.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Grandma's Kitchen"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "Weight",
+          "200 g, 400 g"
+        ],
+        [
+          "HSN code",
+          "2008"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 668,
+      "sold_30d": 32
+    },
+    {
+      "id": "P0006",
+      "slug": "badam-halwa",
+      "name": "Badam Halwa",
+      "short": "Rich almond halwa slow-cooked in ghee, a festive favourite.",
+      "category_id": "cat-sweets",
+      "tags": [
+        "almond",
+        "festival"
+      ],
+      "brand": "Sri Annapoorna Sweets",
+      "gst_rate": 5,
+      "hsn": "1704",
+      "rating_avg": 4.8,
+      "rating_count": 64,
+      "created_days_ago": 3,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [],
+      "variants": [
+        {
+          "sku": "P0006-1",
+          "options": {},
+          "price": 45000,
+          "mrp": 45000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/badam-halwa-1.svg",
+          "card": "/assets/images/sample/badam-halwa-1.svg",
+          "full": "/assets/images/sample/badam-halwa-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Badam Halwa"
+        },
+        {
+          "thumb": "/assets/images/sample/badam-halwa-2.svg",
+          "card": "/assets/images/sample/badam-halwa-2.svg",
+          "full": "/assets/images/sample/badam-halwa-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Badam Halwa, another view"
+        }
+      ],
+      "description_html": "<p>Rich almond halwa slow-cooked in ghee, a festive favourite.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Sri Annapoorna Sweets"
+        ],
+        [
+          "Category",
+          "Sweets & Snacks"
+        ],
+        [
+          "HSN code",
+          "1704"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 513,
+      "sold_30d": 17
+    },
+    {
+      "id": "P0007",
+      "slug": "sambar-powder",
+      "name": "Sambar Powder",
+      "short": "Stone-ground blend of roasted lentils, coriander and red chillies.",
+      "category_id": "cat-spices",
+      "tags": [
+        "masala",
+        "south indian"
+      ],
+      "brand": "Amma Masala",
+      "gst_rate": 5,
+      "hsn": "0910",
+      "rating_avg": 4.6,
+      "rating_count": 302,
+      "created_days_ago": 120,
+      "bestseller_rank": 3,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0007-1",
+          "options": {
+            "Weight": "100 g"
+          },
+          "price": 5500,
+          "mrp": 6500,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0007-2",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 9900,
+          "mrp": 12000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0007-3",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 23000,
+          "mrp": 27000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/sambar-powder-1.svg",
+          "card": "/assets/images/sample/sambar-powder-1.svg",
+          "full": "/assets/images/sample/sambar-powder-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Sambar Powder"
+        },
+        {
+          "thumb": "/assets/images/sample/sambar-powder-2.svg",
+          "card": "/assets/images/sample/sambar-powder-2.svg",
+          "full": "/assets/images/sample/sambar-powder-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Sambar Powder, another view"
+        }
+      ],
+      "description_html": "<p>Stone-ground blend of roasted lentils, coriander and red chillies.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Amma Masala"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "100 g, 200 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "0910"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 2192,
+      "sold_30d": 133
+    },
+    {
+      "id": "P0008",
+      "slug": "garam-masala",
+      "name": "Garam Masala",
+      "short": "Warm, aromatic whole-spice blend for curries and biryani.",
+      "category_id": "cat-spices",
+      "tags": [
+        "masala"
+      ],
+      "brand": "Amma Masala",
+      "gst_rate": 5,
+      "hsn": "0910",
+      "rating_avg": 4.5,
+      "rating_count": 141,
+      "created_days_ago": 75,
+      "bestseller_rank": 6,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0008-1",
+          "options": {
+            "Weight": "100 g"
+          },
+          "price": 7000,
+          "mrp": 8000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0008-2",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 13000,
+          "mrp": 15000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/garam-masala-1.svg",
+          "card": "/assets/images/sample/garam-masala-1.svg",
+          "full": "/assets/images/sample/garam-masala-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Garam Masala"
+        },
+        {
+          "thumb": "/assets/images/sample/garam-masala-2.svg",
+          "card": "/assets/images/sample/garam-masala-2.svg",
+          "full": "/assets/images/sample/garam-masala-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Garam Masala, another view"
+        }
+      ],
+      "description_html": "<p>Warm, aromatic whole-spice blend for curries and biryani.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Amma Masala"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "100 g, 200 g"
+        ],
+        [
+          "HSN code",
+          "0910"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1078,
+      "sold_30d": 49
+    },
+    {
+      "id": "P0009",
+      "slug": "turmeric-powder",
+      "name": "Turmeric Powder",
+      "short": "Bright Erode turmeric, sun-dried and finely ground.",
+      "category_id": "cat-spices",
+      "tags": [
+        "haldi",
+        "everyday"
+      ],
+      "brand": "Amma Masala",
+      "gst_rate": 5,
+      "hsn": "0910",
+      "rating_avg": 4.4,
+      "rating_count": 120,
+      "created_days_ago": 200,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0009-1",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 6000,
+          "mrp": 7000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0009-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 14000,
+          "mrp": 16000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/turmeric-powder-1.svg",
+          "card": "/assets/images/sample/turmeric-powder-1.svg",
+          "full": "/assets/images/sample/turmeric-powder-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Turmeric Powder"
+        },
+        {
+          "thumb": "/assets/images/sample/turmeric-powder-2.svg",
+          "card": "/assets/images/sample/turmeric-powder-2.svg",
+          "full": "/assets/images/sample/turmeric-powder-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Turmeric Powder, another view"
+        }
+      ],
+      "description_html": "<p>Bright Erode turmeric, sun-dried and finely ground.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Amma Masala"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "200 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "0910"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 944,
+      "sold_30d": 36
+    },
+    {
+      "id": "P0010",
+      "slug": "red-chilli-powder",
+      "name": "Red Chilli Powder",
+      "short": "Medium-hot chilli powder with deep red colour.",
+      "category_id": "cat-spices",
+      "tags": [
+        "chilli",
+        "everyday"
+      ],
+      "brand": "Amma Masala",
+      "gst_rate": 5,
+      "hsn": "0904",
+      "rating_avg": 4.2,
+      "rating_count": 77,
+      "created_days_ago": 150,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0010-1",
+          "options": {
+            "Weight": "200 g"
+          },
+          "price": 7500,
+          "mrp": 8500,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0010-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 17500,
+          "mrp": 19500,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/red-chilli-powder-1.svg",
+          "card": "/assets/images/sample/red-chilli-powder-1.svg",
+          "full": "/assets/images/sample/red-chilli-powder-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Red Chilli Powder"
+        },
+        {
+          "thumb": "/assets/images/sample/red-chilli-powder-2.svg",
+          "card": "/assets/images/sample/red-chilli-powder-2.svg",
+          "full": "/assets/images/sample/red-chilli-powder-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Red Chilli Powder, another view"
+        }
+      ],
+      "description_html": "<p>Medium-hot chilli powder with deep red colour.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Amma Masala"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "200 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "0904"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 656,
+      "sold_30d": 11
+    },
+    {
+      "id": "P0011",
+      "slug": "filter-coffee",
+      "name": "Filter Coffee Powder",
+      "short": "80:20 coffee and chicory blend for strong, frothy filter coffee.",
+      "category_id": "cat-spices",
+      "tags": [
+        "coffee",
+        "beverage"
+      ],
+      "brand": "Kaapi House",
+      "gst_rate": 5,
+      "hsn": "0901",
+      "rating_avg": 4.8,
+      "rating_count": 265,
+      "created_days_ago": 20,
+      "bestseller_rank": 5,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0011-1",
+          "options": {
+            "Weight": "250 g"
+          },
+          "price": 19000,
+          "mrp": 22000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0011-2",
+          "options": {
+            "Weight": "500 g"
+          },
+          "price": 36000,
+          "mrp": 42000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/filter-coffee-1.svg",
+          "card": "/assets/images/sample/filter-coffee-1.svg",
+          "full": "/assets/images/sample/filter-coffee-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Filter Coffee Powder"
+        },
+        {
+          "thumb": "/assets/images/sample/filter-coffee-2.svg",
+          "card": "/assets/images/sample/filter-coffee-2.svg",
+          "full": "/assets/images/sample/filter-coffee-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Filter Coffee Powder, another view"
+        }
+      ],
+      "description_html": "<p>80:20 coffee and chicory blend for strong, frothy filter coffee.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Kaapi House"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "250 g, 500 g"
+        ],
+        [
+          "HSN code",
+          "0901"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1985,
+      "sold_30d": 102
+    },
+    {
+      "id": "P0012",
+      "slug": "green-cardamom",
+      "name": "Green Cardamom",
+      "short": "Bold 8 mm Idukki cardamom pods, full of aroma.",
+      "category_id": "cat-spices",
+      "tags": [
+        "elaichi",
+        "premium"
+      ],
+      "brand": "Amma Masala",
+      "gst_rate": 5,
+      "hsn": "0908",
+      "rating_avg": 4.7,
+      "rating_count": 58,
+      "created_days_ago": 9,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Weight"
+      ],
+      "variants": [
+        {
+          "sku": "P0012-1",
+          "options": {
+            "Weight": "50 g"
+          },
+          "price": 18000,
+          "mrp": 20000,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        },
+        {
+          "sku": "P0012-2",
+          "options": {
+            "Weight": "100 g"
+          },
+          "price": 34000,
+          "mrp": 38000,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/green-cardamom-1.svg",
+          "card": "/assets/images/sample/green-cardamom-1.svg",
+          "full": "/assets/images/sample/green-cardamom-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Green Cardamom"
+        },
+        {
+          "thumb": "/assets/images/sample/green-cardamom-2.svg",
+          "card": "/assets/images/sample/green-cardamom-2.svg",
+          "full": "/assets/images/sample/green-cardamom-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Green Cardamom, another view"
+        }
+      ],
+      "description_html": "<p>Bold 8 mm Idukki cardamom pods, full of aroma.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Amma Masala"
+        ],
+        [
+          "Category",
+          "Spices & Masalas"
+        ],
+        [
+          "Weight",
+          "50 g, 100 g"
+        ],
+        [
+          "HSN code",
+          "0908"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 549,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0013",
+      "slug": "brass-diya-set",
+      "name": "Brass Diya Set",
+      "short": "Hand-polished brass lamps for pooja and festive décor.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "pooja",
+        "diwali",
+        "gift"
+      ],
+      "brand": "Kalai Crafts",
+      "gst_rate": 18,
+      "hsn": "7418",
+      "rating_avg": 4.6,
+      "rating_count": 73,
+      "created_days_ago": 12,
+      "bestseller_rank": 7,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Pack"
+      ],
+      "variants": [
+        {
+          "sku": "P0013-1",
+          "options": {
+            "Pack": "Set of 2"
+          },
+          "price": 49900,
+          "mrp": 65000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0013-2",
+          "options": {
+            "Pack": "Set of 4"
+          },
+          "price": 89900,
+          "mrp": 120000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/brass-diya-set-1.svg",
+          "card": "/assets/images/sample/brass-diya-set-1.svg",
+          "full": "/assets/images/sample/brass-diya-set-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Brass Diya Set"
+        },
+        {
+          "thumb": "/assets/images/sample/brass-diya-set-2.svg",
+          "card": "/assets/images/sample/brass-diya-set-2.svg",
+          "full": "/assets/images/sample/brass-diya-set-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Brass Diya Set, another view"
+        }
+      ],
+      "description_html": "<p>Hand-polished brass lamps for pooja and festive décor.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Kalai Crafts"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "Pack",
+          "Set of 2, Set of 4"
+        ],
+        [
+          "HSN code",
+          "7418"
+        ],
+        [
+          "GST",
+          "18%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 667,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0014",
+      "slug": "copper-bottle",
+      "name": "Copper Water Bottle",
+      "short": "Leak-proof pure copper bottle with a smooth matte finish.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "copper",
+        "health"
+      ],
+      "brand": "Kalai Crafts",
+      "gst_rate": 18,
+      "hsn": "7418",
+      "rating_avg": 4.5,
+      "rating_count": 190,
+      "created_days_ago": 45,
+      "bestseller_rank": 8,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Size"
+      ],
+      "variants": [
+        {
+          "sku": "P0014-1",
+          "options": {
+            "Size": "750 ml"
+          },
+          "price": 69900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0014-2",
+          "options": {
+            "Size": "1 litre"
+          },
+          "price": 84900,
+          "mrp": 119900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/copper-bottle-1.svg",
+          "card": "/assets/images/sample/copper-bottle-1.svg",
+          "full": "/assets/images/sample/copper-bottle-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Copper Water Bottle"
+        },
+        {
+          "thumb": "/assets/images/sample/copper-bottle-2.svg",
+          "card": "/assets/images/sample/copper-bottle-2.svg",
+          "full": "/assets/images/sample/copper-bottle-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Copper Water Bottle, another view"
+        }
+      ],
+      "description_html": "<p>Leak-proof pure copper bottle with a smooth matte finish.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Kalai Crafts"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "Size",
+          "750 ml, 1 litre"
+        ],
+        [
+          "HSN code",
+          "7418"
+        ],
+        [
+          "GST",
+          "18%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1499,
+      "sold_30d": 56
+    },
+    {
+      "id": "P0015",
+      "slug": "steel-tiffin",
+      "name": "Stainless Steel Tiffin",
+      "short": "Food-grade steel lunch box with a sturdy clip lid.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "lunch",
+        "steel"
+      ],
+      "brand": "Kalai Crafts",
+      "gst_rate": 18,
+      "hsn": "7323",
+      "rating_avg": 4.3,
+      "rating_count": 66,
+      "created_days_ago": 100,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Size"
+      ],
+      "variants": [
+        {
+          "sku": "P0015-1",
+          "options": {
+            "Size": "2 tier"
+          },
+          "price": 45000,
+          "mrp": 52000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0015-2",
+          "options": {
+            "Size": "3 tier"
+          },
+          "price": 59000,
+          "mrp": 68000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/steel-tiffin-1.svg",
+          "card": "/assets/images/sample/steel-tiffin-1.svg",
+          "full": "/assets/images/sample/steel-tiffin-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Stainless Steel Tiffin"
+        },
+        {
+          "thumb": "/assets/images/sample/steel-tiffin-2.svg",
+          "card": "/assets/images/sample/steel-tiffin-2.svg",
+          "full": "/assets/images/sample/steel-tiffin-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Stainless Steel Tiffin, another view"
+        }
+      ],
+      "description_html": "<p>Food-grade steel lunch box with a sturdy clip lid.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Kalai Crafts"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "Size",
+          "2 tier, 3 tier"
+        ],
+        [
+          "HSN code",
+          "7323"
+        ],
+        [
+          "GST",
+          "18%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 644,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0016",
+      "slug": "cast-iron-tawa",
+      "name": "Cast Iron Dosa Tawa",
+      "short": "Pre-seasoned 12-inch tawa for crisp dosas and rotis.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "cast iron",
+        "cookware"
+      ],
+      "brand": "Iron Craft",
+      "gst_rate": 18,
+      "hsn": "7323",
+      "rating_avg": 4.7,
+      "rating_count": 118,
+      "created_days_ago": 25,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [],
+      "variants": [
+        {
+          "sku": "P0016-1",
+          "options": {},
+          "price": 124900,
+          "mrp": 159900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/cast-iron-tawa-1.svg",
+          "card": "/assets/images/sample/cast-iron-tawa-1.svg",
+          "full": "/assets/images/sample/cast-iron-tawa-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Cast Iron Dosa Tawa"
+        },
+        {
+          "thumb": "/assets/images/sample/cast-iron-tawa-2.svg",
+          "card": "/assets/images/sample/cast-iron-tawa-2.svg",
+          "full": "/assets/images/sample/cast-iron-tawa-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Cast Iron Dosa Tawa, another view"
+        }
+      ],
+      "description_html": "<p>Pre-seasoned 12-inch tawa for crisp dosas and rotis.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Iron Craft"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "HSN code",
+          "7323"
+        ],
+        [
+          "GST",
+          "18%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1021,
+      "sold_30d": 14
+    },
+    {
+      "id": "P0017",
+      "slug": "clay-pot",
+      "name": "Clay Cooking Pot",
+      "short": "Unglazed terracotta pot for slow-cooked curries.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "clay",
+        "cookware"
+      ],
+      "brand": "Mann Pottery",
+      "gst_rate": 5,
+      "hsn": "6912",
+      "rating_avg": 4.1,
+      "rating_count": 34,
+      "created_days_ago": 2,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Size"
+      ],
+      "variants": [
+        {
+          "sku": "P0017-1",
+          "options": {
+            "Size": "1 litre"
+          },
+          "price": 39900,
+          "mrp": 45000,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0017-2",
+          "options": {
+            "Size": "2 litre"
+          },
+          "price": 54900,
+          "mrp": 62000,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/clay-pot-1.svg",
+          "card": "/assets/images/sample/clay-pot-1.svg",
+          "full": "/assets/images/sample/clay-pot-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Clay Cooking Pot"
+        },
+        {
+          "thumb": "/assets/images/sample/clay-pot-2.svg",
+          "card": "/assets/images/sample/clay-pot-2.svg",
+          "full": "/assets/images/sample/clay-pot-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Clay Cooking Pot, another view"
+        }
+      ],
+      "description_html": "<p>Unglazed terracotta pot for slow-cooked curries.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Mann Pottery"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "Size",
+          "1 litre, 2 litre"
+        ],
+        [
+          "HSN code",
+          "6912"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 446,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0018",
+      "slug": "kitchen-towels",
+      "name": "Cotton Kitchen Towels",
+      "short": "Pack of 4 absorbent checked cotton towels.",
+      "category_id": "cat-kitchen",
+      "tags": [
+        "cotton",
+        "kitchen"
+      ],
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "6302",
+      "rating_avg": 4,
+      "rating_count": 41,
+      "created_days_ago": 60,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Colour"
+      ],
+      "variants": [
+        {
+          "sku": "P0018-1",
+          "options": {
+            "Colour": "Red"
+          },
+          "price": 29900,
+          "mrp": 34900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0018-2",
+          "options": {
+            "Colour": "Blue"
+          },
+          "price": 29900,
+          "mrp": 34900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0018-3",
+          "options": {
+            "Colour": "Green"
+          },
+          "price": 29900,
+          "mrp": 34900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/kitchen-towels-1.svg",
+          "card": "/assets/images/sample/kitchen-towels-1.svg",
+          "full": "/assets/images/sample/kitchen-towels-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Cotton Kitchen Towels"
+        },
+        {
+          "thumb": "/assets/images/sample/kitchen-towels-2.svg",
+          "card": "/assets/images/sample/kitchen-towels-2.svg",
+          "full": "/assets/images/sample/kitchen-towels-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Cotton Kitchen Towels, another view"
+        }
+      ],
+      "description_html": "<p>Pack of 4 absorbent checked cotton towels.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Weave Works"
+        ],
+        [
+          "Category",
+          "Home & Kitchen"
+        ],
+        [
+          "Colour",
+          "Red, Blue, Green"
+        ],
+        [
+          "HSN code",
+          "6302"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 508,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0019",
+      "slug": "cotton-saree",
+      "name": "Handloom Cotton Saree",
+      "short": "Soft handloom cotton saree with a contrast zari border.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "saree",
+        "handloom"
+      ],
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "5208",
+      "rating_avg": 4.6,
+      "rating_count": 97,
+      "created_days_ago": 15,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Colour"
+      ],
+      "variants": [
+        {
+          "sku": "P0019-1",
+          "options": {
+            "Colour": "Maroon"
+          },
+          "price": 189900,
+          "mrp": 249900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0019-2",
+          "options": {
+            "Colour": "Navy"
+          },
+          "price": 189900,
+          "mrp": 249900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0019-3",
+          "options": {
+            "Colour": "Mustard"
+          },
+          "price": 189900,
+          "mrp": 249900,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/cotton-saree-1.svg",
+          "card": "/assets/images/sample/cotton-saree-1.svg",
+          "full": "/assets/images/sample/cotton-saree-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Handloom Cotton Saree"
+        },
+        {
+          "thumb": "/assets/images/sample/cotton-saree-2.svg",
+          "card": "/assets/images/sample/cotton-saree-2.svg",
+          "full": "/assets/images/sample/cotton-saree-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Handloom Cotton Saree, another view"
+        }
+      ],
+      "description_html": "<p>Soft handloom cotton saree with a contrast zari border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Weave Works"
+        ],
+        [
+          "Category",
+          "Clothing"
+        ],
+        [
+          "Colour",
+          "Maroon, Navy, Mustard"
+        ],
+        [
+          "HSN code",
+          "5208"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 913,
+      "sold_30d": 0
+    },
+    {
+      "id": "P0020",
+      "slug": "printed-kurti",
+      "name": "Printed Cotton Kurti",
+      "short": "Breathable straight-cut kurti with block-print motifs.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "kurti",
+        "cotton"
+      ],
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "6204",
+      "rating_avg": 4.3,
+      "rating_count": 129,
+      "created_days_ago": 7,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Colour",
+        "Size"
+      ],
+      "variants": [
+        {
+          "sku": "P0020-1",
+          "options": {
+            "Colour": "Pink",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0,
+          "images": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "sku": "P0020-2",
+          "options": {
+            "Colour": "Pink",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0,
+          "images": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "sku": "P0020-3",
+          "options": {
+            "Colour": "Pink",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0,
+          "images": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "sku": "P0020-4",
+          "options": {
+            "Colour": "Pink",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0,
+          "images": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "sku": "P0020-5",
+          "options": {
+            "Colour": "Pink",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0,
+          "images": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "sku": "P0020-6",
+          "options": {
+            "Colour": "Bottle Green",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 3,
+          "images": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "sku": "P0020-7",
+          "options": {
+            "Colour": "Bottle Green",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 3,
+          "images": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "sku": "P0020-8",
+          "options": {
+            "Colour": "Bottle Green",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 3,
+          "images": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "sku": "P0020-9",
+          "options": {
+            "Colour": "Bottle Green",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 3,
+          "images": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "sku": "P0020-10",
+          "options": {
+            "Colour": "Bottle Green",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 3,
+          "images": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "sku": "P0020-11",
+          "options": {
+            "Colour": "Navy Blue",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 6,
+          "images": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sku": "P0020-12",
+          "options": {
+            "Colour": "Navy Blue",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 6,
+          "images": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sku": "P0020-13",
+          "options": {
+            "Colour": "Navy Blue",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 6,
+          "images": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sku": "P0020-14",
+          "options": {
+            "Colour": "Navy Blue",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 6,
+          "images": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sku": "P0020-15",
+          "options": {
+            "Colour": "Navy Blue",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 6,
+          "images": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "sku": "P0020-16",
+          "options": {
+            "Colour": "Mustard",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 9,
+          "images": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "sku": "P0020-17",
+          "options": {
+            "Colour": "Mustard",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 9,
+          "images": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "sku": "P0020-18",
+          "options": {
+            "Colour": "Mustard",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 9,
+          "images": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "sku": "P0020-19",
+          "options": {
+            "Colour": "Mustard",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 9,
+          "images": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "sku": "P0020-20",
+          "options": {
+            "Colour": "Mustard",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 9,
+          "images": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "sku": "P0020-21",
+          "options": {
+            "Colour": "Maroon",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 12,
+          "images": [
+            12,
+            13,
+            14
+          ]
+        },
+        {
+          "sku": "P0020-22",
+          "options": {
+            "Colour": "Maroon",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 12,
+          "images": [
+            12,
+            13,
+            14
+          ]
+        },
+        {
+          "sku": "P0020-23",
+          "options": {
+            "Colour": "Maroon",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 12,
+          "images": [
+            12,
+            13,
+            14
+          ]
+        },
+        {
+          "sku": "P0020-24",
+          "options": {
+            "Colour": "Maroon",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 12,
+          "images": [
+            12,
+            13,
+            14
+          ]
+        },
+        {
+          "sku": "P0020-25",
+          "options": {
+            "Colour": "Maroon",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 12,
+          "images": [
+            12,
+            13,
+            14
+          ]
+        },
+        {
+          "sku": "P0020-26",
+          "options": {
+            "Colour": "Peach",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 15,
+          "images": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "sku": "P0020-27",
+          "options": {
+            "Colour": "Peach",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 15,
+          "images": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "sku": "P0020-28",
+          "options": {
+            "Colour": "Peach",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 15,
+          "images": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "sku": "P0020-29",
+          "options": {
+            "Colour": "Peach",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 15,
+          "images": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "sku": "P0020-30",
+          "options": {
+            "Colour": "Peach",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 15,
+          "images": [
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "sku": "P0020-31",
+          "options": {
+            "Colour": "Teal",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 18,
+          "images": [
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "sku": "P0020-32",
+          "options": {
+            "Colour": "Teal",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 18,
+          "images": [
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "sku": "P0020-33",
+          "options": {
+            "Colour": "Teal",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 18,
+          "images": [
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "sku": "P0020-34",
+          "options": {
+            "Colour": "Teal",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 18,
+          "images": [
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "sku": "P0020-35",
+          "options": {
+            "Colour": "Teal",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 18,
+          "images": [
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "sku": "P0020-36",
+          "options": {
+            "Colour": "Mango Yellow",
+            "Size": "S"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 21,
+          "images": [
+            21,
+            22,
+            23
+          ]
+        },
+        {
+          "sku": "P0020-37",
+          "options": {
+            "Colour": "Mango Yellow",
+            "Size": "M"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 21,
+          "images": [
+            21,
+            22,
+            23
+          ]
+        },
+        {
+          "sku": "P0020-38",
+          "options": {
+            "Colour": "Mango Yellow",
+            "Size": "L"
+          },
+          "price": 74900,
+          "mrp": 99900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 21,
+          "images": [
+            21,
+            22,
+            23
+          ]
+        },
+        {
+          "sku": "P0020-39",
+          "options": {
+            "Colour": "Mango Yellow",
+            "Size": "XL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 21,
+          "images": [
+            21,
+            22,
+            23
+          ]
+        },
+        {
+          "sku": "P0020-40",
+          "options": {
+            "Colour": "Mango Yellow",
+            "Size": "XXL"
+          },
+          "price": 84900,
+          "mrp": 109900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 21,
+          "images": [
+            21,
+            22,
+            23
+          ]
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/printed-kurti-pink-1.svg",
+          "card": "/assets/images/sample/printed-kurti-pink-1.svg",
+          "full": "/assets/images/sample/printed-kurti-pink-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Pink, front view",
+          "sample_color": "#EC4899"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-pink-2.svg",
+          "card": "/assets/images/sample/printed-kurti-pink-2.svg",
+          "full": "/assets/images/sample/printed-kurti-pink-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Pink, back view",
+          "sample_color": "#EC4899"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-pink-3.svg",
+          "card": "/assets/images/sample/printed-kurti-pink-3.svg",
+          "full": "/assets/images/sample/printed-kurti-pink-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Pink, detail view",
+          "sample_color": "#EC4899"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
+          "card": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
+          "full": "/assets/images/sample/printed-kurti-bottle-green-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Bottle Green, front view",
+          "sample_color": "#14532D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
+          "card": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
+          "full": "/assets/images/sample/printed-kurti-bottle-green-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Bottle Green, back view",
+          "sample_color": "#14532D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
+          "card": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
+          "full": "/assets/images/sample/printed-kurti-bottle-green-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Bottle Green, detail view",
+          "sample_color": "#14532D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
+          "card": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
+          "full": "/assets/images/sample/printed-kurti-navy-blue-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Navy Blue, front view",
+          "sample_color": "#1E3A8A"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
+          "card": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
+          "full": "/assets/images/sample/printed-kurti-navy-blue-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Navy Blue, back view",
+          "sample_color": "#1E3A8A"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
+          "card": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
+          "full": "/assets/images/sample/printed-kurti-navy-blue-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Navy Blue, detail view",
+          "sample_color": "#1E3A8A"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mustard-1.svg",
+          "card": "/assets/images/sample/printed-kurti-mustard-1.svg",
+          "full": "/assets/images/sample/printed-kurti-mustard-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mustard, front view",
+          "sample_color": "#CA8A04"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mustard-2.svg",
+          "card": "/assets/images/sample/printed-kurti-mustard-2.svg",
+          "full": "/assets/images/sample/printed-kurti-mustard-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mustard, back view",
+          "sample_color": "#CA8A04"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mustard-3.svg",
+          "card": "/assets/images/sample/printed-kurti-mustard-3.svg",
+          "full": "/assets/images/sample/printed-kurti-mustard-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mustard, detail view",
+          "sample_color": "#CA8A04"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-maroon-1.svg",
+          "card": "/assets/images/sample/printed-kurti-maroon-1.svg",
+          "full": "/assets/images/sample/printed-kurti-maroon-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Maroon, front view",
+          "sample_color": "#7F1D1D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-maroon-2.svg",
+          "card": "/assets/images/sample/printed-kurti-maroon-2.svg",
+          "full": "/assets/images/sample/printed-kurti-maroon-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Maroon, back view",
+          "sample_color": "#7F1D1D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-maroon-3.svg",
+          "card": "/assets/images/sample/printed-kurti-maroon-3.svg",
+          "full": "/assets/images/sample/printed-kurti-maroon-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Maroon, detail view",
+          "sample_color": "#7F1D1D"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-peach-1.svg",
+          "card": "/assets/images/sample/printed-kurti-peach-1.svg",
+          "full": "/assets/images/sample/printed-kurti-peach-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Peach, front view",
+          "sample_color": "#FDBA74"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-peach-2.svg",
+          "card": "/assets/images/sample/printed-kurti-peach-2.svg",
+          "full": "/assets/images/sample/printed-kurti-peach-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Peach, back view",
+          "sample_color": "#FDBA74"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-peach-3.svg",
+          "card": "/assets/images/sample/printed-kurti-peach-3.svg",
+          "full": "/assets/images/sample/printed-kurti-peach-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Peach, detail view",
+          "sample_color": "#FDBA74"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-teal-1.svg",
+          "card": "/assets/images/sample/printed-kurti-teal-1.svg",
+          "full": "/assets/images/sample/printed-kurti-teal-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Teal, front view",
+          "sample_color": "#0F766E"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-teal-2.svg",
+          "card": "/assets/images/sample/printed-kurti-teal-2.svg",
+          "full": "/assets/images/sample/printed-kurti-teal-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Teal, back view",
+          "sample_color": "#0F766E"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-teal-3.svg",
+          "card": "/assets/images/sample/printed-kurti-teal-3.svg",
+          "full": "/assets/images/sample/printed-kurti-teal-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Teal, detail view",
+          "sample_color": "#0F766E"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
+          "card": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
+          "full": "/assets/images/sample/printed-kurti-mango-yellow-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mango Yellow, front view",
+          "sample_color": "#F2B705"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
+          "card": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
+          "full": "/assets/images/sample/printed-kurti-mango-yellow-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mango Yellow, back view",
+          "sample_color": "#F2B705"
+        },
+        {
+          "thumb": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
+          "card": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
+          "full": "/assets/images/sample/printed-kurti-mango-yellow-3.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Printed Cotton Kurti, Mango Yellow, detail view",
+          "sample_color": "#F2B705"
+        }
+      ],
+      "description_html": "<h3>Made for everyday comfort</h3><p class=\"rt-lh-15\">This <strong>printed cotton kurti</strong> is cut from soft cambric cotton and <em>hand block-printed</em> by artisans, so no two pieces are exactly alike. It is a <u>sample product</u> showing what the Word-style description can do.</p><ul class=\"rt-list-check\"><li>Breathable for long, warm days</li><li>Pairs with leggings, palazzos or jeans</li><li>Colour-fast natural dyes</li></ul><table class=\"rt-table-striped\"><caption>Size chart (inches)</caption><thead><tr><th>Size</th><th>Bust</th><th>Waist</th><th>Length</th></tr></thead><tbody><tr><td>S</td><td>36</td><td>32</td><td>44</td></tr><tr><td>M</td><td>38</td><td>34</td><td>44</td></tr><tr><td>L</td><td>40</td><td>36</td><td>45</td></tr><tr><td>XL</td><td>42</td><td>38</td><td>45</td></tr><tr><td>XXL</td><td>44</td><td>40</td><td>46</td></tr></tbody></table><p class=\"rt-note\">Tip: if you are between two sizes, choose the larger one for a relaxed fit.</p><p class=\"rt-sm rt-c-grey rt-right\">Colours may look slightly different on different screens.</p>",
+      "specs": [
+        {
+          "group": "General",
+          "rows": [
+            [
+              "Brand",
+              "Weave Works"
+            ],
+            [
+              "Fabric",
+              "100% cotton (cambric)"
+            ],
+            [
+              "Pattern",
+              "Hand block print"
+            ],
+            [
+              "Fit",
+              "Straight, regular fit"
+            ],
+            [
+              "Sleeve",
+              "Three-quarter"
+            ]
+          ]
+        },
+        {
+          "group": "Size & fit",
+          "rows": [
+            [
+              "Length",
+              "44 inches (size M)"
+            ],
+            [
+              "Model wears",
+              "Size M, height 5 ft 5 in"
+            ],
+            [
+              "Sizes",
+              "S, M, L, XL, XXL"
+            ]
+          ]
+        },
+        {
+          "group": "Care",
+          "rows": [
+            [
+              "Washing",
+              "Machine wash cold, gentle cycle"
+            ],
+            [
+              "Drying",
+              "Dry in shade"
+            ],
+            [
+              "Ironing",
+              "Medium heat, inside out"
+            ]
+          ]
+        },
+        {
+          "group": "Tax & origin",
+          "rows": [
+            [
+              "HSN code",
+              "6204"
+            ],
+            [
+              "GST",
+              "5%"
+            ],
+            [
+              "Country of origin",
+              "India"
+            ]
+          ]
+        }
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 1150,
+      "sold_30d": 7,
+      "swatches": {
+        "Colour": {
+          "Mango Yellow": "#F2B705",
+          "Bottle Green": "#14532D"
+        }
+      },
+      "highlights": [
+        "Pure cotton, soft and breathable for Indian summers",
+        "Hand block-printed motifs, so every piece is slightly unique",
+        "Straight cut with side slits; three-quarter sleeves",
+        "8 colours, sizes S to XXL",
+        "Machine wash cold; colours do not run"
       ]
-     ]
     },
     {
-     "group": "Care",
-     "rows": [
-      [
-       "Washing",
-       "Machine wash cold, gentle cycle"
+      "id": "P0021",
+      "slug": "mens-cotton-shirt",
+      "name": "Men's Cotton Shirt",
+      "short": "Regular-fit pure cotton shirt for everyday comfort.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "shirt",
+        "cotton"
       ],
-      [
-       "Drying",
-       "Dry in shade"
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "6205",
+      "rating_avg": 4.2,
+      "rating_count": 85,
+      "created_days_ago": 50,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Size"
       ],
-      [
-       "Ironing",
-       "Medium heat, inside out"
-      ]
-     ]
-    },
-    {
-     "group": "Tax & origin",
-     "rows": [
-      [
-       "HSN code",
-       "6204"
+      "variants": [
+        {
+          "sku": "P0021-1",
+          "options": {
+            "Size": "M"
+          },
+          "price": 89900,
+          "mrp": 119900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0021-2",
+          "options": {
+            "Size": "L"
+          },
+          "price": 89900,
+          "mrp": 119900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0021-3",
+          "options": {
+            "Size": "XL"
+          },
+          "price": 89900,
+          "mrp": 119900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0021-4",
+          "options": {
+            "Size": "XXL"
+          },
+          "price": 94900,
+          "mrp": 124900,
+          "in_stock": true,
+          "low_stock": true,
+          "image": 0
+        }
       ],
-      [
-       "GST",
-       "5%"
+      "images": [
+        {
+          "thumb": "/assets/images/sample/mens-cotton-shirt-1.svg",
+          "card": "/assets/images/sample/mens-cotton-shirt-1.svg",
+          "full": "/assets/images/sample/mens-cotton-shirt-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Men's Cotton Shirt"
+        },
+        {
+          "thumb": "/assets/images/sample/mens-cotton-shirt-2.svg",
+          "card": "/assets/images/sample/mens-cotton-shirt-2.svg",
+          "full": "/assets/images/sample/mens-cotton-shirt-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Men's Cotton Shirt, another view"
+        }
       ],
-      [
-       "Country of origin",
-       "India"
-      ]
-     ]
-    }
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 1150,
-   "sold_30d": 7,
-   "swatches": {
-    "Colour": {
-     "Mango Yellow": "#F2B705",
-     "Bottle Green": "#14532D"
-    }
-   },
-   "highlights": [
-    "Pure cotton, soft and breathable for Indian summers",
-    "Hand block-printed motifs — every piece is slightly unique",
-    "Straight cut with side slits; three-quarter sleeves",
-    "8 colours, sizes S to XXL",
-    "Machine wash cold; colours do not run"
-   ]
-  },
-  {
-   "id": "P0021",
-   "slug": "mens-cotton-shirt",
-   "name": "Men's Cotton Shirt",
-   "short": "Regular-fit pure cotton shirt for everyday comfort.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "shirt",
-    "cotton"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "6205",
-   "rating_avg": 4.2,
-   "rating_count": 85,
-   "created_days_ago": 50,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0021-1",
-     "options": {
-      "Size": "M"
-     },
-     "price": 89900,
-     "mrp": 119900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "description_html": "<p>Regular-fit pure cotton shirt for everyday comfort.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Weave Works"
+        ],
+        [
+          "Category",
+          "Clothing"
+        ],
+        [
+          "Size",
+          "M, L, XL, XXL"
+        ],
+        [
+          "HSN code",
+          "6205"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 855,
+      "sold_30d": 0
     },
     {
-     "sku": "P0021-2",
-     "options": {
-      "Size": "L"
-     },
-     "price": 89900,
-     "mrp": 119900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "id": "P0022",
+      "slug": "silk-dupatta",
+      "name": "Silk Dupatta",
+      "short": "Lightweight art-silk dupatta with woven border.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "dupatta",
+        "festive"
+      ],
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "6214",
+      "rating_avg": 4.5,
+      "rating_count": 49,
+      "created_days_ago": 80,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Colour"
+      ],
+      "variants": [
+        {
+          "sku": "P0022-1",
+          "options": {
+            "Colour": "Red"
+          },
+          "price": 109900,
+          "mrp": 139900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0022-2",
+          "options": {
+            "Colour": "Gold"
+          },
+          "price": 109900,
+          "mrp": 139900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/silk-dupatta-1.svg",
+          "card": "/assets/images/sample/silk-dupatta-1.svg",
+          "full": "/assets/images/sample/silk-dupatta-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Silk Dupatta"
+        },
+        {
+          "thumb": "/assets/images/sample/silk-dupatta-2.svg",
+          "card": "/assets/images/sample/silk-dupatta-2.svg",
+          "full": "/assets/images/sample/silk-dupatta-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Silk Dupatta, another view"
+        }
+      ],
+      "description_html": "<p>Lightweight art-silk dupatta with woven border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Weave Works"
+        ],
+        [
+          "Category",
+          "Clothing"
+        ],
+        [
+          "Colour",
+          "Red, Gold"
+        ],
+        [
+          "HSN code",
+          "6214"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 616,
+      "sold_30d": 0
     },
     {
-     "sku": "P0021-3",
-     "options": {
-      "Size": "XL"
-     },
-     "price": 89900,
-     "mrp": 119900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
+      "id": "P0023",
+      "slug": "kids-kurta-set",
+      "name": "Kids Kurta Pyjama Set",
+      "short": "Festive cotton kurta with matching pyjama.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "kids",
+        "festive"
+      ],
+      "brand": "Little Weaves",
+      "gst_rate": 5,
+      "hsn": "6209",
+      "rating_avg": 4.4,
+      "rating_count": 38,
+      "created_days_ago": 35,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [
+        "Size"
+      ],
+      "variants": [
+        {
+          "sku": "P0023-1",
+          "options": {
+            "Size": "2 to 3 years"
+          },
+          "price": 64900,
+          "mrp": 79900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0023-2",
+          "options": {
+            "Size": "4 to 5 years"
+          },
+          "price": 64900,
+          "mrp": 79900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 0
+        },
+        {
+          "sku": "P0023-3",
+          "options": {
+            "Size": "6 to 7 years"
+          },
+          "price": 69900,
+          "mrp": 84900,
+          "in_stock": false,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/kids-kurta-set-1.svg",
+          "card": "/assets/images/sample/kids-kurta-set-1.svg",
+          "full": "/assets/images/sample/kids-kurta-set-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kids Kurta Pyjama Set"
+        },
+        {
+          "thumb": "/assets/images/sample/kids-kurta-set-2.svg",
+          "card": "/assets/images/sample/kids-kurta-set-2.svg",
+          "full": "/assets/images/sample/kids-kurta-set-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Kids Kurta Pyjama Set, another view"
+        }
+      ],
+      "description_html": "<p>Festive cotton kurta with matching pyjama.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Little Weaves"
+        ],
+        [
+          "Category",
+          "Clothing"
+        ],
+        [
+          "Size",
+          "2 to 3 years, 4 to 5 years, 6 to 7 years"
+        ],
+        [
+          "HSN code",
+          "6209"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 552,
+      "sold_30d": 0
     },
     {
-     "sku": "P0021-4",
-     "options": {
-      "Size": "XXL"
-     },
-     "price": 94900,
-     "mrp": 124900,
-     "in_stock": true,
-     "low_stock": true,
-     "image": 0
+      "id": "P0024",
+      "slug": "handloom-stole",
+      "name": "Handloom Stole",
+      "short": "Soft handwoven stole in natural undyed cotton.",
+      "category_id": "cat-clothing",
+      "tags": [
+        "stole",
+        "handloom"
+      ],
+      "brand": "Weave Works",
+      "gst_rate": 5,
+      "hsn": "6214",
+      "rating_avg": 4.6,
+      "rating_count": 22,
+      "created_days_ago": 1,
+      "bestseller_rank": null,
+      "order_mode": "DEFAULT",
+      "option_names": [],
+      "variants": [
+        {
+          "sku": "P0024-1",
+          "options": {},
+          "price": 59900,
+          "mrp": 59900,
+          "in_stock": true,
+          "low_stock": false,
+          "image": 0
+        }
+      ],
+      "images": [
+        {
+          "thumb": "/assets/images/sample/handloom-stole-1.svg",
+          "card": "/assets/images/sample/handloom-stole-1.svg",
+          "full": "/assets/images/sample/handloom-stole-1.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Handloom Stole"
+        },
+        {
+          "thumb": "/assets/images/sample/handloom-stole-2.svg",
+          "card": "/assets/images/sample/handloom-stole-2.svg",
+          "full": "/assets/images/sample/handloom-stole-2.svg",
+          "w": 600,
+          "h": 600,
+          "alt": "Handloom Stole, another view"
+        }
+      ],
+      "description_html": "<p>Soft handwoven stole in natural undyed cotton.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
+      "specs": [
+        [
+          "Brand",
+          "Weave Works"
+        ],
+        [
+          "Category",
+          "Clothing"
+        ],
+        [
+          "HSN code",
+          "6214"
+        ],
+        [
+          "GST",
+          "5%"
+        ]
+      ],
+      "seo_title": "",
+      "seo_description": "",
+      "sold_total": 453,
+      "sold_30d": 0
     }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/mens-cotton-shirt-1.svg",
-     "card": "/assets/images/sample/mens-cotton-shirt-1.svg",
-     "full": "/assets/images/sample/mens-cotton-shirt-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Men's Cotton Shirt"
-    },
-    {
-     "thumb": "/assets/images/sample/mens-cotton-shirt-2.svg",
-     "card": "/assets/images/sample/mens-cotton-shirt-2.svg",
-     "full": "/assets/images/sample/mens-cotton-shirt-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Men's Cotton Shirt — another view"
-    }
-   ],
-   "description_html": "<p>Regular-fit pure cotton shirt for everyday comfort.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Weave Works"
-    ],
-    [
-     "Category",
-     "Clothing"
-    ],
-    [
-     "Size",
-     "M, L, XL, XXL"
-    ],
-    [
-     "HSN code",
-     "6205"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 855,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0022",
-   "slug": "silk-dupatta",
-   "name": "Silk Dupatta",
-   "short": "Lightweight art-silk dupatta with woven border.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "dupatta",
-    "festive"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "6214",
-   "rating_avg": 4.5,
-   "rating_count": 49,
-   "created_days_ago": 80,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Colour"
-   ],
-   "variants": [
-    {
-     "sku": "P0022-1",
-     "options": {
-      "Colour": "Red"
-     },
-     "price": 109900,
-     "mrp": 139900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0022-2",
-     "options": {
-      "Colour": "Gold"
-     },
-     "price": 109900,
-     "mrp": 139900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/silk-dupatta-1.svg",
-     "card": "/assets/images/sample/silk-dupatta-1.svg",
-     "full": "/assets/images/sample/silk-dupatta-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Silk Dupatta"
-    },
-    {
-     "thumb": "/assets/images/sample/silk-dupatta-2.svg",
-     "card": "/assets/images/sample/silk-dupatta-2.svg",
-     "full": "/assets/images/sample/silk-dupatta-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Silk Dupatta — another view"
-    }
-   ],
-   "description_html": "<p>Lightweight art-silk dupatta with woven border.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Weave Works"
-    ],
-    [
-     "Category",
-     "Clothing"
-    ],
-    [
-     "Colour",
-     "Red, Gold"
-    ],
-    [
-     "HSN code",
-     "6214"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 616,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0023",
-   "slug": "kids-kurta-set",
-   "name": "Kids Kurta Pyjama Set",
-   "short": "Festive cotton kurta with matching pyjama.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "kids",
-    "festive"
-   ],
-   "brand": "Little Weaves",
-   "gst_rate": 5,
-   "hsn": "6209",
-   "rating_avg": 4.4,
-   "rating_count": 38,
-   "created_days_ago": 35,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [
-    "Size"
-   ],
-   "variants": [
-    {
-     "sku": "P0023-1",
-     "options": {
-      "Size": "2–3 years"
-     },
-     "price": 64900,
-     "mrp": 79900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0023-2",
-     "options": {
-      "Size": "4–5 years"
-     },
-     "price": 64900,
-     "mrp": 79900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 0
-    },
-    {
-     "sku": "P0023-3",
-     "options": {
-      "Size": "6–7 years"
-     },
-     "price": 69900,
-     "mrp": 84900,
-     "in_stock": false,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/kids-kurta-set-1.svg",
-     "card": "/assets/images/sample/kids-kurta-set-1.svg",
-     "full": "/assets/images/sample/kids-kurta-set-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kids Kurta Pyjama Set"
-    },
-    {
-     "thumb": "/assets/images/sample/kids-kurta-set-2.svg",
-     "card": "/assets/images/sample/kids-kurta-set-2.svg",
-     "full": "/assets/images/sample/kids-kurta-set-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Kids Kurta Pyjama Set — another view"
-    }
-   ],
-   "description_html": "<p>Festive cotton kurta with matching pyjama.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Little Weaves"
-    ],
-    [
-     "Category",
-     "Clothing"
-    ],
-    [
-     "Size",
-     "2–3 years, 4–5 years, 6–7 years"
-    ],
-    [
-     "HSN code",
-     "6209"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 552,
-   "sold_30d": 0
-  },
-  {
-   "id": "P0024",
-   "slug": "handloom-stole",
-   "name": "Handloom Stole",
-   "short": "Soft handwoven stole in natural undyed cotton.",
-   "category_id": "cat-clothing",
-   "tags": [
-    "stole",
-    "handloom"
-   ],
-   "brand": "Weave Works",
-   "gst_rate": 5,
-   "hsn": "6214",
-   "rating_avg": 4.6,
-   "rating_count": 22,
-   "created_days_ago": 1,
-   "bestseller_rank": null,
-   "order_mode": "DEFAULT",
-   "option_names": [],
-   "variants": [
-    {
-     "sku": "P0024-1",
-     "options": {},
-     "price": 59900,
-     "mrp": 59900,
-     "in_stock": true,
-     "low_stock": false,
-     "image": 0
-    }
-   ],
-   "images": [
-    {
-     "thumb": "/assets/images/sample/handloom-stole-1.svg",
-     "card": "/assets/images/sample/handloom-stole-1.svg",
-     "full": "/assets/images/sample/handloom-stole-1.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Handloom Stole"
-    },
-    {
-     "thumb": "/assets/images/sample/handloom-stole-2.svg",
-     "card": "/assets/images/sample/handloom-stole-2.svg",
-     "full": "/assets/images/sample/handloom-stole-2.svg",
-     "w": 600,
-     "h": 600,
-     "alt": "Handloom Stole — another view"
-    }
-   ],
-   "description_html": "<p>Soft handwoven stole in natural undyed cotton.</p><p>This is a <strong>sample product</strong> so you can see how the shop looks. Replace it with your own products from the admin.</p><ul><li>Carefully packed for safe delivery</li><li>Quality checked before dispatch</li><li>Easy to reorder from your cart</li></ul>",
-   "specs": [
-    [
-     "Brand",
-     "Weave Works"
-    ],
-    [
-     "Category",
-     "Clothing"
-    ],
-    [
-     "HSN code",
-     "6214"
-    ],
-    [
-     "GST",
-     "5%"
-    ]
-   ],
-   "seo_title": "",
-   "seo_description": "",
-   "sold_total": 453,
-   "sold_30d": 0
-  }
- ]
+  ]
 }

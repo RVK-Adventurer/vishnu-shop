@@ -129,8 +129,10 @@ export function zoneVariables(p, brand = {}) {
 }
 
 /** Plain-words problems with the owner's paints (for the build log and the admin). */
-export function checkPaints(s) {
+export function checkPaints(settings) {
+  const s = withBrandGradient(settings);
   const out = [];
+  if (settings.brand_gradient && !parsePaint(settings.brand_gradient)) out.push('brand_gradient: is not a colour gradient. Use something like "linear-gradient(135deg, #7C3AED, #DB2777)".');
   Object.keys(PAINT_AREAS).forEach((key) => {
     const v = s[key];
     if (v === undefined || v === null || v === '') return;
@@ -153,7 +155,22 @@ const decl = (vars) => Object.keys(vars).map((k) => `${k}: ${vars[k]};`).join(' 
  * The CSS for all of the owner's paints (empty when none are set). `brand` gives the brand link
  * and accent colours so links stay on-brand where they are readable.
  */
-export function themeCss(s, brand = {}) {
+/**
+ * The brand gradient (brand_gradient) is used on the areas ticked in brand_gradient_areas, unless
+ * that area has its own colour. Returns the settings with those area colours filled in.
+ */
+export const GRADIENT_AREAS = { header: 'header_bg', catbar: 'catbar_bg', announcement: 'announcement_bg', buttons: 'button_bg', hero: 'hero_bg', footer: 'footer_bg' };
+export function withBrandGradient(s) {
+  const g = parsePaint(s.brand_gradient);
+  const areas = Array.isArray(s.brand_gradient_areas) ? s.brand_gradient_areas : [];
+  if (!g || !areas.length) return s;
+  const out = { ...s };
+  areas.forEach((a) => { const key = GRADIENT_AREAS[a]; if (key && !parsePaint(out[key])) out[key] = s.brand_gradient; });
+  return out;
+}
+
+export function themeCss(settings, brand = {}) {
+  const s = withBrandGradient(settings);
   const parts = [];
   const zone = (key, selector, extra = '') => {
     const p = parsePaint(s[key]);

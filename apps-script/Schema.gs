@@ -257,7 +257,8 @@ var ENUMS = {
   BANNER_FREQUENCY: ['ALWAYS', 'SESSION', 'DAY'],
   BANNER_START: ['FIRST', 'RANDOM', 'NEXT'],
   IMAGE_RATIO: ['SQUARE', 'PORTRAIT', 'LANDSCAPE'],
-  DELIVERY_DISPLAY: ['DATE', 'DAYS', 'TEXT', 'HIDDEN']
+  DELIVERY_DISPLAY: ['DATE', 'DAYS', 'TEXT', 'HIDDEN'],
+  TEXT_CASE: ['TITLE', 'SENTENCE']
 };
 
 /** Drop-down lists added to the Sheet for anyone editing it by hand ("Tab.column": ENUMS key). */

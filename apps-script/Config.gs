@@ -129,7 +129,7 @@ var DEFAULT_CONFIG = {
   /* 1.4: logo, favicon, tab names (limits in public/js/limits.js) */
   logo_mode:          { v: 'LOGO_AND_NAME', t: 'enum', e: 'LOGO_MODE', g: 'branding', pub: true },
   logo_height_px:     { v: 40, t: 'int', g: 'branding', pub: true, min: 24, max: 72 },
-  tab_title_format:   { v: '{page} — {shop}', t: 'text', g: 'branding', pub: true, len: 60 },
+  tab_title_format:   { v: '{page} | {shop}', t: 'text', g: 'branding', pub: true, len: 60 },
   tab_title_home:     { v: '', t: 'text', g: 'branding', pub: true, len: 70 },
   /* 1.4: banners */
   banner_frequency:   { v: 'ALWAYS', t: 'enum', e: 'BANNER_FREQUENCY', g: 'branding', pub: true },
@@ -144,6 +144,12 @@ var DEFAULT_CONFIG = {
   hero_bg:            { v: '', t: 'paint', g: 'branding', pub: true },
   button_bg:          { v: '', t: 'paint', g: 'branding', pub: true },
   page_bg:            { v: '', t: 'paint', g: 'branding', pub: true },
+  /* 1.6: brand gradient used on chosen areas, capital-case labels, footer logo */
+  brand_gradient:     { v: '', t: 'paint', g: 'branding', pub: true },
+  brand_gradient_areas: { v: [], t: 'json', g: 'branding', pub: true },     // any of header, catbar, announcement, buttons, hero, footer
+  ui_text_case:       { v: 'TITLE', t: 'enum', e: 'TEXT_CASE', g: 'branding', pub: true },
+  footer_show_logo:   { v: true, t: 'bool', g: 'layout', pub: true },
+  footer_logo_height_px: { v: 72, t: 'int', g: 'layout', pub: true, min: 32, max: 120 },
   /* 1.4: product pages */
   product_image_ratio: { v: 'SQUARE', t: 'enum', e: 'IMAGE_RATIO', g: 'branding', pub: true },
   delivery_display:   { v: 'DATE', t: 'enum', e: 'DELIVERY_DISPLAY', g: 'tax_shipping', pub: true },
@@ -169,7 +175,7 @@ var DEFAULT_CONFIG = {
   /* Store details */
   store_open:         { v: true, t: 'bool', g: 'store', pub: true },
   weekly_hours_json:  { v: {}, t: 'json', g: 'store', pub: true },
-  closed_message:     { v: 'We are currently closed. You can still browse — ordering opens again soon.', t: 'text', g: 'store', pub: true, len: 300 },
+  closed_message:     { v: 'We are currently closed. You can still browse. Ordering opens again soon.', t: 'text', g: 'store', pub: true, len: 300 },
   hours_text:         { v: '', t: 'text', g: 'store', pub: true, len: 140 },
   legal_name:         { v: '', t: 'text', g: 'store', pub: true, len: 120 },
   contact_phone:      { v: '', t: 'phone', g: 'store', pub: true },
@@ -231,8 +237,8 @@ var DEFAULT_CONFIG = {
   day_start_hour:         { v: 0, t: 'int', g: 'capacity', pub: false, min: 0, max: 23 },
   orders_paused:          { v: false, t: 'bool', g: 'capacity', pub: false },
   extra_orders_today_json: { v: {}, t: 'json', g: 'capacity', pub: false },
-  customer_full_message:  { v: 'Thank you for shopping with us! We have received the maximum number of orders we can handle today. Please come back {reopen_time} — your cart is saved.', t: 'text', g: 'capacity', pub: true, len: 300 },
-  customer_busy_message:  { v: 'We are very busy right now. Please try again in a few minutes — your cart is saved.', t: 'text', g: 'capacity', pub: true, len: 300 },
+  customer_full_message:  { v: 'Thank you for shopping with us! We have received the maximum number of orders we can handle today. Please come back {reopen_time}. Your cart is saved.', t: 'text', g: 'capacity', pub: true, len: 300 },
+  customer_busy_message:  { v: 'We are very busy right now. Please try again in a few minutes. Your cart is saved.', t: 'text', g: 'capacity', pub: true, len: 300 },
   reopen_time_text:       { v: 'tomorrow morning', t: 'text', g: 'capacity', pub: true, len: 60 },
   upgrade_contact_text:   { v: 'Contact your website provider to discuss an upgrade.', t: 'text', g: 'capacity', pub: false, len: 300 },
 
@@ -254,7 +260,7 @@ var DEFAULT_PAYMENT_METHODS = [
     customer_hint: 'Pay securely online', sort: 1, min_order_paise: 100, max_order_paise: 0, fee_paise: 0,
     sub_methods_json: { upi: true, card: true, netbanking: true, wallet: true, emi: true, paylater: true },
     window_minutes: 0 },
-  { method_id: 'UPI_DIRECT', enabled: false, display_label: 'UPI — pay the shop directly',
+  { method_id: 'UPI_DIRECT', enabled: false, display_label: 'UPI. Pay the shop directly',
     customer_hint: 'Pay from any UPI app. No extra charges.', sort: 2, min_order_paise: 100,
     max_order_paise: 0, fee_paise: 0, sub_methods_json: {}, window_minutes: 60 },
   { method_id: 'BANK_TRANSFER', enabled: false, display_label: 'Bank transfer (NEFT / IMPS)',
@@ -429,7 +435,7 @@ function validateConfigValue_(key, value) {
         var cols = value.colors;
         if (!Array.isArray(cols) || cols.length < 1 || cols.length > 3 || cols.some(function (c) { return !/^#[0-9A-Fa-f]{6}$/.test(String(c)); })) throw new Error(label + ': choose 1 to 3 colours like #7C3AED.');
         var ang = Math.round(Number(value.angle || 135));
-        if (!(ang >= 0 && ang <= 360)) throw new Error(label + ': the gradient angle must be 0–360.');
+        if (!(ang >= 0 && ang <= 360)) throw new Error(label + ': the gradient angle must be 0 to 360.');
         return { colors: cols.map(function (c) { return String(c).toUpperCase(); }), angle: ang, style: value.style === 'radial' ? 'radial' : 'linear' };
       }
       var sv = String(value).trim();

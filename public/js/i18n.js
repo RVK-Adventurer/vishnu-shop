@@ -7,11 +7,14 @@
 let STRINGS = {};
 let LANG = 'en';
 
-/** The languages the shop can offer. Add a strings/<code>.json file and an entry here to add one. */
+/**
+ * The languages the shop can offer. To add one: add strings/<code>.json, then an entry here with
+ * ready: true (Hindi is listed but waits for its translation file).
+ */
 export const LANGUAGES = {
-  en: { name: 'English', short: 'EN', locale: 'en-IN' },
-  ta: { name: 'தமிழ்', short: 'த', locale: 'ta-IN' },
-  hi: { name: 'हिन्दी', short: 'हि', locale: 'hi-IN' }
+  en: { name: 'English', short: 'EN', locale: 'en-IN', ready: true },
+  ta: { name: 'தமிழ்', short: 'த', locale: 'ta-IN', ready: true },
+  hi: { name: 'हिन्दी', short: 'हि', locale: 'hi-IN', ready: false }
 };
 
 function isObj(v) {

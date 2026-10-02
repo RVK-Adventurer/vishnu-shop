@@ -57,7 +57,7 @@ function requireSetupDone_() {
 
 function menuSetRazorpayKeys() {
   if (!requireSetupDone_()) return;
-  var keyId = askText_('Razorpay — step 1 of 2: Key Id',
+  var keyId = askText_('Razorpay. Step 1 of 2: Key Id',
     'Paste your Razorpay Key Id.\nIt starts with rzp_test_ (test mode) or rzp_live_ (real money).\n\n' +
     'Find it in the Razorpay Dashboard → Account & Settings → API Keys.');
   if (keyId === null) return;
@@ -65,8 +65,8 @@ function menuSetRazorpayKeys() {
     say_('That doesn\'t look right', 'A Razorpay Key Id starts with rzp_test_ or rzp_live_ followed by letters and numbers, with no spaces.\nNothing was saved. Please try again.');
     return;
   }
-  var secret = askText_('Razorpay — step 2 of 2: Key Secret',
-    'Paste your Razorpay Key Secret.\n\nMake sure nobody is looking at your screen — this box shows what you paste.\n' +
+  var secret = askText_('Razorpay. Step 2 of 2: Key Secret',
+    'Paste your Razorpay Key Secret.\n\nMake sure nobody is looking at your screen. This box shows what you paste.\n' +
     'It is saved privately and never shown again.');
   if (secret === null) return;
   if (secret.length < 10 || /\s/.test(secret)) {
@@ -97,7 +97,7 @@ function menuRemoveRazorpayKeys() {
 
 function menuSetGithub() {
   if (!requireSetupDone_()) return;
-  var repo = askText_('GitHub — step 1 of 2: repository',
+  var repo = askText_('GitHub. Step 1 of 2: repository',
     'Type your shop\'s repository as owner/name, for example:  priya-sweets/shop\n\n' +
     '(You create it in Setup Guide step 6.)');
   if (repo === null) return;
@@ -106,7 +106,7 @@ function menuSetGithub() {
     say_('That doesn\'t look right', 'Use the form owner/name, like priya-sweets/shop. Nothing was saved.');
     return;
   }
-  var token = askText_('GitHub — step 2 of 2: token',
+  var token = askText_('GitHub. Step 2 of 2: token',
     'Paste the fine-grained token you created (it starts with github_pat_).\n\n' +
     'Make sure nobody is looking at your screen. It is saved privately and never shown again.');
   if (token === null) return;
@@ -180,13 +180,13 @@ function menuSetGithub() {
 
 function menuSetOwnerAlerts() {
   if (!requireSetupDone_()) return;
-  var email = askText_('Owner alerts — step 1 of 2: email',
+  var email = askText_('Owner alerts. Step 1 of 2: email',
     'Which email should receive the shop\'s rare warning emails?\n(For example: daily order limit reached, a payment problem.)\n\n' +
-    'Customers NEVER get emails from this shop — their bill downloads on screen.');
+    'Customers NEVER get emails from this shop. Their bill downloads on screen.');
   if (email === null) return;
   if (!REGEX.EMAIL.test(email)) { say_('That doesn\'t look right', 'Please type a full email address. Nothing was saved.'); return; }
 
-  var wa = askText_('Owner alerts — step 2 of 2: WhatsApp number',
+  var wa = askText_('Owner alerts. Step 2 of 2: WhatsApp number',
     'Which mobile number should the "Message myself on WhatsApp" buttons use?\nType a 10-digit Indian mobile number, like 98765 43210.');
   if (wa === null) return;
   var p = normalizePhone10_(wa);
@@ -272,16 +272,16 @@ function menuShowStatus() {
   var ok = '✅ ', no = '❌ ', later = '⏳ ';
   var lines = [];
   lines.push((s.setup_done_at ? ok + 'Setup run on ' + s.setup_done_at.slice(0, 10) : no + 'Setup not run yet (menu item 1)'));
-  lines.push(s.tabs_missing.length ? no + 'Missing tabs: ' + s.tabs_missing.join(', ') + ' — run setup again' : ok + 'All ' + TAB_ORDER.length + ' tabs present');
+  lines.push(s.tabs_missing.length ? no + 'Missing tabs: ' + s.tabs_missing.join(', ') + '. Run setup again' : ok + 'All ' + TAB_ORDER.length + ' tabs present');
   if (s.triggers) {
     lines.push((s.triggers.tick_installed && s.triggers.daily_installed ? ok : no) + 'Automatic jobs ' +
-      (s.triggers.tick_installed && s.triggers.daily_installed ? 'installed' : 'missing — use "Reinstall automatic jobs"') +
+      (s.triggers.tick_installed && s.triggers.daily_installed ? 'installed' : 'missing. Use "Reinstall automatic jobs"') +
       (s.triggers.last_tick ? ' (last 5-minute run: ' + s.triggers.last_tick.slice(11, 16) + ')' : ''));
   }
-  lines.push(s.razorpay === 'NOT_SET' ? later + 'Razorpay keys not set (skip if you won\'t use Razorpay)' : ok + 'Razorpay keys set — ' + s.razorpay + ' mode');
+  lines.push(s.razorpay === 'NOT_SET' ? later + 'Razorpay keys not set (skip if you won\'t use Razorpay)' : ok + 'Razorpay keys set. ' + s.razorpay + ' mode');
   lines.push(s.github_repo ? ok + 'GitHub connected: ' + s.github_repo + (s.github_expires ? ' (token expires ' + s.github_expires.slice(0, 10) + ')' : '') : later + 'GitHub not connected yet (after Setup Guide step 6)');
   lines.push(s.alert_email_set && s.alert_whatsapp_set ? ok + 'Owner alert email and WhatsApp set' : later + 'Owner alert contacts not set (menu item 4)');
-  lines.push(s.super_admins ? ok + 'Super Admin account exists' : (s.setup_code_pending ? later + 'Super Admin code made — use it on the /admin/ page' : later + 'No Super Admin yet (menu item 5)'));
+  lines.push(s.super_admins ? ok + 'Super Admin account exists' : (s.setup_code_pending ? later + 'Super Admin code made. Use it on the /admin/ page' : later + 'No Super Admin yet (menu item 5)'));
   lines.push(s.web_app_url ? ok + 'Web app deployed:\n     ' + s.web_app_url : later + 'Web app not deployed yet (Setup Guide step 5)');
   if (s.db) lines.push(ok + 'Database: ' + s.db.percent + '% of the cell limit used');
   say_('Shop setup status', lines.join('\n'));
@@ -305,8 +305,8 @@ function quickChecks_() {
   function check(name, fn) {
     try {
       var ok = fn();
-      if (ok === true) { passed++; lines.push('PASS  ' + name); } else { failed++; lines.push('FAIL  ' + name + (ok ? ' — ' + ok : '')); }
-    } catch (e) { failed++; lines.push('FAIL  ' + name + ' — ' + e.message); }
+      if (ok === true) { passed++; lines.push('PASS  ' + name); } else { failed++; lines.push('FAIL  ' + name + (ok ? '. ' + ok : '')); }
+    } catch (e) { failed++; lines.push('FAIL  ' + name + '. ' + e.message); }
   }
   check('Schema is consistent', function () { var p = validateSchema_(); return p.length ? p.join('; ') : true; });
   check('Money format ₹1,24,500', function () { return formatRupees_(12450000) === '₹1,24,500' || formatRupees_(12450000); });

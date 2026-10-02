@@ -35,7 +35,7 @@ function sample(id, name, opts = {}) {
 
 const PRODUCTS = [
   sample('n1', 'Normal product card', { label: 'Normal', hue: 220 }),
-  sample('n2', 'On sale — 20% off', { label: 'Sale', hue: 30, variants: [{ sku: 'n2-1', options: {}, price: 79900, mrp: 99900, in_stock: true, low_stock: false }] }),
+  sample('n2', 'On sale. 20% off', { label: 'Sale', hue: 30, variants: [{ sku: 'n2-1', options: {}, price: 79900, mrp: 99900, in_stock: true, low_stock: false }] }),
   sample('n3', 'Brand new arrival', { label: 'New', hue: 200, age: 2 }),
   sample('n4', 'Bestseller with sizes', {
     label: 'Best', hue: 140, best: 1, sold: 230, option_names: ['Size'],
@@ -43,7 +43,7 @@ const PRODUCTS = [
   }),
   sample('n5', 'Only a few left', { label: 'Low', hue: 45, variants: [{ sku: 'n5-1', options: {}, price: 25000, mrp: 25000, in_stock: true, low_stock: true }] }),
   sample('n6', 'Out of stock item', { label: 'Sold', hue: 0, variants: [{ sku: 'n6-1', options: {}, price: 120000, mrp: 120000, in_stock: false, low_stock: false }] }),
-  sample('n7', 'கைத்தறி பருத்தி சேலை — மிக நீளமான தயாரிப்பு பெயர் சோதனை', { label: 'தமிழ்', hue: 330, rating: 4.8, count: 1204 })
+  sample('n7', 'கைத்தறி பருத்தி சேலை. மிக நீளமான தயாரிப்பு பெயர் சோதனை', { label: 'தமிழ்', hue: 330, rating: 4.8, count: 1204 })
 ];
 
 const PICKER = sample('v1', 'Printed Kurti', {
@@ -145,9 +145,9 @@ function page() {
   <div class="sg-grid" data-sg-swatches></div></section>
 
 <section class="sg-section"><h2>Type</h2><div class="sg-type sg-box">
-  <p class="hero__title">Display — hero headline</p><h1>H1 — Page title</h1><h2>H2 — Section heading</h2><h3>H3 — Card heading</h3>
-  <p>Body — the default reading size for descriptions and forms.</p><p class="small">Body small — meta and secondary text.</p>
-  <p class="caption">Caption — helper text, timestamps</p><p class="label-caps">Caps label</p>
+  <p class="hero__title">Display. hero headline</p><h1>H1. Page title</h1><h2>H2. Section heading</h2><h3>H3. Card heading</h3>
+  <p>Body. The default reading size for descriptions and forms.</p><p class="small">Body small. meta and secondary text.</p>
+  <p class="caption">Caption. helper text, timestamps</p><p class="label-caps">Caps label</p>
   <p><span class="price-block__price">${formatRupees(1245000)}</span> tabular price · <span class="price">${formatRupees(124050)}</span></p></div></section>
 
 <section class="sg-section"><h2>Buttons</h2>
@@ -187,7 +187,7 @@ function page() {
   </div></div></section>
 
 <section class="sg-section"><h2>Banners, toasts and dialogs</h2>
-  <div class="sg-stack">${notice('info', 'We are currently closed. You can still browse.')}${notice('warning', 'We are very busy right now. Please try again in a few minutes.')}${notice('danger', 'We couldn\'t find your payment.')}${notice('success', 'Payment received — download your invoice.')}</div>
+  <div class="sg-stack">${notice('info', 'We are currently closed. You can still browse.')}${notice('warning', 'We are very busy right now. Please try again in a few minutes.')}${notice('danger', 'We couldn\'t find your payment.')}${notice('success', 'Payment received. download your invoice.')}</div>
   <div class="sg-row">
     <button class="btn btn--secondary" type="button" data-sg-toast="success">Success toast</button>
     <button class="btn btn--secondary" type="button" data-sg-toast="error">Error toast</button>
@@ -221,7 +221,7 @@ function page() {
   <div class="card stat-card"><span class="stat-card__label">Orders needing action</span><span class="stat-card__value">7</span><span class="stat-card__change stat-card__change--down">▼ 2 overdue</span></div>
   <div class="card"><h3 class="card__title">Orders per day</h3>${chart()}</div></div>
   <div class="sg-admin-row"><span class="status status--amber">Check this payment</span><span><span class="sg-admin-row__id">ORD-260923-AB3K9</span><br><span class="caption">12 min ago · Priya R. · 98765 43210</span></span><strong class="num">${formatRupees(124000)}</strong>${icon('upi', 20)}<button class="btn btn--primary btn--sm" type="button">Check payment</button></div>
-  <div class="sg-admin-card"><div class="sg-admin-card__top"><span class="status status--blue">Confirmed — to pack</span><span class="caption">2 h ago</span></div><span class="sg-admin-row__id">ORD-260923-7QM2X</span><span>Arun K. · 98400 12345</span><strong class="num">${formatRupees(89900)}</strong><button class="btn btn--primary btn--block" type="button">Mark packed</button></div>
+  <div class="sg-admin-card"><div class="sg-admin-card__top"><span class="status status--blue">Confirmed. to pack</span><span class="caption">2 h ago</span></div><span class="sg-admin-row__id">ORD-260923-7QM2X</span><span>Arun K. · 98400 12345</span><strong class="num">${formatRupees(89900)}</strong><button class="btn btn--primary btn--block" type="button">Mark packed</button></div>
 </section>`;
 }
 

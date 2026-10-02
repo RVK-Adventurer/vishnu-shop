@@ -21,7 +21,7 @@
  * loaded, a poster-only popup is quietly skipped (and tried again on the next page).
  */
 
-import { settings } from '../settings.js';
+import { settings, previewImage } from '../settings.js';
 import { local, session, setHtml } from '../state.js';
 import { html } from '../html.js';
 import { t, formatDate } from '../i18n.js';
@@ -78,6 +78,7 @@ async function show(p) {
   if (!body) return;
   let image = localImagePath(p.image);
   const hasWords = !!(p.title || p.text);
+  if (image) image = previewImage(image);
   if (image && !(await loadImage(image))) {
     if (!hasWords) return;
     image = '';

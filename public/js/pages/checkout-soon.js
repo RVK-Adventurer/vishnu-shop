@@ -32,7 +32,7 @@ export async function init() {
     <div class="cart-sum__row cart-sum__row--total"><span>${t('cart.subtotal')}</span><span>${formatRupees(sub)}</span></div>
     <p class="cart-sum__note">${t('cart.final_note')}</p></div>`);
   if (link) {
-    const lines = list.map((l) => `• ${l.qty} × ${l.name}${l.option_text ? ' (' + l.option_text + ')' : ''} — ${formatRupees(l.price * l.qty)} [${l.sku}]`);
+    const lines = list.map((l) => `• ${l.qty} × ${l.name}${l.option_text ? ' (' + l.option_text + ')' : ''}. ${formatRupees(l.price * l.qty)} [${l.sku}]`);
     const text = [t('checkout_soon.message_intro'), ...lines, t('checkout_soon.message_total', { amount: formatRupees(sub) })].join('\n');
     link.href = whatsappUrl(settings().whatsapp_number, text);
   }

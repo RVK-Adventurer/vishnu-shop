@@ -26,6 +26,13 @@
 .brand { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap); color: var(--text); text-decoration: none; min-width: 0; flex: 1; }
 .brand__logo { display: block; height: min(var(--logo-h, 40px), 44px); width: auto; max-width: min(var(--logo-max-w, 240px), 45vw); object-fit: contain; object-position: left center; }
 @media (min-width: 1024px) { .brand__logo { height: var(--logo-h, 40px); } :root { --header-h: max(72px, calc(var(--logo-h, 40px) + 16px)); } }
+/* Letter badge: the logo until a logo picture is uploaded. */
+.monogram { display: inline-grid; place-items: center; flex: none; height: min(var(--logo-h, 40px), 44px); aspect-ratio: 1; border-radius: 28%; background: var(--primary-color); color: var(--on-primary, #FFFFFF); font-family: var(--font-heading); font-weight: 800; font-size: calc(min(var(--logo-h, 40px), 44px) * 0.42); line-height: 1; letter-spacing: 0.02em; text-transform: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22), 0 1px 2px rgba(15, 23, 42, 0.18); }
+.monogram--footer { height: min(var(--footer-logo-h, 72px), 88px); font-size: calc(min(var(--footer-logo-h, 72px), 88px) * 0.4); border-radius: 24%; }
+@media (min-width: 1024px) {
+  .brand .monogram { height: var(--logo-h, 40px); font-size: calc(var(--logo-h, 40px) * 0.42); }
+  .monogram--footer { height: var(--footer-logo-h, 72px); font-size: calc(var(--footer-logo-h, 72px) * 0.4); }
+}
 .brand__name { font-family: var(--font-heading); font-weight: 700; font-size: 1.125rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .brand__name--with-logo { display: none; }
 .site-header__actions { display: flex; align-items: center; margin-right: calc(-1 * var(--space-2)); }
@@ -94,6 +101,10 @@
   background: var(--surface); border-top: 1px solid var(--border);
   font-size: var(--fs-small); color: var(--text-2);
 }
+.footer-top { display: grid; gap: var(--space-5); }
+.footer-brand { display: grid; gap: var(--space-3); align-content: start; justify-items: start; padding-bottom: var(--space-5); border-bottom: 1px solid var(--border); min-width: 0; }
+.footer-brand__logo { display: inline-flex; border-radius: var(--radius-sm); }
+.footer-brand__logo img { display: block; height: min(var(--footer-logo-h, 72px), 88px); width: auto; max-width: min(320px, 80vw); object-fit: contain; object-position: left center; }
 .footer-contact { display: grid; gap: var(--space-2); padding-bottom: var(--space-5); border-bottom: 1px solid var(--border); }
 .footer-contact__name { font-size: var(--fs-h3); font-weight: 700; color: var(--text); }
 .footer-contact__addr { display: flex; gap: var(--space-2); align-items: flex-start; }
@@ -122,15 +133,18 @@
 .pay-badge { padding: var(--space-1) var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: var(--fs-caption); font-weight: 600; color: var(--text-2); }
 .footer-note, .footer-copy { margin-top: var(--space-5); font-size: var(--fs-caption); color: var(--muted); }
 
-@media (min-width: 1024px) {
-  .footer-contact { grid-template-columns: 1fr auto; align-items: center; }
-  .footer-contact__name { grid-column: 1 / -1; }
-  .footer-cols { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-6); padding-top: var(--space-5); }
-  .footer-cols--flush { padding-top: 0; }
+@media (min-width: 768px) {
+  .footer-cols { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-6); }
   .footer-sec { border-bottom: 0; }
   .footer-sec__toggle { pointer-events: none; min-height: 0; margin-bottom: var(--space-3); }
   .footer-sec__toggle .icon { display: none; }
   .footer-sec__panel[hidden] { display: grid !important; }
+}
+@media (min-width: 1024px) {
+  .footer-top { grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: var(--space-8); align-items: start; }
+  .footer-top--solo { grid-template-columns: minmax(0, 1fr); }
+  .footer-brand { padding-bottom: 0; border-bottom: 0; padding-right: var(--space-6); border-right: 1px solid var(--border); }
+  .footer-brand__logo img { height: var(--footer-logo-h, 72px); }
 }
 
 /* ---------------------------------------------------------------- Product grids */

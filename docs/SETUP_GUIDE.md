@@ -461,25 +461,29 @@ Until the admin website arrives (Phase 2), you change these in one place: the **
 
 Want words as well as the poster? Add `"title"` and `"text"`; the picture then sits above them.
 
-#### 8d. Try every change first in the Design preview (no publishing)
+#### 8d. Shop Studio: change the look and see it before customers do
 
-1. Open your shop's address with **/preview/** at the end, for example `https://vishnu-shop.pages.dev/preview/`.
-2. On the left, under **Easy settings**, change anything you like: colours and gradients, logo, tab icon, cover picture, banner timing, home sections, trust strip, look and feel, product cards, delivery wording, or footer.
-3. On the right, watch the shop change after a moment. Use the buttons along the top:
-   - **Phone / Tablet / Laptop / Big screen / All four** to see different screen sizes.
-   - **Page** to switch to a category, product, all-products, cart or contact page. Clicking a product inside the preview also works.
-   - **Dark** to see the shop in dark mode.
-   - **First visit** to see banners as a new customer does. Turn it off to see what a returning customer sees.
-   - **Pop-ups** to show your offer pop-up.
-4. To check a picture before uploading it, click **Try a picture** next to Logo, Tab icon or a Cover picture and choose a file from your computer. The preview shows it at once, and a ✓ or ⚠ line says whether its size and shape are right.
-5. When you are happy:
-   1. Click **Copy settings for GitHub**.
-   2. On GitHub, open **client → store.config.json** and click the ✏️ pencil.
-   3. Select from the line `"display": {` down to the line just **above** `"seo": {`. Then paste, so your copy replaces the selection.
-   4. Upload any pictures you tried to **client → assets**, using exactly the names the preview showed.
-   5. Click **Commit changes**.
+1. Open your shop's address with **/preview/** at the end, for example `https://vishnu-shop.pages.dev/preview/`. This is **Shop Studio**.
+2. **Pick a section** in the column on the far left: Colours And Gradient, Area Colours, Logo And Tab, Cover Picture, Banners, Home Page, Trust Strip, Look And Feel, Product Cards, Product Page Try Out, Footer, Offer Pop Ups, Shop Wording, Languages, Checks. A small orange dot shows the sections you changed.
+3. **Change anything** in the middle column. The shop on the right updates after a moment.
+4. **Look at it the way customers will**, with the bar above the shop:
+   - **Phone, Tablet, Laptop, Big Screen, All Four**: screen sizes.
+   - **Page** (and **Product** or **Category**): switch pages. Clicking a product inside the preview also works.
+   - **Auto, Light, Dark**: colour mode.
+   - **First Visit**: banners and offers as a new customer sees them.
+   - **Pop Ups**: show your offer pop up.
+5. **Try a picture before uploading it**: click **Choose Picture** next to Logo, Tab Icon, Cover, a Banner or a Poster, and pick a file from your computer. A ✓ or ⚠ line says at once whether its size and shape are right.
+6. **Made a mistake?** Use the ↶ (Undo) and ↷ (Redo) arrows at the top. **Start Again** goes back to the live shop.
+7. **Put it on the shop** with **Get Settings** (orange button, top right). A box opens with the exact steps:
+   1. Upload any pictures it lists to **client → assets**, with exactly those names.
+   2. Click **Copy Settings** (it turns green and says **Copied**). If your browser blocks copying, use **Download As A File** and copy from that file.
+   3. On GitHub, open **client → store.config.json** and click the ✏️ pencil.
+   4. Select from the line `"display": {` down to the line just **above** `"seo": {`, then paste so your copy replaces it. No `"display"` line yet? Click at the very start of the `"seo": {` line and paste there.
+   5. Click **Commit changes**. The shop updates in about 2 minutes.
 
-✅ **Nothing you do in the Design preview reaches customers.** It stays in your browser and is still there next time on the same browser. **Start again from the live shop** clears it.
+✅ **Nothing you do in Shop Studio reaches customers until step 7.** Your draft stays in this browser and is still there next time on the same computer.
+
+From Phase 2, the admin opens this same Shop Studio and its **Publish** button does step 7 for you.
 
 #### 8e. A private test copy of the whole shop (optional)
 
@@ -513,8 +517,8 @@ The cover picture fills the big banner under the menu bar (the area with your sh
 2. **Choose the type of cover:**
    - **Photo** (`"mode": "PHOTO"`): the shop writes its title, line and button over your photo.
    - **Finished design** (`"mode": "ARTWORK"`): your picture already has its words. It is never cut, and `"alt"` holds those words for blind visitors and Google.
-3. **Try it in the Design preview (step 8d)** under **Cover picture**. The ✓ / ⚠ line checks each picture's shape at once.
-4. **Upload and copy.** Upload the pictures to **client → assets**, then copy the settings to GitHub as in step 8d.
+3. **Try it in Shop Studio (step 8d)** under **Cover Picture**. The ✓ / ⚠ line checks each picture's shape at once.
+4. **Upload and copy.** Upload the pictures to **client → assets**, then use **Get Settings** as in step 8d.
 
 A picture with the wrong shape is **not used**, and the preview and build log say why. That is how the banner never looks stretched or badly cut on any phone or screen.
 

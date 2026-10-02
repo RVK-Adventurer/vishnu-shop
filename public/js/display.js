@@ -151,7 +151,7 @@ export function fontPreload(settings, fonts = []) {
 export function displayCss(settings, fonts = []) {
   const v = displayVariables(settings, fonts);
   const block = (vars, indent = '  ') => Object.keys(vars).map((k) => `${indent}${k}: ${vars[k]};`).join('\n');
-  return `/* Display settings (Admin → Settings → Branding → Look and feel). Generated — do not edit by hand. */
+  return `/* Display settings (Admin → Settings → Branding → Look and feel). Generated. Do not edit by hand. */
 ${fontFaceCss(settings, fonts)}
 html { font-size: ${v.textSize}; }
 :root {

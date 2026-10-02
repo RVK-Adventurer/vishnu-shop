@@ -34,7 +34,7 @@
   },
   "header": {
     "menu": "Open menu",
-    "home_label": "{name} — home",
+    "home_label": "{name} Home Page",
     "categories": "Categories",
     "more": "More",
     "shop_by_category": "Shop by category",
@@ -50,7 +50,7 @@
     "clear_recent": "Clear",
     "popular": "Popular categories",
     "see_all": "See all results for '{q}'",
-    "in_categories": "in Categories",
+    "in_categories": "in categories",
     "results_for": "Results for '{q}'",
     "title_all": "All products",
     "no_results_title": "No products match '{q}'",
@@ -136,7 +136,7 @@
     "specifications": "Specifications",
     "reviews": "Ratings",
     "related": "You may also like",
-    "unavailable_option": "{value} — out of stock",
+    "unavailable_option": "{value}, out of stock",
     "key_features": "Key features",
     "show_all_specs": "Show all {n} specifications",
     "pin_yes_days": "Delivery in {n} days"
@@ -170,8 +170,8 @@
     "qty_for": "Quantity for {name}",
     "max_qty": "You can add up to {n} of this item.",
     "price_changed": "Price changed from {old} to {now}",
-    "out_of_stock": "Out of stock now — please remove it",
-    "not_available": "No longer available — please remove it",
+    "out_of_stock": "Out of stock now. Please remove it",
+    "not_available": "No longer available. Please remove it",
     "issues_notice": "Some items in your cart changed. Please check them before you continue.",
     "closed_button": "Ordering is closed right now"
   },
@@ -190,7 +190,7 @@
     "in_stock_only": "In stock only",
     "clear_all": "Clear all",
     "show_results": "Show results",
-    "chip_price": "{min} – {max}",
+    "chip_price": "{min} to {max}",
     "chip_under": "Under {max}",
     "chip_over": "Over {min}",
     "chip_remove": "Remove filter {label}"
@@ -258,7 +258,7 @@
     "title": "You're offline",
     "text": "Check your internet connection. Pages you opened before still work.",
     "retry": "Retry",
-    "banner": "You're offline — showing saved pages",
+    "banner": "You're offline. Showing saved pages",
     "recent": "Recently viewed"
   },
   "store": {
@@ -292,13 +292,13 @@
       "colour": "grey"
     },
     "PENDING_CONFIRMATION": {
-      "customer": "Order received — we'll call you to confirm",
-      "staff": "COD — call to confirm",
+      "customer": "Order received. We'll call you to confirm",
+      "staff": "COD: call to confirm",
       "colour": "amber"
     },
     "REQUEST_RECEIVED": {
-      "customer": "Request received — we'll call you",
-      "staff": "New request — call customer",
+      "customer": "Request received. We'll call you",
+      "staff": "New request: call customer",
       "colour": "amber"
     },
     "AWAITING_PAYMENT": {
@@ -307,13 +307,13 @@
       "colour": "amber"
     },
     "PAYMENT_VERIFICATION": {
-      "customer": "Payment submitted — we're checking it",
+      "customer": "Payment submitted. We're checking it",
       "staff": "Check this payment",
       "colour": "amber"
     },
     "LATE_PAYMENT_REVIEW": {
-      "customer": "Payment received late — we're checking",
-      "staff": "Late payment — check stock and money",
+      "customer": "Payment received late. We're checking",
+      "staff": "Late payment: check stock and money",
       "colour": "red"
     },
     "PAYMENT_REJECTED": {
@@ -323,12 +323,12 @@
     },
     "CONFIRMED": {
       "customer": "Order confirmed",
-      "staff": "Confirmed — to pack",
+      "staff": "Confirmed: to pack",
       "colour": "blue"
     },
     "PACKED": {
       "customer": "Packed",
-      "staff": "Packed — to ship",
+      "staff": "Packed: to ship",
       "colour": "blue"
     },
     "SHIPPED": {
@@ -357,8 +357,8 @@
       "colour": "grey"
     },
     "ABORTED_MISMATCH": {
-      "customer": "Payment problem — full refund issued",
-      "staff": "Payment mismatch — auto-refunded",
+      "customer": "Payment problem. Full refund issued",
+      "staff": "Payment mismatch: auto-refunded",
       "colour": "red"
     },
     "REFUND_PENDING": {
@@ -380,8 +380,8 @@
   "errors": {
     "VALIDATION": "Please check the highlighted details.",
     "STORE_CLOSED": "We are currently closed.",
-    "CAPACITY_REACHED": "We are very busy right now. Please try again in a few minutes — your cart is saved.",
-    "BUSY_RETRY": "Lots of people are shopping right now. Please try again in a moment — your cart is saved.",
+    "CAPACITY_REACHED": "We are very busy right now. Please try again in a few minutes. Your cart is saved.",
+    "BUSY_RETRY": "Lots of people are shopping right now. Please try again in a moment. Your cart is saved.",
     "OUT_OF_STOCK": "Sorry, {item} just sold out. Remove it or lower the quantity to continue.",
     "PINCODE_UNSERVICEABLE": "We don't deliver to {pincode} yet. Try another address, or message us on WhatsApp.",
     "COD_NOT_ALLOWED": "That payment option isn't available for this order. Please choose another.",
@@ -389,17 +389,17 @@
     "NO_PAYMENT_OPTION": "We can't take this order online right now. Message us on WhatsApp and we'll help you.",
     "PRICE_CHANGED": "Prices were updated since you added these items. Your new total is {amount}.",
     "COUPON_INVALID": "This coupon can't be used: {reason}",
-    "PAYMENT_MISMATCH": "Something went wrong with this payment. If money was taken, it's being refunded automatically — you don't need to do anything.",
+    "PAYMENT_MISMATCH": "Something went wrong with this payment. If money was taken, it's being refunded automatically. You don't need to do anything.",
     "PAYMENT_LATE_REFUNDED": "Your payment arrived after the time limit and the item had sold out, so we've refunded you in full.",
     "REFERENCE_DUPLICATE": "This reference number has already been used. Please check your payment app and enter the reference for this payment.",
-    "AMOUNT_MISMATCH": "Bill {bill} · you typed {typed} — these must match exactly to save.",
-    "ORDER_NOT_PAYABLE": "This order can't be paid now — it may have expired or already been paid. Check its status below.",
+    "AMOUNT_MISMATCH": "Bill {bill} · you typed {typed}. These must match exactly to save.",
+    "ORDER_NOT_PAYABLE": "This order can't be paid now. It may have expired or already been paid. Check its status below.",
     "NOT_FOUND": "We couldn't find that order. Check the order number and phone number.",
     "RATE_LIMITED": "Too many tries. Please wait a minute and try again.",
     "AUTH_REQUIRED": "Please sign in again.",
     "FORBIDDEN": "You don't have access to this. Ask the shop owner.",
-    "DUPLICATE": "This was already done — nothing more is needed.",
-    "INTERNAL": "Something went wrong on our side. Your cart is safe — please try again.",
+    "DUPLICATE": "This was already done. Nothing more is needed.",
+    "INTERNAL": "Something went wrong on our side. Your cart is safe. Please try again.",
     "OFFLINE": "You're offline. Check your internet connection.",
     "NOT_CONFIGURED": "Online ordering isn't switched on yet. Please message us on WhatsApp.",
     "TIMEOUT": "This is taking too long. Please check your connection and try again."
@@ -417,12 +417,12 @@
     "close": "Close offer",
     "use_code": "Use code",
     "copy_code": "Copy code",
-    "code_copied": "Code copied — paste it at checkout",
+    "code_copied": "Code copied. Paste it at checkout",
     "ends": "Offer ends {date}",
     "shop_now": "Shop now"
   },
   "preview": {
-    "ribbon": "Preview copy — customers can’t see this page. Orders are switched off here.",
+    "ribbon": "Preview copy. Customers can’t see this page. Orders are switched off here.",
     "open_tool": "Design preview",
     "orders_off": "This is the preview copy of the shop, so ordering is switched off here. Customers order on the live shop."
   }

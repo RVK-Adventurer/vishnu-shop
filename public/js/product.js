@@ -118,7 +118,7 @@ export async function init() {
   const ask = $('[data-ask-whatsapp]', page);
   if (ask) {
     const u = new URL(ask.href);
-    u.searchParams.set('text', t('product.ask_text', { name: p.name }) + ' — ' + location.origin + location.pathname);
+    u.searchParams.set('text', t('product.ask_text', { name: p.name }) + '. ' + location.origin + location.pathname);
     ask.href = u.toString();
   }
 

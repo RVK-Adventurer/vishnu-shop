@@ -26,7 +26,8 @@ export const OWNER_KEYS = [
   'product_image_fit', 'product_image_ratio', 'reviews_enabled', 'sold_counts_mode', 'sold_counts_min',
   'delivery_display', 'delivery_custom_text',
   'footer_sections_json', 'footer_columns_json', 'footer_about_text', 'footer_show_contact', 'footer_show_social',
-  'footer_show_hours', 'footer_copyright_text', 'footer_text',
+  'footer_show_hours', 'footer_copyright_text', 'footer_text', 'footer_show_logo', 'footer_logo_height_px',
+  'ui_text_case', 'brand_gradient', 'brand_gradient_areas', 'announcement_auto', 'home_pinned_rows_json',
   'popups_json', 'text_overrides_json', 'languages_json', 'default_language'
 ];
 
@@ -57,6 +58,36 @@ export function heroMetaContent(s, now = new Date()) {
   return [freq, start, n, shortHash(JSON.stringify(s.hero_banners_json || []) + JSON.stringify(s.hero_cover_json || {}) + freq)].join('|');
 }
 
+/**
+ * Text style of the shop's own wording. "TITLE" (the default, the owner's choice) makes every word start
+ * with a capital ("Add To Cart") on buttons, menus, headings, tabs, badges, notes and other short texts.
+ * "SENTENCE" keeps the wording as written ("Add to cart"). Done with CSS so it follows any wording
+ * change. It never touches the owner's product names, option values ("250 g") or full sentences. Tamil and
+ * Hindi have no capitals, so they are unaffected.
+ */
+export function textCaseCss(s) {
+  if (s.ui_text_case === 'SENTENCE' || s.ui_text_case === 'AS_WRITTEN') return '';
+  return `/* Every word capital (Admin, Look and feel, Text style). Generated. */
+:is(.btn, .catbar__link, .catbar__menu-link, .menu-list__link, .drawer__title, .sheet__title, .row__title, .pdp__h2, .pdp__hl-title,
+  .listing__title, .cart-page__title, .checkout-soon__title, .empty__title, .card__title, .footer-sec__toggle, .footer-link, .trust__item,
+  .badge, .chip, .pay-badge, .hero__eyebrow, .sort__label, .filters__legend, .filters .check, .field__label, .vsel__legend, .pin-check__label,
+  .pdp__qty-label, .spec-group__title, .lang__item, .toast__action, .pill, .crumbs__item a, .pdp__ways strong, .price-block__save,
+  .pcard__hint, .fchip, .label-caps, .stepper, .quick-add__title, .announce__text, .off, .pcard__sold, .listing__count, .crumbs__item,
+  .static-page__title, .pdp__rating > span, .pdp__rating-big > span, .price-block__tax, .spec-table th, .sort select, .skip-link,
+  .contact-card__addr, .footer-copy, .hero__sub, .hero__title, .pdp__delivery-title, .empty__action, .menu-list__title, .empty__text,
+  .footer-sec__text, .footer-contact__addr, .muted, .hl-list__item, .pdp__sold, .pdp__ways, .checkout-soon p, .toast__text, .caption,
+  .pin-check, .pdp__delivery, .promo__title, .promo__text, .trust__text, .announce__link, .filters, .sort, .field, .static-page__lead) { text-transform: capitalize; }
+:is(.vsel__value, .vsel__text, .pcard__name, .pdp__title, .spec-table td, .prose, a[href^="mailto:"], input, textarea, select) { text-transform: none; }
+`;
+}
+
+/** Footer logo height (the logo sits on the left of the footer, big). */
+export function footerLogoCss(s) {
+  const n = Math.round(Number(s.footer_logo_height_px));
+  const h = Number.isFinite(n) ? Math.max(32, Math.min(120, n)) : 72;
+  return `:root { --footer-logo-h: ${h}px; }\n`;
+}
+
 /** All of the owner's look as CSS (brand colours, display choices, banners, cover, area colours). */
 export function lookCss(s, fonts = [], now = new Date()) {
   const colours = { primary: s.primary_color, secondary: s.secondary_color, accent: s.accent_color };
@@ -74,5 +105,6 @@ export function lookCss(s, fonts = [], now = new Date()) {
     + '\n' + displayCss(s, fonts)
     + coverCss(normalizeCover(s.hero_cover_json))
     + (order.length ? '\n' + order.join('\n') + '\n' : '')
-    + '\n' + themeCss(s, { accent: vars['--accent-color'], primaryText: vars['--primary-text'] });
+    + '\n' + themeCss(s, { accent: vars['--accent-color'], primaryText: vars['--primary-text'] })
+    + '\n' + textCaseCss(s) + footerLogoCss(s);
 }

@@ -12,7 +12,7 @@
  *   parent → frame: { type: 'render', settings, page, slug, lang, theme, firstVisit, images, scrollY }
  */
 
-import { setPreviewSettings } from '../settings.js';
+import { setPreviewSettings, setPreviewImages } from '../settings.js';
 import { loadStrings, t, LANGUAGES } from '../i18n.js';
 import * as T from '../templates.js';
 import { html } from '../html.js';
@@ -53,7 +53,7 @@ async function prepare(s, warnings, iconNames) {
   }
   const lh = Number(s.logo_height_px);
   if (s.logo_height_px !== undefined && (lh < LIMITS.logo_height_px.min || lh > LIMITS.logo_height_px.max)) {
-    warnings.push(`Logo height must be ${LIMITS.logo_height_px.min}–${LIMITS.logo_height_px.max} pixels; the nearest allowed value is used.`);
+    warnings.push(`Logo height must be ${LIMITS.logo_height_px.min} to ${LIMITS.logo_height_px.max} pixels; the nearest allowed value is used.`);
   }
   const c = normalizeCover(s.hero_cover_json);
   if (c) {
@@ -161,6 +161,7 @@ async function render(msg) {
   await prepare(s, warnings, iconNames);
   if (msg.firstVisit !== false) forgetSeen();
   setPreviewSettings(s);
+  setPreviewImages(images);
   await loadStrings(lang, (s.text_overrides_json || {})[lang] || null);
   T.setBase('');
 
@@ -187,7 +188,15 @@ async function render(msg) {
     const p = cat.products.find((x) => x.slug === msg.slug) || cat.products[0];
     if (!p) page = 'home';
     else {
-      const detail = await getJson(`/products/${encodeURIComponent(p.slug)}.json`, null);
+      let detail = await getJson(`/products/${encodeURIComponent(p.slug)}.json`, null);
+      const over = msg.productOverride && msg.productOverride.slug === p.slug ? msg.productOverride : null;
+      if (over) {
+        // Product Page Try Out: the owner's trial description, key features and specifications.
+        detail = { ...(detail || {}) };
+        if (typeof over.description_html === 'string') detail.description_html = over.description_html;
+        if (Array.isArray(over.highlights)) detail.highlights = over.highlights.map((x) => String(x).trim()).filter(Boolean);
+        if (Array.isArray(over.specs)) detail.specs = over.specs;
+      }
       const related = sortList(cat.products.filter((x) => x.id !== p.id && x.category_id === p.category_id));
       ctx.currentCategory = p.category_id;
       attrs['data-slug'] = p.slug;
