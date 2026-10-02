@@ -9,7 +9,18 @@ import { notice } from './templates.js';
 import { t } from './i18n.js';
 
 let SETTINGS = null;
+let PREVIEW = false;
 const CACHE_KEY = 'settings:v1';
+
+/** Design preview only: use these settings instead of the published ones (nothing is saved). */
+export function setPreviewSettings(obj) {
+  SETTINGS = obj || {};
+  PREVIEW = true;
+}
+
+export function isPreview() {
+  return PREVIEW;
+}
 
 /** Loads settings once (the last copy is remembered so pages paint instantly next time). */
 export async function loadSettings() {

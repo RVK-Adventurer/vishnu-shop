@@ -32,8 +32,8 @@
 .btn--lg { --btn-h: 52px; padding: 0 var(--space-5); font-size: 1rem; }
 .btn--block { display: flex; width: 100%; }
 
-.btn--primary { background: var(--primary-color); color: var(--on-primary); }
-.btn--primary:hover { background: var(--primary-hover); box-shadow: var(--shadow-md); }
+.btn--primary { background: var(--btn-primary-bg, var(--primary-color)); color: var(--btn-primary-text, var(--on-primary)); }
+.btn--primary:hover { background: var(--btn-primary-hover, var(--primary-hover)); box-shadow: var(--shadow-md); }
 .btn--secondary { border-color: var(--primary-text); color: var(--primary-text); background: transparent; }
 .btn--secondary:hover { background: var(--primary-tint-6); }
 .btn--ghost { color: var(--primary-text); padding-inline: var(--space-2); }
@@ -374,7 +374,7 @@ dialog:not([open]) { display: none; }
 @media (min-width: 768px) and (hover: hover) { .pcard:hover { box-shadow: var(--shadow-md); } }
 .pcard__link { display: flex; flex-direction: column; flex: 1; color: inherit; text-decoration: none; border-radius: var(--radius-lg); }
 .pcard__link:focus-visible { outline-offset: -2px; }
-.pcard__media { position: relative; display: block; aspect-ratio: 1 / 1; background: var(--surface-2); overflow: hidden; }
+.pcard__media { position: relative; display: block; aspect-ratio: var(--img-ratio, 1 / 1); background: var(--surface-2); overflow: hidden; }
 .pcard__img, .pcard__img2 { position: absolute; inset: 0; width: 100%; height: 100%; }
 .pcard__img2 { opacity: 0; transition: opacity var(--dur-std) var(--ease-out); }
 @media (hover: hover) and (min-width: 1024px) { .pcard__link:hover .pcard__img2 { opacity: 1; } }
@@ -448,7 +448,7 @@ dialog:not([open]) { display: none; }
 @keyframes shimmer { to { transform: translateX(100%); } }
 :root[data-theme="dark"] .skel::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .skel::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent); } }
-.skel--media { aspect-ratio: 1 / 1; border-radius: 0; }
+.skel--media { aspect-ratio: var(--img-ratio, 1 / 1); border-radius: 0; }
 .skel--line { height: 14px; margin: 0 var(--space-3); }
 .skel--short { width: 60%; }
 .skel--price { height: 20px; width: 40%; margin: var(--space-1) var(--space-3) 0; }

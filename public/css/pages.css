@@ -19,6 +19,52 @@
   .hero__text { text-align: left; justify-items: start; padding: var(--space-7) max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter))); }
 }
 
+/* ---------------------------------------------------------------- Cover picture (cover.js)
+   Box shape follows the picture actually shown: phone 1:1, tablet 2:1, computer 3:1 (exact shapes are
+   enforced when the owner uploads). Very wide screens cap the height; PHOTO crops around the focal
+   point, ARTWORK is never cropped (side bands take the cover's background colour). */
+.hero--cover { position: relative; overflow: hidden; background: var(--primary-color); color: #FFFFFF; aspect-ratio: 3 / 1; max-height: 720px; width: 100%; }
+.hero-cover__pic, .hero-cover__link { position: absolute; inset: 0; display: block; }
+.hero-cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero--cover-artwork .hero-cover__img { object-fit: contain; }
+.hero-cover__link:focus-visible { outline: 3px solid #FFFFFF; outline-offset: -6px; }
+.hero-cover__overlay { position: absolute; inset: 0; pointer-events: none; background: #000000; opacity: 0.35; }
+.hero-cover__content { position: relative; z-index: 1; height: 100%; display: flex; padding-block: var(--space-6); }
+.hero-cover__text { display: grid; gap: var(--space-3); max-width: min(36rem, 100%); align-content: center; justify-items: start; text-align: left; }
+.hero--cover-photo .hero__title, .hero--cover-photo .hero__sub, .hero--cover-photo .hero__eyebrow { color: #FFFFFF; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); }
+.hero--cover-photo .hero__title { max-width: 18ch; }
+.hero--tone-dark .hero__title, .hero--tone-dark .hero__sub, .hero--tone-dark .hero__eyebrow { color: #0F172A; text-shadow: 0 1px 10px rgba(255, 255, 255, 0.45); }
+.hero--align-center .hero-cover__content { justify-content: center; }
+.hero--align-center .hero-cover__text { justify-items: center; text-align: center; }
+.hero--align-right .hero-cover__content { justify-content: flex-end; }
+.hero--align-right .hero-cover__text { justify-items: end; text-align: right; }
+.hero--valign-top .hero-cover__content { align-items: flex-start; }
+.hero--valign-middle .hero-cover__content { align-items: center; }
+.hero--valign-bottom .hero-cover__content { align-items: flex-end; }
+/* Phones: square picture if given; a PHOTO without one keeps room for the words */
+@media (max-width: 767px) {
+  .hero--cover-photo { aspect-ratio: auto; min-height: 340px; }
+  .hero--cover-photo.hero--cover-m { aspect-ratio: 1 / 1; min-height: 0; }
+  .hero--cover-artwork { aspect-ratio: 3 / 1; }
+  .hero--cover-artwork.hero--cover-t { aspect-ratio: 2 / 1; }
+  .hero--cover-artwork.hero--cover-m { aspect-ratio: 1 / 1; }
+  .hero-cover__content { padding-block: var(--space-5); }
+  .hero--cover .hero__title { font-size: clamp(1.75rem, 8vw, 2.25rem); }
+}
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .hero--cover.hero--cover-t { aspect-ratio: 2 / 1; }
+  .hero--cover-photo:not(.hero--cover-t) { min-height: 360px; }
+}
+/* Very wide screens: no taller than 720 px */
+@media (min-width: 2160px) { .hero--cover { aspect-ratio: auto; height: 720px; } }
+
+/* Owner's banner choices (early.js): hidden after being seen today / this visit */
+.hero-off .hero, .hero-off .hero--brand { display: none; }
+.hero-alt-title { display: none; }
+.hero-off .hero-alt-title { display: block; }
+.hero__slide, .hero__dot { order: var(--hero-order, 0); }
+
 /* Branded hero when no banner is uploaded (never an empty grey box) */
 .hero--brand { background: var(--primary-color); color: var(--on-primary); }
 .hero__brand { position: relative; z-index: 1; display: grid; justify-items: center; gap: var(--space-3); padding-block: var(--space-8) var(--space-7); text-align: center; }
@@ -52,6 +98,8 @@
   .trust__item { justify-content: center; border-radius: var(--radius-md); padding: var(--space-3); white-space: normal; text-align: center; }
 }
 .home__rows { padding-bottom: var(--space-4); }
+.home-anchor { display: block; height: 0; scroll-margin-top: calc(var(--safe-top) + 120px); }
+.home__all { margin-top: var(--space-5); }
 .row--cats { margin-top: var(--space-6); }
 
 /* ---------------------------------------------------------------- Product page */
@@ -60,7 +108,7 @@
 .pdp > * { min-width: 0; }
 @media (min-width: 1024px) {
   /* The photo never grows taller than the screen, however wide the page gets (v1.9 full width) */
-  .pdp { grid-template-columns: minmax(0, min(55%, calc(100vh - 160px))) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+  .pdp { grid-template-columns: minmax(0, min(55%, calc((100vh - 160px) * var(--img-aspect, 1)))) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
   .pdp__info { max-width: 760px; }
 }
 
@@ -70,7 +118,7 @@
 .gallery__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; background: var(--surface-2); outline-offset: -2px; }
 .gallery__track::-webkit-scrollbar { display: none; }
 @media (min-width: 768px) { .gallery__track { border-radius: var(--radius-lg); } }
-.gallery__slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: 1 / 1; }
+.gallery__slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: var(--img-ratio, 1 / 1); }
 .gallery__zoom { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .gallery__img { width: 100%; height: 100%; }
 .gallery__dots { display: flex; justify-content: center; gap: 6px; }
@@ -98,7 +146,27 @@
 .pdp__ways { display: flex; gap: var(--space-2); align-items: flex-start; font-size: var(--fs-small); color: var(--text-2); }
 .pdp__ways .icon { margin-top: 2px; color: var(--success); }
 .pdp__links { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-left: calc(-1 * var(--space-2)); }
-.pdp__section { margin-top: var(--space-7); display: grid; gap: var(--space-4); max-width: 860px; }
+.pdp__section { margin-top: var(--space-7); display: grid; gap: var(--space-4); max-width: 1100px; }
+.pdp__section .prose { max-width: 90ch; }
+/* Key features */
+.pdp__highlights { display: grid; gap: var(--space-2); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--primary-tint-6); border: 1px solid var(--primary-tint-16); }
+.pdp__hl-title { font-size: var(--fs-body); font-weight: 700; }
+.hl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.hl-list__item { display: flex; gap: var(--space-2); align-items: flex-start; font-size: var(--fs-small); line-height: 1.45; }
+.hl-list__item .icon { flex: none; margin-top: 1px; color: var(--success, #15803D); }
+.pdp__delivery { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); font-size: var(--fs-small); font-weight: 500; }
+.pdp__delivery .icon { color: var(--primary-text); flex: none; }
+/* Specifications: grouped, two columns on wide screens, long lists folded */
+.spec-groups { display: grid; gap: var(--space-5); }
+@media (min-width: 1024px) { .spec-groups { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: var(--space-5) var(--space-6); align-items: start; } }
+.spec-group { display: grid; gap: var(--space-2); min-width: 0; }
+.spec-group__title { font-size: var(--fs-small); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.spec-table tbody tr:nth-child(even) td { background: var(--surface-2); background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+.spec-table td { overflow-wrap: anywhere; }
+.spec-more > summary { list-style: none; width: fit-content; margin-top: var(--space-2); }
+.spec-more > summary::-webkit-details-marker { display: none; }
+.spec-more[open] > summary { display: none; }
+.spec-more > .spec-groups { margin-top: var(--space-5); }
 .pdp__h2 { font-size: var(--fs-h2); }
 .pdp__rating-big { display: flex; align-items: center; gap: var(--space-3); color: var(--text-2); }
 .pdp__rating-num { font-size: 2rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }

@@ -9,6 +9,8 @@
  */
 
 import { html, raw, join, cls, esc, sanitizeRichText } from './html.js';
+import { photoSet } from './variants.js';
+import { normalizeCover, coverTextTone } from './cover.js';
 import { formatRupees, percentOff } from './money.js';
 import { formatPhone } from './validators.js';
 
@@ -287,14 +289,26 @@ export function isLive(item, now = new Date()) {
  * outside websites are blocked by the security policy anyway. "client/assets/x.jpg" and
  * "/client/assets/x.jpg" both work; spaces are allowed.
  */
-export function localImagePath(src) {
+export function localImagePath(src, { svg = false } = {}) {
   let s = String(src || '').trim().replace(/\\/g, '/');
   if (!s) return '';
   if (!s.startsWith('/')) s = '/' + s;
   if (s.startsWith('//') || s.includes('..') || /[?#<>"'`]/.test(s)) return '';
   if (!/^\/(client\/assets|assets)\/[^/]/.test(s)) return '';
-  if (!/\.(jpe?g|png|webp|avif|gif)$/i.test(s)) return '';
+  if (!(svg ? /\.(jpe?g|png|webp|avif|gif|svg|ico)$/i : /\.(jpe?g|png|webp|avif|gif)$/i).test(s)) return '';
   return s.replace(/ /g, '%20');
+}
+
+/**
+ * The browser-tab name of a page (Admin → Settings → Branding → Tab names).
+ * tab_title_format: e.g. "{page} — {shop}" or "{page} | {shop} Online" ({page} is required).
+ * Home page: tab_title_home, else the SEO title from setup. Plain text only (shown escaped).
+ */
+export function tabTitle(s, pageName) {
+  const shop = s.business_name || '';
+  if (!pageName) return String(s.tab_title_home || '').trim();
+  const fmt = String(s.tab_title_format || '').includes('{page}') ? String(s.tab_title_format) : '{page} — {shop}';
+  return fmt.replace('{page}', pageName).replace('{shop}', shop).replace(/\s+/g, ' ').trim();
 }
 
 /** Attributes the browser uses to show/hide a scheduled item on time (dates are re-checked on every visit). */
@@ -318,10 +332,12 @@ export function hero(ctx) {
   </div>
   <span class="hero__shape hero__shape--a" aria-hidden="true"></span><span class="hero__shape hero__shape--b" aria-hidden="true"></span>
 </section>`;
-  if (!banners.length) return brand(false);
+  const cover = normalizeCover(s.hero_cover_json);
+  const fallback = cover ? (hidden) => coverHero(ctx, cover, hidden) : brand;
+  if (!banners.length) return fallback(false);
   const anyScheduled = banners.some((b) => b.starts_at || b.ends_at);
   const liveNow = banners.filter((b) => isLive(b, ctx.now));
-  return html`${anyScheduled ? brand(liveNow.length > 0) : ''}<section class="hero" ${anyScheduled && !liveNow.length ? raw('hidden') : ''} aria-roledescription="${t('home.carousel')}" aria-label="${t('home.highlights')}" data-hero ${s.hero_autorotate ? raw('data-autorotate') : ''}>
+  return html`${anyScheduled ? fallback(liveNow.length > 0) : ''}<section class="hero" ${anyScheduled && !liveNow.length ? raw('hidden') : ''} aria-roledescription="${t('home.carousel')}" aria-label="${t('home.highlights')}" data-hero ${s.hero_autorotate ? raw('data-autorotate') : ''}>
   <div class="hero__track" data-hero-track>${banners.map((b, i) => html`<div class="hero__slide" ${scheduleAttrs(b)} ${isLive(b, ctx.now) ? '' : raw('hidden')} role="group" aria-roledescription="${t('home.slide')}" aria-label="${t('home.slide_n', { n: i + 1, total: banners.length })}">
     <picture>${b.image_mobile ? html`<source media="(max-width: 767px)" srcset="${b.image_mobile}">` : ''}<img class="hero__img" src="${b.image}" alt="${b.alt || ''}" width="1600" height="900" data-focal="${focalKey(b)}" ${i === 0 ? raw('fetchpriority="high" loading="eager"') : raw('loading="lazy"')} decoding="async"></picture>
     ${b.headline || b.subline || b.cta_text ? html`<span class="hero__overlay" aria-hidden="true"></span><div class="hero__text">
@@ -332,6 +348,52 @@ export function hero(ctx) {
   </div>`)}</div>
   ${banners.length > 1 ? html`<div class="hero__dots" role="tablist" aria-label="${t('home.choose_slide')}">${banners.map((b, i) => html`<button class="hero__dot" type="button" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}" aria-label="${t('home.slide_n', { n: i + 1, total: banners.length })}" data-hero-dot="${i}"></button>`)}</div>` : ''}
   ${banners[0] && !banners[0].headline ? html`<h1 class="sr-only">${s.business_name}</h1>` : ''}
+</section>`;
+}
+
+/**
+ * The welcome banner with the owner's cover picture (cover.js). Up to three versions of the picture
+ * are switched by screen width (phone < 768 px ≤ tablet < 1280 px ≤ computer); each must have its exact
+ * shape, so the banner is never stretched or badly cut. PHOTO: the shop's words over the photo.
+ * ARTWORK: a finished design with its own words, shown whole (its words are read from "alt").
+ */
+export function coverHero(ctx, c, hidden = false) {
+  const { s, t } = ctx;
+  const src = (k) => localImagePath(c[k]);
+  const d = (k) => (c._dims && c._dims[k]) || { w: { desktop: 1920, tablet: 1536, mobile: 1080 }[k], h: { desktop: 640, tablet: 768, mobile: 1080 }[k] };
+  const desktop = src('desktop');
+  if (!desktop) return '';
+  const tablet = src('tablet');
+  const mobile = src('mobile');
+  const artwork = c.mode === 'ARTWORK';
+  const classes = cls('hero', 'hero--cover', artwork ? 'hero--cover-artwork' : 'hero--cover-photo', {
+    'hero--cover-m': !!mobile, 'hero--cover-t': !!tablet,
+    'hero--tone-dark': !artwork && coverTextTone(c) === 'dark',
+    ['hero--align-' + c.text_align.toLowerCase()]: true, ['hero--valign-' + c.text_valign.toLowerCase()]: true
+  });
+  const title = c.title || s.business_name;
+  const heading = hidden ? html`<p class="hero__title" id="hero-title">${title}</p>` : html`<h1 class="hero__title" id="hero-title">${title}</h1>`;
+  const picture = html`<picture class="hero-cover__pic">
+    ${mobile ? html`<source media="(max-width: 767px)" srcset="${mobile}" width="${d('mobile').w}" height="${d('mobile').h}">` : ''}
+    ${tablet ? html`<source media="(max-width: 1279px)" srcset="${tablet}" width="${d('tablet').w}" height="${d('tablet').h}">` : ''}
+    <img class="hero-cover__img" src="${desktop}" alt="${artwork ? (c.alt || title) : ''}" width="${d('desktop').w}" height="${d('desktop').h}" fetchpriority="high" decoding="async">
+  </picture>`;
+  if (artwork) {
+    const href = c.link ? safeHref(c.link) : '';
+    return html`<section class="${classes}" aria-label="${c.alt || title}" data-hero-fallback ${hidden ? raw('hidden') : ''}>
+  ${href && href !== '#' ? html`<a class="hero-cover__link" href="${href.startsWith('/') ? link(href) : href}">${picture}</a>` : picture}
+  ${hidden ? '' : html`<h1 class="sr-only">${title}</h1>`}
+</section>`;
+  }
+  const btnHref = c.button_link ? safeHref(c.button_link) : '#main-products';
+  return html`<section class="${classes}" aria-labelledby="hero-title" data-hero-fallback ${hidden ? raw('hidden') : ''}>
+  ${picture}<span class="hero-cover__overlay" aria-hidden="true"></span>
+  <div class="container hero-cover__content"><div class="hero-cover__text">
+    ${c.show_eyebrow ? html`<p class="hero__eyebrow">${c.eyebrow || t('home.welcome_to')}</p>` : ''}
+    ${heading}
+    ${c.show_subtitle && (c.subtitle || s.tagline) ? html`<p class="hero__sub">${c.subtitle || s.tagline}</p>` : ''}
+    ${c.show_button ? html`<a class="btn btn--light btn--lg" href="${btnHref.startsWith('/') ? link(btnHref) : btnHref}">${c.button_text || t('home.shop_now')}</a>` : ''}
+  </div></div>
 </section>`;
 }
 
@@ -384,7 +446,11 @@ export function announcementText(s, t) {
 
 /** Trust strip items (Section 23.6.2): the owner's own list, else built from settings. */
 export function trustItems(s, t, { hasReturnPolicy = false } = {}) {
-  if (Array.isArray(s.trust_strip_json) && s.trust_strip_json.length) return s.trust_strip_json.filter((x) => x && x.text).slice(0, 4);
+  if (s.show_trust_strip === false) return [];
+  if (Array.isArray(s.trust_strip_json) && s.trust_strip_json.length) {
+    return s.trust_strip_json.filter((x) => x && x.text && x.show !== false).slice(0, 6)
+      .map((x) => ({ icon: /^[a-z0-9-]{1,30}$/.test(String(x.icon || '')) ? x.icon : 'check', text: String(x.text).slice(0, 40), link: x.link || '' }));
+  }
   const items = [{ icon: 'shield', text: t('trust.secure') }];
   if (codEnabled(s)) items.push({ icon: 'cash', text: t('trust.cod') });
   if (upiEnabled(s)) items.push({ icon: 'upi', text: t('trust.upi') });
@@ -396,10 +462,20 @@ export function trustItems(s, t, { hasReturnPolicy = false } = {}) {
 export function trustStrip(s, t, opts) {
   const items = trustItems(s, t, opts);
   if (!items.length) return '';
-  return html`<ul class="trust" role="list" aria-label="${t('trust.label')}">${items.map((it) => html`<li class="trust__item">${icon(it.icon || 'check', 20)}<span>${it.text}</span></li>`)}</ul>`;
+  return html`<ul class="${cls('trust', 'trust--n' + items.length)}" role="list" aria-label="${t('trust.label')}">${items.map((it) => {
+    const href = it.link ? safeHref(it.link) : '';
+    const inner = html`${icon(it.icon || 'check', 20)}<span>${it.text}</span>`;
+    return html`<li class="trust__item">${href && href !== '#' ? html`<a class="trust__link" href="${href.startsWith('/') ? link(href) : href}">${inner}</a>` : inner}</li>`;
+  })}</ul>`;
 }
 
 /* ------------------------------------------------------------------ page chrome */
+
+/** The thin "Preview copy" ribbon on every page of a preview build (a Cloudflare branch other than the live one). */
+export function previewRibbon(ctx) {
+  if (!ctx.s._preview_build) return '';
+  return html`<div class="preview-ribbon" role="note">${icon('eye', 16)}<span>${ctx.t('preview.ribbon')}</span><a href="/preview/">${ctx.t('preview.open_tool')}</a></div>`;
+}
 
 export function announcementBar(ctx) {
   const text = announcementText(ctx.s, ctx.t);
@@ -425,17 +501,15 @@ export function langSwitcher(ctx, where) {
 }
 
 export function header(ctx) {
-  const { s, t, cat } = ctx;
-  const top = cat.categories.filter((c) => !c.parent_id);
-  const inline = top.slice(0, 6);
-  const more = top.slice(6);
+  const { s, t } = ctx;
+  const top = menuCategories(ctx);
+  const allLink = s.show_all_products_link !== false;
+  const inline = top.slice(0, allLink ? 5 : 6);
+  const more = top.slice(inline.length);
   return html`<header class="site-header" data-header>
   <div class="container site-header__bar">
     <button class="icon-btn site-header__menu" type="button" data-open-dialog="menu-drawer" aria-label="${t('header.menu')}" aria-haspopup="dialog">${icon('menu', 24)}</button>
-    <a class="brand" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}">
-      ${s.logo_path ? html`<img class="brand__logo" src="${s.logo_path}" alt="" width="160" height="40">` : ''}
-      <span class="${cls('brand__name', { 'brand__name--with-logo': !!s.logo_path })}">${s.business_name}</span>
-    </a>
+    ${brandMark(s, t)}
     <form class="site-search" role="search" action="${link('/search/')}" method="get" data-search-form>
       <label class="sr-only" for="q-desktop">${t('search.label')}</label>
       <input class="input site-search__input" id="q-desktop" type="search" name="q" autocomplete="off" enterkeyhint="search"
@@ -449,8 +523,9 @@ export function header(ctx) {
       <button class="icon-btn cart-btn" type="button" data-open-cart aria-haspopup="dialog" aria-label="${t('cart.open', { n: 0 })}">${icon('cart', 24)}<span class="cart-btn__badge" data-cart-count hidden>0</span></button>
     </div>
   </div>
-  ${top.length ? html`<nav class="catbar" aria-label="${t('header.categories')}">
+  ${top.length || allLink ? html`<nav class="catbar" aria-label="${t('header.categories')}">
     <div class="container catbar__inner">
+      ${allLink ? html`<a class="catbar__link" href="${link('/search/')}" ${ctx.currentAll ? raw('aria-current="page"') : ''}>${t('header.all_products')}</a>` : ''}
       ${inline.map((c) => html`<a class="catbar__link" href="${categoryUrl(c)}" ${ctx.currentCategory === c.id ? raw('aria-current="page"') : ''}>${c.name}</a>`)}
       ${more.length ? html`<details class="catbar__more" data-more-menu><summary class="catbar__link">${t('header.more')}${icon('chevron-down', 16)}</summary>
         <div class="catbar__menu">${more.map((c) => html`<a class="catbar__menu-link" href="${categoryUrl(c)}">${c.name}</a>`)}</div></details>` : ''}
@@ -460,12 +535,30 @@ export function header(ctx) {
 <div class="notices" data-notices aria-live="polite"></div>`;
 }
 
+/**
+ * Logo and/or shop name in the header (logo_mode: LOGO_AND_NAME, LOGO_ONLY, NAME_ONLY).
+ * The build adds the logo's real shape (_logo_w/_logo_h) so the page never jumps while it loads.
+ * On phones a logo + name shows just the logo, to leave room for search and cart.
+ */
+export function brandMark(s, t) {
+  const src = localImagePath(s.logo_path, { svg: true });
+  const mode = ['LOGO_AND_NAME', 'LOGO_ONLY', 'NAME_ONLY'].includes(s.logo_mode) ? s.logo_mode : 'LOGO_AND_NAME';
+  const showLogo = !!src && mode !== 'NAME_ONLY';
+  const showName = !showLogo || mode === 'LOGO_AND_NAME';
+  const h = Math.max(24, Math.min(72, Number(s.logo_height_px) || 40));
+  const w = Math.round(h * (s._logo_w && s._logo_h ? s._logo_w / s._logo_h : 4));
+  return html`<a class="brand" href="${link('/')}" aria-label="${t('header.home_label', { name: s.business_name })}">
+      ${showLogo ? html`<img class="brand__logo" src="${src}" alt="" width="${w}" height="${h}" decoding="async" fetchpriority="high">` : ''}
+      ${showName ? html`<span class="${cls('brand__name', { 'brand__name--with-logo': showLogo })}">${s.business_name}</span>` : ''}
+    </a>`;
+}
+
 /** The dialogs every page shares: category menu, cart drawer, search overlay, quick-add sheet, zoom. */
 export function sharedDialogs(ctx) {
-  const { t, cat, s } = ctx;
-  const top = cat.categories.filter((c) => !c.parent_id);
+  const { t, s } = ctx;
+  const top = menuCategories(ctx);
   return html`<dialog class="drawer drawer--left" id="menu-drawer" aria-labelledby="menu-drawer-title">
-  <div class="drawer__head"><h2 class="drawer__title" id="menu-drawer-title">${t('header.shop_by_category')}</h2>
+  <div class="drawer__head"><h2 class="drawer__title" id="menu-drawer-title">${top.length ? t('header.shop_by_category') : t('header.menu')}</h2>
     <button class="icon-btn" type="button" data-close-dialog aria-label="${t('common.close')}">${icon('close', 24)}</button></div>
   <nav class="drawer__body" aria-label="${t('header.categories')}">
     <ul class="menu-list" role="list">
@@ -505,59 +598,86 @@ export function sharedDialogs(ctx) {
 <div class="sr-only" aria-live="polite" data-live-polite></div>`;
 }
 
+export const FOOTER_SECTIONS = ['about', 'care', 'policies', 'payments'];
+
+/** One footer link from the owner: internal ("/c/sweets/"), web (https://…), phone (tel:) or email (mailto:). */
+function ownerLink(l) {
+  const text = String((l && l.text) || '').trim().slice(0, 60);
+  const href = safeHref(l && l.href);
+  if (!text || href === '#') return null;
+  const external = /^https?:/i.test(href);
+  return html`<li><a class="footer-link" href="${href.startsWith('/') ? link(href) : href}" ${external ? raw('rel="noopener" target="_blank"') : ''}>${text}</a></li>`;
+}
+
+/**
+ * GLOBAL FOOTER (Section 23.2), owner-controlled:
+ *  footer_show_contact / footer_show_social / footer_show_hours — show or hide those parts
+ *  footer_sections_json — built-in columns in order: about, care, policies, payments (leave one out to hide it)
+ *  footer_columns_json  — the owner's own columns: [{ "title": "…", "links": [{ "text": "…", "href": "…" }] }]
+ *  footer_about_text, footer_text (small note), footer_copyright_text ("© {year} {shop}", empty = hidden)
+ *  Column titles can be renamed in Shop wording (footer.about, footer.care, footer.policies, footer.we_accept).
+ */
 export function footer(ctx, pages) {
   const { s, t } = ctx;
   const year = ctx.now.getFullYear();
   const footerPages = (pages || []).filter((p) => p.show_in_footer && p.slug !== 'contact' && p.slug !== 'about');
   const social = s.social_json || {};
-  const socials = ['instagram', 'facebook', 'youtube', 'x'].filter((k) => social[k]);
+  const socials = s.footer_show_social === false ? [] : ['instagram', 'facebook', 'youtube', 'x'].filter((k) => social[k]);
   const address = [s.address_line1, s.address_line2, [s.city, s.shop_pincode].filter(Boolean).join(' '), s.state].filter(Boolean).join(', ');
   const ways = paymentWays(s, t);
+  const wanted = Array.isArray(s.footer_sections_json)
+    ? s.footer_sections_json.map((x) => String(x).toLowerCase()).filter((x, i, a) => FOOTER_SECTIONS.includes(x) && a.indexOf(x) === i)
+    : FOOTER_SECTIONS;
+  const about = s.footer_about_text || s.tagline;
+  const socialRow = socials.length ? html`<p class="footer-social">${socials.map((k) => html`<a class="icon-btn" href="${social[k]}" rel="noopener" target="_blank" aria-label="${t('social.' + k)}">${icon(k, 20)}</a>`)}</p>` : '';
+  const section = (title, body) => html`<section class="footer-sec" data-acc>
+        <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${title}${icon('chevron-down', 16)}</button></h2>
+        <div class="footer-sec__panel" data-acc-panel>${body}</div>
+      </section>`;
+  const built = {
+    about: () => section(t('footer.about'), html`
+          ${about ? html`<p class="footer-sec__text">${about}</p>` : ''}
+          ${s.hours_text && s.footer_show_hours !== false ? html`<p class="footer-sec__text">${icon('clock', 16)} ${s.hours_text}</p>` : ''}
+          <ul class="footer-list" role="list"><li><a class="footer-link" href="${pageUrl('about')}">${t('footer.about_us')}</a></li></ul>
+          ${socialRow}`),
+    care: () => section(t('footer.care'), html`<ul class="footer-list" role="list">
+          <li><a class="footer-link" href="${pageUrl('contact')}">${t('footer.contact')}</a></li>
+          <li><a class="footer-link" href="${link('/cart/')}">${t('cart.title_plain')}</a></li>
+          ${footerPages.filter((p) => /shipping|refund|return/.test(p.slug)).map((p) => html`<li><a class="footer-link" href="${pageUrl(p.slug)}">${p.title}</a></li>`)}
+        </ul>`),
+    policies: () => {
+      const list = footerPages.filter((p) => !/shipping|refund|return/.test(p.slug));
+      return list.length ? section(t('footer.policies'), html`<ul class="footer-list" role="list">${list.map((p) => html`<li><a class="footer-link" href="${pageUrl(p.slug)}">${p.title}</a></li>`)}</ul>`) : '';
+    },
+    payments: () => section(t('footer.we_accept'), html`
+          ${ways.length ? html`<ul class="pay-badges" role="list">${ways.map((w) => html`<li class="pay-badge">${w}</li>`)}</ul>` : ''}
+          ${s.gstin ? html`<p class="footer-sec__text">${t('footer.gstin')}: ${s.gstin}</p>` : ''}
+          ${s.legal_name && s.legal_name !== s.business_name ? html`<p class="footer-sec__text">${s.legal_name}</p>` : ''}`)
+  };
+  const custom = (Array.isArray(s.footer_columns_json) ? s.footer_columns_json : []).slice(0, 4).map((col) => {
+    const links = (Array.isArray(col && col.links) ? col.links : []).slice(0, 8).map(ownerLink).filter(Boolean);
+    const title = String((col && col.title) || '').trim().slice(0, 40);
+    return title && links.length ? section(title, html`<ul class="footer-list" role="list">${links}</ul>`) : '';
+  }).filter(Boolean);
+  const cols = wanted.map((k) => built[k]()).filter(Boolean).concat(custom);
+  const copyText = s.footer_copyright_text === undefined || s.footer_copyright_text === null ? '© {year} {shop}' : String(s.footer_copyright_text);
+  const copy = copyText.replace('{year}', String(year)).replace('{shop}', s.legal_name || s.business_name).trim();
+  const showContact = s.footer_show_contact !== false;
   return html`<footer class="site-footer">
   <div class="container">
-    <div class="footer-contact">
+    ${showContact ? html`<div class="footer-contact">
       <p class="footer-contact__name">${s.business_name}</p>
       ${address ? html`<p class="footer-contact__addr">${icon('map-pin', 16)}<span>${address}</span></p>` : ''}
       <p class="footer-contact__links">
         ${s.contact_phone ? html`<a class="footer-link" href="tel:+91${s.contact_phone}" data-tel="${s.contact_phone}">${icon('phone', 16)}${formatPhone(s.contact_phone)}</a>` : ''}
+        ${s.contact_email ? html`<a class="footer-link" href="mailto:${s.contact_email}">${icon('mail', 16)}${s.contact_email}</a>` : ''}
         ${s.whatsapp_number ? html`<a class="pill pill--whatsapp" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank">${icon('whatsapp', 16)}${t('footer.shop_on_whatsapp')}</a>` : ''}
       </p>
-    </div>
-    <div class="footer-cols">
-      <section class="footer-sec" data-acc>
-        <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${t('footer.about')}${icon('chevron-down', 16)}</button></h2>
-        <div class="footer-sec__panel" data-acc-panel>
-          ${s.tagline ? html`<p class="footer-sec__text">${s.tagline}</p>` : ''}
-          ${s.hours_text ? html`<p class="footer-sec__text">${icon('clock', 16)} ${s.hours_text}</p>` : ''}
-          <ul class="footer-list" role="list"><li><a class="footer-link" href="${pageUrl('about')}">${t('footer.about_us')}</a></li></ul>
-          ${socials.length ? html`<p class="footer-social">${socials.map((k) => html`<a class="icon-btn" href="${social[k]}" rel="noopener" target="_blank" aria-label="${t('social.' + k)}">${icon(k, 20)}</a>`)}</p>` : ''}
-        </div>
-      </section>
-      <section class="footer-sec" data-acc>
-        <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${t('footer.care')}${icon('chevron-down', 16)}</button></h2>
-        <div class="footer-sec__panel" data-acc-panel><ul class="footer-list" role="list">
-          <li><a class="footer-link" href="${pageUrl('contact')}">${t('footer.contact')}</a></li>
-          <li><a class="footer-link" href="${link('/cart/')}">${t('cart.title_plain')}</a></li>
-          ${footerPages.filter((p) => /shipping|refund|return/.test(p.slug)).map((p) => html`<li><a class="footer-link" href="${pageUrl(p.slug)}">${p.title}</a></li>`)}
-        </ul></div>
-      </section>
-      <section class="footer-sec" data-acc>
-        <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${t('footer.policies')}${icon('chevron-down', 16)}</button></h2>
-        <div class="footer-sec__panel" data-acc-panel><ul class="footer-list" role="list">
-          ${footerPages.filter((p) => !/shipping|refund|return/.test(p.slug)).map((p) => html`<li><a class="footer-link" href="${pageUrl(p.slug)}">${p.title}</a></li>`)}
-        </ul></div>
-      </section>
-      <section class="footer-sec" data-acc>
-        <h2 class="footer-sec__title"><button class="footer-sec__toggle" type="button" aria-expanded="true" data-acc-toggle>${t('footer.we_accept')}${icon('chevron-down', 16)}</button></h2>
-        <div class="footer-sec__panel" data-acc-panel>
-          ${ways.length ? html`<ul class="pay-badges" role="list">${ways.map((w) => html`<li class="pay-badge">${w}</li>`)}</ul>` : ''}
-          ${s.gstin ? html`<p class="footer-sec__text">${t('footer.gstin')}: ${s.gstin}</p>` : ''}
-          ${s.legal_name && s.legal_name !== s.business_name ? html`<p class="footer-sec__text">${s.legal_name}</p>` : ''}
-        </div>
-      </section>
-    </div>
+      ${!wanted.includes('about') ? socialRow : ''}
+    </div>` : (!wanted.includes('about') ? socialRow : '')}
+    ${cols.length ? html`<div class="${cls('footer-cols', { 'footer-cols--flush': !showContact })}">${cols}</div>` : ''}
     ${s.footer_text ? html`<p class="footer-note">${s.footer_text}</p>` : ''}
-    <p class="footer-copy">© ${year} ${s.legal_name || s.business_name}</p>
+    ${copy ? html`<p class="footer-copy">${copy}</p>` : ''}
   </div>
 </footer>`;
 }
@@ -577,41 +697,98 @@ export function notice(kind, text, extra = '') {
   return html`<div class="${cls('notice', 'notice--' + kind)}" role="${kind === 'danger' ? 'alert' : 'status'}">${icon(iconName, 20)}<p class="notice__text">${text}</p>${extra}</div>`;
 }
 
+/* ------------------------------------------------------------------ home sections & menus */
+
+/** Everything the home page can show, in the order the owner lists them (home_sections_json). */
+export const HOME_SECTIONS = ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed', 'all_products'];
+export const HOME_SECTIONS_DEFAULT = ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed'];
+
+/** The owner's home sections, cleaned: unknown names and repeats dropped. Not set → the default list. */
+export function homeSections(s) {
+  if (!Array.isArray(s.home_sections_json)) return HOME_SECTIONS_DEFAULT.slice();
+  const seen = new Set();
+  return s.home_sections_json.map((x) => String(x || '').trim().toLowerCase())
+    .filter((x) => HOME_SECTIONS.includes(x) && !seen.has(x) && seen.add(x));
+}
+
+/** Top-level categories shown in the header bar, phone menu and home tiles (owner can hide all, or one by one). */
+export function menuCategories(ctx) {
+  if (ctx.s.show_category_menu === false) return [];
+  return ctx.cat.categories.filter((c) => !c.parent_id && c.show_in_menu !== false);
+}
+
 /* ------------------------------------------------------------------ page bodies */
 
-/** HOME — Layout A (category-driven) or B (straight to the grid), Section 23.2. */
+/**
+ * HOME — Section 23.2 plus the owner's choices:
+ *  - home_layout "A": the sections in home_sections_json, in that order (banner, trust, categories, pinned,
+ *    bestsellers, new_arrivals, deals, recently_viewed, all_products). Leave a name out to hide it.
+ *  - home_layout "B": every product on one page with filters and sort (plus the trust strip if listed).
+ * Product rows need at least 4 products, otherwise they are skipped. If nothing would show, the first
+ * 12 products are shown so the home page is never empty.
+ */
 export function homeMain(ctx, { hasReturnPolicy = false, pinnedRows = [] } = {}) {
   const { s, t, cat } = ctx;
   const active = cat.products.filter((p) => leadVariant(p));
+  const want = homeSections(s);
   if (s.home_layout === 'B') {
     return html`<h1 class="sr-only">${s.business_name}</h1>
-${trustStrip(s, t, { hasReturnPolicy })}
+${want.includes('trust') ? trustStrip(s, t, { hasReturnPolicy }) : ''}
 ${listingMain(ctx, { mode: 'all', title: t('home.all_products'), products: active, hideTitle: true })}`;
   }
   const inStockFirst = (list) => list.slice().sort((a, b) => Number(isInStock(b)) - Number(isInStock(a)));
-  const best = inStockFirst(active.filter((p) => p.bestseller_rank).sort((a, b) => a.bestseller_rank - b.bestseller_rank)).slice(0, 16);
-  const newest = active.slice().sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, 16);
-  const deals = active.filter((p) => bestDiscount(p) > 0 && isInStock(p)).sort((a, b) => bestDiscount(b) - bestDiscount(a)).slice(0, 16);
-  const rows = [];
-  pinnedRows.forEach((r, i) => {
-    const list = (r.product_ids || []).map((id) => cat.byId[id]).filter(Boolean);
-    if (list.length >= 4) rows.push(productRow({ id: 'pin' + i, title: r.title, products: list.slice(0, 16), ctx }));
+  const build = {
+    trust: () => trustStrip(s, t, { hasReturnPolicy }),
+    categories: () => categoryTiles(menuCategories(ctx), ctx),
+    pinned: () => pinnedRows.map((r, i) => {
+      const list = (r.product_ids || []).map((id) => cat.byId[id]).filter(Boolean);
+      return list.length >= 4 ? productRow({ id: 'pin' + i, title: r.title, products: list.slice(0, 16), ctx }) : '';
+    }).filter(Boolean),
+    bestsellers: () => {
+      const list = inStockFirst(active.filter((p) => p.bestseller_rank).sort((a, b) => a.bestseller_rank - b.bestseller_rank)).slice(0, 16);
+      return list.length >= 4 ? productRow({ id: 'best', title: t('home.bestsellers'), products: list, viewAll: link('/search/?sort=bestseller'), ctx }) : '';
+    },
+    new_arrivals: () => {
+      const list = active.slice().sort((a, b) => String(b.created_at).localeCompare(String(a.created_at))).slice(0, 16);
+      return list.length >= 4 ? productRow({ id: 'new', title: t('home.new_arrivals'), products: list, viewAll: link('/search/?sort=newest'), ctx }) : '';
+    },
+    deals: () => {
+      const list = active.filter((p) => bestDiscount(p) > 0 && isInStock(p)).sort((a, b) => bestDiscount(b) - bestDiscount(a)).slice(0, 16);
+      return list.length >= 4 ? productRow({ id: 'deals', title: t('home.deals'), products: list, viewAll: link('/search/?sort=discount'), ctx }) : '';
+    },
+    recently_viewed: () => productRow({ id: 'recent', title: t('home.recently_viewed'), products: [], ctx, hidden: true })
+  };
+  // Build the page as blocks; the full product list (all_products) needs the full page width, so it
+  // closes the narrow home column and opens a new one after it.
+  const blocks = [];
+  let column = [];
+  let shown = 0;
+  const flush = () => { if (column.length) blocks.push(html`<div class="container home"><div class="home__rows">${column}</div></div>`); column = []; };
+  want.forEach((name) => {
+    if (name === 'banner') {
+      flush();
+      if (s.banner_frequency === 'DAY' || s.banner_frequency === 'SESSION') blocks.push(html`<h1 class="sr-only hero-alt-title">${s.business_name}</h1>`);
+      blocks.push(hero(ctx), html`<div id="main-products" class="home-anchor"></div>`);
+      return;
+    }
+    if (name === 'all_products') {
+      flush();
+      if (active.length) { blocks.push(html`<section class="home__all" aria-label="${t('home.all_products')}">${listingMain(ctx, { mode: 'all', title: t('home.all_products'), products: active, level: 2 })}</section>`); shown++; }
+      return;
+    }
+    const part = build[name]();
+    if (part && (!Array.isArray(part) || part.length)) {
+      column.push(part);
+      if (name !== 'trust' && name !== 'recently_viewed') shown++;
+    }
   });
-  if (best.length >= 4) rows.push(productRow({ id: 'best', title: t('home.bestsellers'), products: best, viewAll: link('/search/?sort=bestseller'), ctx }));
-  if (newest.length >= 4) rows.push(productRow({ id: 'new', title: t('home.new_arrivals'), products: newest, viewAll: link('/search/?sort=newest'), ctx }));
-  if (deals.length >= 4) rows.push(productRow({ id: 'deals', title: t('home.deals'), products: deals, viewAll: link('/search/?sort=discount'), ctx }));
-  const topCats = cat.categories.filter((c) => !c.parent_id);
-  return html`${hero(ctx)}
-<div class="container home">
-  ${trustStrip(s, t, { hasReturnPolicy })}
-  <div id="main-products" class="home__rows">
-    ${categoryTiles(topCats, ctx)}
-    ${rows}
-    ${productRow({ id: 'recent', title: t('home.recently_viewed'), products: [], ctx, hidden: true })}
-    ${!rows.length && active.length ? html`<section class="row" aria-labelledby="row-all"><div class="row__head"><h2 class="row__title" id="row-all">${t('home.all_products')}</h2><a class="btn btn--ghost btn--sm" href="${link('/search/')}">${t('common.view_all')}</a></div>${productGrid(active.slice(0, 12), ctx)}</section>` : ''}
-    ${!active.length ? emptyState({ iconName: 'box', title: t('home.no_products_title'), text: t('home.no_products_text') }) : ''}
-  </div>
-</div>`;
+  if (!shown && active.length) {
+    column.push(html`<section class="row" aria-labelledby="row-all"><div class="row__head"><h2 class="row__title" id="row-all">${t('home.all_products')}</h2><a class="btn btn--ghost btn--sm" href="${link('/search/')}">${t('common.view_all')}</a></div>${productGrid(active.slice(0, 12), ctx)}</section>`);
+  }
+  if (!active.length) column.push(emptyState({ iconName: 'box', title: t('home.no_products_title'), text: t('home.no_products_text') }));
+  flush();
+  return html`${want.includes('banner') ? '' : html`<h1 class="sr-only">${s.business_name}</h1>`}
+${blocks}`;
 }
 
 export const SORTS = ['relevance', 'bestseller', 'price_asc', 'price_desc', 'newest', 'discount', 'rating'];
@@ -647,14 +824,14 @@ export function filterForm(ctx, { mode, categories = [] }) {
 }
 
 /** Category, search and "all products" pages (Section 23.2 CATEGORY / SEARCH RESULTS). */
-export function listingMain(ctx, { mode, title, products, category = null, crumbs = null, hideTitle = false, perPage = 24 }) {
+export function listingMain(ctx, { mode, title, products, category = null, crumbs = null, hideTitle = false, perPage = 24, level = 1 }) {
   const { t, s, cat } = ctx;
   const first = products.slice(0, perPage);
   const topCats = cat.categories.filter((c) => !c.parent_id);
   return html`<div class="container listing-page">
   ${crumbs ? breadcrumbs(crumbs, t) : ''}
   <div class="listing__head ${hideTitle ? 'listing__head--compact' : ''}">
-    ${hideTitle ? '' : html`<h1 class="listing__title" data-listing-title>${title}</h1>`}
+    ${hideTitle ? '' : (level === 2 ? html`<h2 class="listing__title" data-listing-title>${title}</h2>` : html`<h1 class="listing__title" data-listing-title>${title}</h1>`)}
     <p class="listing__count" data-result-count aria-live="polite">${products.length ? t('listing.count', { n: products.length }) : ''}</p>
   </div>
   <div class="listing" data-listing data-mode="${mode}" ${category ? raw(`data-category="${esc(category.id)}"`) : ''}>
@@ -712,7 +889,8 @@ export function variantSelectors(p, selected, t) {
     return html`<fieldset class="vsel" data-option="${name}">
       <legend class="vsel__legend">${name}: <span class="vsel__value" data-option-value>${current || ''}</span></legend>
       <div class="vsel__opts">${values.map((val) => {
-        const hex = colour ? colourHex(val) : '';
+        const own = p.swatches && p.swatches[name] && /^#[0-9a-fA-F]{6}$/.test(p.swatches[name][val] || '') ? p.swatches[name][val] : '';
+        const hex = colour ? (own || colourHex(val)) : '';
         return html`<button type="button" class="${cls('vsel__opt', { 'vsel__opt--swatch': colour && !!hex })}" data-value="${val}" aria-pressed="${val === current ? 'true' : 'false'}" ${colour && hex ? raw(`aria-label="${esc(val)}" data-swatch="${esc(hex)}"`) : ''}>
           ${colour && hex ? html`<span class="vsel__swatch" data-swatch-fill="${hex}"></span>` : html`<span class="vsel__text">${val}</span>`}${icon('check', 16, 'vsel__check')}</button>`;
       })}</div>
@@ -737,6 +915,98 @@ export function stepper({ value = 1, min = 1, max = 99, label, name = 'qty', tra
 </div>`;
 }
 
+/**
+ * Specifications in one shape: [{ group: 'General', rows: [['Brand', 'Amma'], …] }, …].
+ * Accepts the simple list [['Brand', 'Amma'], …] or groups [{ group, rows }]. Keeps the limits
+ * (8 groups, 40 rows, name ≤ 60 and value ≤ 300 characters); `note(msg)` hears what was trimmed.
+ */
+export function normalizeSpecs(specs, note = () => {}) {
+  if (!Array.isArray(specs) || !specs.length) return [];
+  const isRow = (r) => Array.isArray(r) && r.length >= 2 && String(r[0] ?? '').trim() !== '' && String(r[1] ?? '').trim() !== '';
+  const groups = Array.isArray(specs[0]) ? [{ group: '', rows: specs }] : specs.filter((g) => g && Array.isArray(g.rows));
+  const out = [];
+  let total = 0;
+  let cut = false;
+  for (const g of groups) {
+    if (out.length >= 8) { cut = true; break; }
+    const rows = [];
+    for (const r of g.rows) {
+      if (!isRow(r)) continue;
+      if (total >= 40) { cut = true; break; }
+      rows.push([String(r[0]).trim().slice(0, 60), String(r[1]).trim().slice(0, 300)]);
+      total++;
+    }
+    if (rows.length) out.push({ group: String(g.group || '').trim().slice(0, 60), rows });
+  }
+  if (cut) note('the specifications are over the limit (8 groups, 40 rows); the extra rows are not shown.');
+  return out;
+}
+
+/** Specifications section: grouped tables, two columns on wide screens, long lists folded. */
+export function specSection(specs, t) {
+  const groups = normalizeSpecs(specs);
+  if (!groups.length) return '';
+  const total = groups.reduce((n, g) => n + g.rows.length, 0);
+  const fold = total > 12;
+  let shown = 0;
+  const table = (g) => html`<div class="spec-group">${g.group ? html`<h3 class="spec-group__title">${g.group}</h3>` : ''}
+      <table class="spec-table"><tbody>${g.rows.map((row) => html`<tr><th scope="row">${row[0]}</th><td>${row[1]}</td></tr>`)}</tbody></table></div>`;
+  const first = [];
+  const rest = [];
+  groups.forEach((g) => {
+    if (!fold || shown < 8) { first.push(g); shown += g.rows.length; } else rest.push(g);
+  });
+  return html`<section class="pdp__section" aria-labelledby="spec-title"><h2 class="pdp__h2" id="spec-title">${t('product.specifications')}</h2>
+    <div class="spec-groups">${first.map(table)}</div>
+    ${rest.length ? html`<details class="spec-more"><summary class="btn btn--ghost btn--sm">${t('product.show_all_specs', { n: total })}${icon('chevron-down', 16)}</summary><div class="spec-groups">${rest.map(table)}</div></details>` : ''}
+  </section>`;
+}
+
+/** "Key features" — up to 8 short points shown next to the price (Amazon's "About this item"). */
+export function highlightsBlock(list, t) {
+  const items = (Array.isArray(list) ? list : []).map((x) => String(x || '').trim().slice(0, 120)).filter(Boolean).slice(0, 8);
+  if (!items.length) return '';
+  return html`<section class="pdp__highlights" aria-labelledby="hl-title"><h2 class="pdp__hl-title" id="hl-title">${t('product.key_features')}</h2>
+    <ul class="hl-list" role="list">${items.map((x) => html`<li class="hl-list__item">${icon('check-circle', 18)}<span>${x}</span></li>`)}</ul></section>`;
+}
+
+/**
+ * Delivery on the product page (Admin → Settings → Delivery → "Delivery estimate"):
+ * DATE "Delivery by Thu, 8 Oct" after a pincode check · DAYS "Delivery in 3–5 days" · TEXT the
+ * owner's own words · HIDDEN no delivery box.
+ */
+export function deliveryBox(s, t) {
+  const mode = ['DATE', 'DAYS', 'TEXT', 'HIDDEN'].includes(s.delivery_display) ? s.delivery_display : 'DATE';
+  if (mode === 'HIDDEN') return '';
+  if (mode === 'TEXT') {
+    const text = String(s.delivery_custom_text || '').trim().slice(0, 80);
+    return text ? html`<p class="pdp__delivery">${icon('truck', 20)}<span>${text}</span></p>` : '';
+  }
+  return html`<form class="pin-check" data-pin-check data-mode="${mode}" novalidate>
+        <label class="pin-check__label" for="pin-input">${icon('truck', 20)}${t('product.check_delivery')}</label>
+        <div class="pin-check__row">
+          <input class="input" id="pin-input" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]*" placeholder="${t('product.pincode_placeholder')}" data-pin-input>
+          <button class="btn btn--secondary" type="submit">${t('product.check')}</button>
+        </div>
+        <p class="pin-check__result" data-pin-result aria-live="polite"></p>
+      </form>`;
+}
+
+/**
+ * The inside of the product gallery for one set of photos (positions in `images`). Re-drawn in the
+ * browser when a variant with its own photos (e.g. another colour) is chosen.
+ */
+export function galleryInner(p, images, set, t, fit) {
+  const list = set.map((i) => images[i]).filter(Boolean);
+  return html`<div class="${cls('gallery__track', fit)}" data-gallery-track tabindex="0" aria-label="${t('product.images_label', { name: p.name })}">
+        ${list.length ? list.map((img, i) => html`<figure class="gallery__slide" data-slide="${i}">
+          <button class="gallery__zoom" type="button" data-zoom="${i}" aria-label="${t('product.zoom_n', { n: i + 1 })}">${productImg(img, { eager: i === 0, className: 'gallery__img', alt: i === 0 ? (img.alt || p.name) : (img.alt || ''), sizes: '(min-width: 1024px) 50vw, 100vw' })}</button>
+        </figure>`) : html`<figure class="gallery__slide">${productImg(null, { className: 'gallery__img' })}</figure>`}
+      </div>
+      ${list.length > 1 ? html`<div class="gallery__dots" aria-hidden="true">${list.map((x, i) => html`<span class="${cls('gallery__dot', { 'is-active': i === 0 })}" data-dot="${i}"></span>`)}</div>
+      <div class="gallery__thumbs" role="list">${list.map((img, i) => html`<button class="gallery__thumb" type="button" role="listitem" data-thumb="${i}" aria-label="${t('product.show_image_n', { n: i + 1 })}" aria-current="${i === 0 ? 'true' : 'false'}"><img src="${img.thumb || img.card}" alt="" width="64" height="64" loading="lazy" decoding="async"></button>`)}</div>` : ''}`;
+}
+
 /** PRODUCT PAGE (Section 23.2 PRODUCT PAGE). `detail` adds description, specs and all images. */
 export function productMain(ctx, p, detail, related) {
   const { s, t, cat } = ctx;
@@ -753,20 +1023,12 @@ export function productMain(ctx, p, detail, related) {
   const specs = (detail && detail.specs) || [];
   const data = {
     id: p.id, slug: p.slug, name: p.name, option_names: p.option_names || [], variants: p.variants || [],
-    images, lead_sku: lead ? lead.sku : '', category_id: p.category_id, order_mode: p.order_mode || 'DEFAULT'
+    images, gallery: (detail && detail.gallery) || null, lead_sku: lead ? lead.sku : '', category_id: p.category_id, order_mode: p.order_mode || 'DEFAULT', fit
   };
   return html`<div class="container product-page" data-product-page>
   ${breadcrumbs(crumbs, t)}
   <div class="pdp">
-    <div class="pdp__gallery gallery" data-gallery>
-      <div class="${cls('gallery__track', fit)}" data-gallery-track tabindex="0" aria-label="${t('product.images_label', { name: p.name })}">
-        ${images.length ? images.map((img, i) => html`<figure class="gallery__slide" data-slide="${i}">
-          <button class="gallery__zoom" type="button" data-zoom="${i}" aria-label="${t('product.zoom_n', { n: i + 1 })}">${productImg(img, { eager: i === 0, className: 'gallery__img', alt: i === 0 ? (img.alt || p.name) : (img.alt || ''), sizes: '(min-width: 1024px) 50vw, 100vw' })}</button>
-        </figure>`) : html`<figure class="gallery__slide">${productImg(null, { className: 'gallery__img' })}</figure>`}
-      </div>
-      ${images.length > 1 ? html`<div class="gallery__dots" aria-hidden="true">${images.map((x, i) => html`<span class="${cls('gallery__dot', { 'is-active': i === 0 })}" data-dot="${i}"></span>`)}</div>
-      <div class="gallery__thumbs" role="list">${images.map((img, i) => html`<button class="gallery__thumb" type="button" role="listitem" data-thumb="${i}" aria-label="${t('product.show_image_n', { n: i + 1 })}" aria-current="${i === 0 ? 'true' : 'false'}"><img src="${img.thumb || img.card}" alt="" width="64" height="64" loading="lazy" decoding="async"></button>`)}</div>` : ''}
-    </div>
+    <div class="pdp__gallery gallery" data-gallery>${galleryInner(p, images, photoSet({ images, gallery: detail && detail.gallery }, lead), t, fit)}</div>
     <div class="pdp__info">
       ${p.brand ? html`<p class="pdp__brand">${p.brand}</p>` : ''}
       <h1 class="pdp__title">${p.name}</h1>
@@ -782,14 +1044,8 @@ export function productMain(ctx, p, detail, related) {
           <button class="btn btn--secondary btn--lg" type="button" data-buy-now ${inStock ? '' : raw('disabled')}>${t('product.buy_now')}</button>
         </div>
       </form>
-      <form class="pin-check" data-pin-check novalidate>
-        <label class="pin-check__label" for="pin-input">${icon('truck', 20)}${t('product.check_delivery')}</label>
-        <div class="pin-check__row">
-          <input class="input" id="pin-input" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]*" placeholder="${t('product.pincode_placeholder')}" data-pin-input>
-          <button class="btn btn--secondary" type="submit">${t('product.check')}</button>
-        </div>
-        <p class="pin-check__result" data-pin-result aria-live="polite"></p>
-      </form>
+      ${highlightsBlock(detail && detail.highlights, t)}
+      ${deliveryBox(s, t)}
       ${ways.length ? html`<p class="pdp__ways">${icon('lock', 16)}<span><strong>${t('product.ways_to_pay')}</strong> ${ways.join(' · ')}</span></p>` : ''}
       <div class="pdp__links">
         <button class="btn btn--ghost btn--sm" type="button" data-share>${icon('share', 18)}${t('product.share')}</button>
@@ -798,8 +1054,7 @@ export function productMain(ctx, p, detail, related) {
     </div>
   </div>
   ${detail && detail.description_html ? html`<section class="pdp__section" aria-labelledby="desc-title"><h2 class="pdp__h2" id="desc-title">${t('product.description')}</h2><div class="prose">${sanitizeRichText(detail.description_html)}</div></section>` : ''}
-  ${specs.length ? html`<section class="pdp__section" aria-labelledby="spec-title"><h2 class="pdp__h2" id="spec-title">${t('product.specifications')}</h2>
-    <table class="spec-table"><tbody>${specs.map((row) => html`<tr><th scope="row">${row[0]}</th><td>${row[1]}</td></tr>`)}</tbody></table></section>` : ''}
+  ${specSection(specs, t)}
   ${showRating ? html`<section class="pdp__section" id="reviews" aria-labelledby="rev-title"><h2 class="pdp__h2" id="rev-title">${t('product.reviews')}</h2>
     <p class="pdp__rating-big"><span class="pdp__rating-num">${Number(p.rating_avg).toFixed(1)}</span>${stars(p.rating_avg, p.rating_count, t, 20)}<span>${t('product.reviews_count', { n: p.rating_count })}</span></p></section>` : ''}
   ${related && related.length >= 2 ? productRow({ id: 'related', title: t('product.related'), products: related.slice(0, 16), ctx }) : ''}
@@ -874,7 +1129,7 @@ export function checkoutSoonMain(ctx) {
     <h1 class="checkout-soon__title">${t('checkout_soon.title')}</h1>
     <p>${t('checkout_soon.text')}</p>
     <div data-checkout-soon-summary></div>
-    ${s.whatsapp_number ? html`<a class="btn btn--primary btn--lg btn--block" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank" data-wa-order>${icon('whatsapp', 20)}${t('checkout_soon.send')}</a>` : ''}
+    ${s._preview_build ? notice('warning', t('preview.orders_off')) : (s.whatsapp_number ? html`<a class="btn btn--primary btn--lg btn--block" href="https://wa.me/91${s.whatsapp_number}" rel="noopener" target="_blank" data-wa-order>${icon('whatsapp', 20)}${t('checkout_soon.send')}</a>` : '')}
     <a class="btn btn--ghost btn--block" href="${link('/cart/')}">${t('checkout_soon.back')}</a>
   </div>
 </div>`;

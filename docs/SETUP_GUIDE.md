@@ -392,7 +392,7 @@ On your phone, open the address and check:
 Until the admin website arrives (Phase 2), you change these in one place: the **`display`** section of `client/store.config.json`.
 
 1. On GitHub open **client** → **store.config.json** → click the **✏️ pencil icon**.
-2. Scroll to `"display": {`. Change a value, keeping the quotation marks. For example:
+2. Scroll to `"display": {`. Change a value, keeping the quotation marks. For a line that isn't there yet ("add …"), type it on a new line right after `"display": {`. `true` and `false` have no quotation marks. For example:
 
 | To… | Change this line to… |
 |---|---|
@@ -405,6 +405,23 @@ Until the admin website arrives (Phase 2), you change these in one place: the **
 | Hide "bought" counts | `"sold_counts_mode": "OFF",` |
 | Hide star ratings | `"reviews_enabled": false,` |
 | Change a sentence | Inside `"en": { }` of `"text_overrides_json"`, add `"cart.add": "Add to bag"` |
+| Show every product on the home page (one page, with filters) | add `"home_layout": "B",` |
+| Hide Deals / New arrivals / Bestsellers on the home page | add `"home_sections_json": ["banner", "trust", "categories", "bestsellers"],` and leave out the ones you don't want |
+| Hide categories in the menus and home page | add `"show_category_menu": false,` |
+| Remove the "All products" link in the header | add `"show_all_products_link": false,` |
+| Use your logo (upload it to client/assets first) | add `"logo_path": "client/assets/logo.png",` |
+| Make the logo bigger | add `"logo_height_px": 56,` (allowed 24–72) |
+| Your own browser-tab icon | add `"favicon_path": "client/assets/favicon.png",` (square, 512 × 512) |
+| Change the browser-tab names | add `"tab_title_format": "{page} \| {shop} Online",` |
+| Show the banner once a day per person | add `"banner_frequency": "DAY",` |
+| A different banner each visit | add `"banner_start": "NEXT",` |
+| A gradient top bar | add `"header_bg": "linear-gradient(120deg, #1E1B4B, #4C1D95)",` |
+| A dark footer | add `"footer_bg": "#0F172A",` |
+| Gradient buttons | add `"button_bg": "linear-gradient(135deg, #7C3AED, #DB2777)",` |
+| Your own trust strip | see docs/V1.9_ADDITIONS.md section 12 |
+| Hide the trust strip | add `"show_trust_strip": false,` |
+| Delivery wording instead of the pincode box | add `"delivery_display": "TEXT",` and `"delivery_custom_text": "Ships in 24 hours",` |
+| Tall photos for clothing | add `"product_image_ratio": "PORTRAIT",` |
 | Remove the sample offer popup | change `"active": true` to `"active": false` in `"popups_json"` |
 
 3. Click **Commit changes…** → **Commit changes**. Wait 1–2 minutes and reload your shop.
@@ -443,5 +460,63 @@ Until the admin website arrives (Phase 2), you change these in one place: the **
 ⚠️ **If it doesn't appear:** it shows only once a day per visitor. Test in a private/incognito window, or change the `"id"` to something new. Also check the Cloudflare build log for a line starting with `! Popup` — it says if the file name doesn't match (capital letters count: `Poster.JPG` and `poster.jpg` are different) or the picture is too big.
 
 Want words as well as the poster? Add `"title"` and `"text"`; the picture then sits above them.
+
+#### 8d. Try every change first in the Design preview (no publishing)
+
+1. Open your shop's address with **/preview/** at the end, for example `https://vishnu-shop.pages.dev/preview/`.
+2. On the left, under **Easy settings**, change anything you like: colours and gradients, logo, tab icon, cover picture, banner timing, home sections, trust strip, look and feel, product cards, delivery wording, or footer.
+3. On the right, watch the shop change after a moment. Use the buttons along the top:
+   - **Phone / Tablet / Laptop / Big screen / All four** to see different screen sizes.
+   - **Page** to switch to a category, product, all-products, cart or contact page. Clicking a product inside the preview also works.
+   - **Dark** to see the shop in dark mode.
+   - **First visit** to see banners as a new customer does. Turn it off to see what a returning customer sees.
+   - **Pop-ups** to show your offer pop-up.
+4. To check a picture before uploading it, click **Try a picture** next to Logo, Tab icon or a Cover picture and choose a file from your computer. The preview shows it at once, and a ✓ or ⚠ line says whether its size and shape are right.
+5. When you are happy:
+   1. Click **Copy settings for GitHub**.
+   2. On GitHub, open **client → store.config.json** and click the ✏️ pencil.
+   3. Select from the line `"display": {` down to the line just **above** `"seo": {`. Then paste, so your copy replaces the selection.
+   4. Upload any pictures you tried to **client → assets**, using exactly the names the preview showed.
+   5. Click **Commit changes**.
+
+✅ **Nothing you do in the Design preview reaches customers.** It stays in your browser and is still there next time on the same browser. **Start again from the live shop** clears it.
+
+#### 8e. A private test copy of the whole shop (optional)
+
+This gives you a second, private copy of your real shop at its own address, for checking big changes on your phone before customers see them.
+
+**One-time setup:**
+1. **Create the copy.** On GitHub, open your repository. Click the branch button that says **main** (top left), type `preview`, and click **Create branch preview from main**.
+2. **Let Cloudflare build it.** Cloudflare builds it by itself in about 2 minutes. Open Cloudflare → **Workers & Pages** → **vishnu-shop** → **Deployments**. A **Preview** deployment for the branch `preview` appears. Its address is `https://preview.vishnu-shop.pages.dev`, and every page has a yellow **Preview copy** strip. Ordering is switched off there, and Google is told not to list it.
+3. **Make it private.** In Cloudflare → **vishnu-shop** → **Settings** → **General**, find **Access policy** and click **Enable**. This uses Cloudflare Access, which is free for small teams.
+4. **Check it is private.** Open `https://preview.vishnu-shop.pages.dev` in a private/incognito window. It should ask for an email and send a code to your Gmail. If it opens without asking, tell me and I'll give you the next step.
+
+**Each time you change something:**
+1. **Edit the copy.** On GitHub, use the branch button to switch to **preview**. Edit or upload files there exactly as before, then click **Commit changes**.
+2. **Check it.** About 2 minutes later, check the result at `https://preview.vishnu-shop.pages.dev`.
+3. **Publish it.** Happy? GitHub shows a yellow bar: **"preview had recent pushes" → Compare & pull request**. Click it, then **Create pull request** → **Merge pull request** → **Confirm merge**. The live shop updates 2 minutes later.
+4. **Clean up.** Click **Delete branch** on that page. Next time, create `preview` again (step 1 of the one-time setup), so it always starts from the live shop.
+
+From Phase 2 this becomes two buttons in the admin, **Save draft** (updates the preview copy) and **Publish**, with no GitHub steps.
+
+#### 8f. Your own cover picture for the big banner
+
+The cover picture fills the big banner under the menu bar (the area with your shop name). Each screen size gets its own picture, so it always looks right:
+
+| Picture | Exact shape | Best size | Needed? |
+|---|---|---|---|
+| Computer | **3 : 1** | 1920 × 640 | Yes |
+| Tablet | **2 : 1** | 1536 × 768 | Optional (otherwise the computer picture is trimmed to fit) |
+| Phone | **1 : 1** | 1080 × 1080 | Recommended |
+
+1. **Make the pictures.** In Canva, create a design with **Custom size** and type the exact size above for each one. Save each as **JPG**.
+2. **Choose the type of cover:**
+   - **Photo** (`"mode": "PHOTO"`): the shop writes its title, line and button over your photo.
+   - **Finished design** (`"mode": "ARTWORK"`): your picture already has its words. It is never cut, and `"alt"` holds those words for blind visitors and Google.
+3. **Try it in the Design preview (step 8d)** under **Cover picture**. The ✓ / ⚠ line checks each picture's shape at once.
+4. **Upload and copy.** Upload the pictures to **client → assets**, then copy the settings to GitHub as in step 8d.
+
+A picture with the wrong shape is **not used**, and the preview and build log say why. That is how the banner never looks stretched or badly cut on any phone or screen.
+
 
 Every option, with examples, is explained in **docs/V1.9_ADDITIONS.md**.

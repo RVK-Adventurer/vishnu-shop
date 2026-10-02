@@ -11,12 +11,26 @@ import { settings } from '../settings.js';
 import { setHtml, $ } from '../state.js';
 import { prefersReducedMotion } from '../a11y.js';
 
+/** Remembers that today's / this visit's banner was seen (see early.js and banner_frequency). */
+function rememberHeroSeen() {
+  const meta = document.querySelector('meta[name="x-hero"]');
+  if (!meta || document.documentElement.classList.contains('hero-off')) return;
+  const [freq, , , key] = String(meta.getAttribute('content') || '').split('|');
+  try {
+    if (freq === 'DAY') localStorage.setItem('hero:' + key, new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date()));
+    else if (freq === 'SESSION') sessionStorage.setItem('hero:' + key, '1');
+  } catch (e) { /* private mode: the banner simply shows again */ }
+}
+
 function initHero() {
+  rememberHeroSeen();
   const hero = $('[data-hero]');
-  if (!hero) return;
+  if (!hero || hero.offsetParent === null) return;
   const track = $('[data-hero-track]', hero);
-  const dots = Array.from(hero.querySelectorAll('[data-hero-dot]'));
-  const slides = Array.from(track.children);
+  // Slides and dots in the order they are SHOWN (the owner can start at a different banner each visit).
+  const shown = (list) => list.map((el, i) => ({ el, o: Number(getComputedStyle(el).order) || 0, i })).sort((a, b) => a.o - b.o || a.i - b.i).map((x) => x.el);
+  const dots = shown(Array.from(hero.querySelectorAll('[data-hero-dot]')));
+  const slides = shown(Array.from(track.children));
   if (slides.length < 2) return;
   let current = 0;
   const mark = (i) => {
@@ -28,6 +42,7 @@ function initHero() {
     track.scrollTo({ left: target.offsetLeft, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     mark(slides.indexOf(target));
   };
+  mark(0);
   dots.forEach((d, i) => d.addEventListener('click', () => { go(i); stop(); }));
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting && en.intersectionRatio > 0.6) mark(slides.indexOf(en.target)); }), { root: track, threshold: [0.6] });

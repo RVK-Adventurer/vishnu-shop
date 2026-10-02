@@ -9,5 +9,6 @@ Disallow: /order/
 Disallow: /track/
 Disallow: /styleguide.html
 Disallow: /tests.html
+Disallow: /preview/
 
 Sitemap: __SITEMAP__

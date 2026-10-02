@@ -203,6 +203,19 @@ function page() {
   <div class="sg-box"><div class="cart-line cart-line--skeleton"><span class="skel skel--thumb"></span><span class="skel skel--line"></span></div><div class="cart-line cart-line--skeleton"><span class="skel skel--thumb"></span><span class="skel skel--line"></span></div></div>
 </div></section>
 
+<section class="sg-section"><h2>Icons (names for the trust strip)</h2>
+  <p class="muted">Use these names in "trust_strip_json", e.g. {"icon": "truck", "text": "Free delivery"}.</p>
+  <ul class="sg-icons" role="list" data-sg-icons></ul></section>
+
+<section class="sg-section"><h2>Rich text (product descriptions)</h2>
+  <div class="prose sg-box">
+    <h3>Heading</h3><p class="rt-lh-15">Normal text with <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike</s>, <mark>highlight</mark>, <span class="rt-c-primary">brand colour</span>, <span class="rt-c-red">red</span>, <span class="rt-hl-green">green highlight</span>, H<sub>2</sub>O and x<sup>2</sup>.</p>
+    <p class="rt-center rt-lg">Centred, larger text</p>
+    <ul class="rt-list-check"><li>Tick list</li><li>Second point</li></ul><ol><li>Numbered</li><li>List</li></ol>
+    <div class="rt-table-wrap"><table class="rt-table-striped"><thead><tr><th>Size</th><th>Chest</th><th>Length</th></tr></thead><tbody><tr><td>M</td><td>38</td><td>28</td></tr><tr><td>L</td><td>40</td><td>29</td></tr></tbody></table></div>
+    <p class="rt-note">A note box for tips.</p><p class="rt-warn">A warning box.</p><blockquote>A quotation.</blockquote>
+  </div></section>
+
 <section class="sg-section"><h2>Admin pieces</h2><div class="sg-grid">
   <div class="card stat-card"><span class="stat-card__label">Today's revenue</span><span class="stat-card__value">${formatRupees(4567800)}</span><span class="stat-card__change stat-card__change--up">▲ 12% vs last week</span></div>
   <div class="card stat-card"><span class="stat-card__label">Orders needing action</span><span class="stat-card__value">7</span><span class="stat-card__change stat-card__change--down">▼ 2 overdue</span></div>
@@ -215,6 +228,7 @@ function page() {
 async function boot() {
   await loadStrings('en');
   setHtml($('[data-sg-root]'), page());
+  iconGallery();
   initDialogs();
   initSteppers();
 
@@ -271,3 +285,14 @@ async function boot() {
 }
 
 boot();
+
+/* Icon gallery: reads every icon name from the sprite so the list is always complete. */
+async function iconGallery() {
+  const list = document.querySelector('[data-sg-icons]');
+  if (!list) return;
+  try {
+    const txt = await (await fetch('/icons/sprite.svg')).text();
+    const names = [...txt.matchAll(/id="i-([a-z0-9-]+)"/g)].map((m) => m[1]);
+    setHtml(list, html`${names.map((n) => html`<li class="sg-icon">${icon(n, 24)}<code>${n}</code></li>`)}`);
+  } catch (e) { /* offline: no gallery */ }
+}

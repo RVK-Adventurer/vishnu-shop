@@ -26,12 +26,23 @@ import { fileURLToPath } from 'node:url';
 import { checkConfig } from './check-config.mjs';
 import { setStrings, t, mergeStrings, applyOverrides, LANGUAGES } from '../public/js/i18n.js';
 import { displayCss, fontPreload, DISPLAY_DEFAULTS } from '../public/js/display.js';
-import { brandCss, THEME_PRESETS } from '../public/js/color.js';
+import { brandCss, brandVariables, THEME_PRESETS } from '../public/js/color.js';
+import { themeCss, checkPaints } from '../public/js/theme.js';
+import { LIMITS } from '../public/js/limits.js';
+import { imageSize } from './image-size.mjs';
+import { COVER_SPEC, normalizeCover, checkCoverPicture, isBlocking, coverWarnings } from '../public/js/cover.js';
+import { lookCss, heroMetaContent, OWNER_KEYS } from '../public/js/look.js';
 import { html, raw } from '../public/js/html.js';
 import * as T from '../public/js/templates.js';
 import * as SEO from '../public/js/seo.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+/*
+ * Preview copy: Cloudflare builds every GitHub branch. The live branch (main) is the real shop; any
+ * other branch (e.g. "preview") becomes a private test copy at https://preview.<project>.pages.dev
+ * with a "Preview copy" ribbon, search engines kept out and ordering switched off.
+ */
+const BRANCH = process.env.CF_PAGES_BRANCH || '';
 const PUB = path.join(ROOT, 'public');
 const DIST = path.join(ROOT, 'dist');
 const DATA = path.join(ROOT, 'data');
@@ -99,6 +110,15 @@ function defaultPublicSettings() {
     theme_preset: 'ROYAL_INDIGO', primary_color: '#4338CA', secondary_color: '#0F766E', accent_color: '#F59E0B',
     font_body: 'system', font_heading: 'system', product_image_fit: 'contain', hero_banners_json: [], hero_autorotate: false,
     announcement_text: '', announcement_auto: true, trust_strip_json: [], home_layout: 'A', home_pinned_rows_json: [],
+    home_sections_json: ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed'],
+    show_category_menu: true, show_all_products_link: true,
+    logo_mode: 'LOGO_AND_NAME', logo_height_px: 40, tab_title_format: '{page} — {shop}', tab_title_home: '',
+    banner_frequency: 'ALWAYS', banner_start: 'FIRST', product_image_ratio: 'SQUARE',
+    header_bg: '', catbar_bg: '', announcement_bg: '', footer_bg: '', hero_bg: '', button_bg: '', page_bg: '',
+    delivery_display: 'DATE', delivery_custom_text: '',
+    footer_sections_json: ['about', 'care', 'policies', 'payments'], footer_columns_json: [], footer_about_text: '',
+    footer_show_contact: true, footer_show_social: true, footer_show_hours: true, footer_copyright_text: '© {year} {shop}',
+    hero_cover_json: null,
     store_open: true, weekly_hours_json: {}, closed_message: 'We are currently closed. You can still browse — ordering opens again soon.',
     hours_text: '', legal_name: '', contact_phone: '', contact_email: '', whatsapp_number: '', address_line1: '', address_line2: '',
     city: '', state: 'Tamil Nadu', shop_pincode: '', maps_url: '', social_json: {}, gstin: '', gst_mode: 'UNREGISTERED',
@@ -167,13 +187,11 @@ function buildSettings(cfg) {
   });
   s.gst_mode = s.gstin ? 'REGISTERED' : 'UNREGISTERED';
   // Until the admin website exists, the owner's v1.9 choices can be tried from the "display" section.
-  const DISPLAY_KEYS = ['page_width', 'ui_corners', 'ui_shadows', 'ui_spacing', 'ui_text_size', 'font_body', 'font_heading',
-    'sold_counts_mode', 'sold_counts_min', 'reviews_enabled', 'text_overrides_json', 'languages_json', 'default_language',
-    'popups_json', 'announcement_text', 'announcement_starts_at', 'announcement_ends_at', 'hero_banners_json', 'hero_autorotate',
-    'product_image_fit', 'trust_strip_json'];
+  const DISPLAY_KEYS = OWNER_KEYS;
   Object.entries(cfg.display || {}).forEach(([k, v]) => { if (DISPLAY_KEYS.includes(k) && v !== null && v !== undefined) s[k] = v; });
+  ['logo_path', 'favicon_path'].forEach((k) => { if (typeof s[k] === 'string' && s[k] && !s[k].startsWith('/')) s[k] = '/' + s[k]; });
   if (!(cfg.site || {}).razorpay_key_id) s.payment_options = s.payment_options.filter((o) => o.id !== 'RAZORPAY');
-  if (THEME_PRESETS[s.theme_preset] && !br.primary_color) {
+  if (THEME_PRESETS[s.theme_preset] && !br.primary_color && !(cfg.display || {}).primary_color) {
     const p = THEME_PRESETS[s.theme_preset];
     Object.assign(s, { primary_color: p.primary, secondary_color: p.secondary, accent_color: p.accent });
   }
@@ -229,22 +247,26 @@ function loadCatalog() {
     seenSlugs.add(p.slug);
     let detail = null;
     if (sample) {
-      detail = { id: p.id, slug: p.slug, description_html: p.description_html || '', specs: p.specs || [], images: p.images || [], seo_title: p.seo_title || '', seo_description: p.seo_description || '' };
+      detail = { id: p.id, slug: p.slug, description_html: p.description_html || '', specs: p.specs || [], highlights: p.highlights || [], images: p.images || [], gallery: p.gallery || null, seo_title: p.seo_title || '', seo_description: p.seo_description || '' };
     } else {
       detail = readJson(path.join(DATA, 'products', p.slug + '.json'), null);
     }
     const createdAt = sample ? new Date(NOW.getTime() - (p.created_days_ago || 30) * 86400000).toISOString() : p.created_at;
-    const variants = p.variants.filter((v) => v.active !== false).map((v) => ({
+    const lim = applyProductLimits(p, detail);
+    const variants = lim.variants.map((v) => ({
       sku: v.sku, options: v.options || {}, price: v.price, mrp: Number.isSafeInteger(v.mrp) && v.mrp > v.price ? v.mrp : v.price,
-      in_stock: !!v.in_stock, low_stock: !!v.low_stock, image: Number.isInteger(v.image) ? v.image : 0
+      in_stock: !!v.in_stock, low_stock: !!v.low_stock, image: Number.isInteger(v.image) ? v.image : 0,
+      ...(Array.isArray(v.images) && v.images.length ? { images: v.images.filter(Number.isInteger).slice(0, LIMITS.product_photos) } : {})
     }));
+    if (!variants.length) { log.skipped.push(`Product ${p.id}: no variants left after the limits`); continue; }
     const prices = variants.map((v) => v.price);
     const light = {
       id: p.id, slug: p.slug, name: p.name, short: p.short || '', category_id: catIds.has(p.category_id) ? p.category_id : '',
       tags: p.tags || [], brand: p.brand || '', gst_rate: p.gst_rate ?? 0,
       price_min: Math.min(...prices), price_max: Math.max(...prices),
       rating_avg: p.rating_avg || 0, rating_count: p.rating_count || 0,
-      images: (p.images || []).slice(0, 2), option_names: p.option_names || [], variants,
+      images: (p.images || []).slice(0, 2), option_names: lim.optionNames, variants,
+      ...(p.swatches && typeof p.swatches === 'object' ? { swatches: cleanSwatches(p.swatches, lim.optionNames) } : {}),
       created_at: createdAt || '', bestseller_rank: p.bestseller_rank || null, order_mode: p.order_mode || 'DEFAULT',
       // "Bought" counts are always published rounded down (100+, 1K+…), never exact.
       sold_30d: T.roundSold(p.sold_30d), sold_total: T.roundSold(p.sold_total)
@@ -288,26 +310,36 @@ const GLYPHS = {
   shirt: '<path d="M240 200l-70 40 25 55 40-20v145h130V275l40 20 25-55-70-40c-10 25-30 35-60 35s-50-10-60-35z"/>'
 };
 
-function sampleSvg(label, catId, variant) {
+function sampleSvg(label, catId, variant, colour) {
   const st = SAMPLE_STYLE[catId] || { hue: 240, glyph: 'box' };
   const h = (st.hue + (variant === 2 ? 18 : 0)) % 360;
-  const bg = `hsl(${h}, 60%, ${variant === 2 ? 88 : 93}%)`;
-  const disc = `hsl(${h}, 55%, ${variant === 2 ? 78 : 83}%)`;
-  const ink = `hsl(${h}, 45%, 32%)`;
+  let bg = `hsl(${h}, 60%, ${variant === 2 ? 88 : 93}%)`;
+  let disc = `hsl(${h}, 55%, ${variant === 2 ? 78 : 83}%)`;
+  let ink = `hsl(${h}, 45%, 32%)`;
+  let labelInk = null;
+  if (/^#[0-9A-F]{6}$/i.test(colour || '')) {
+    // Colour-specific sample photos (shows how each colour gets its own set of photos).
+    bg = `hsl(0, 0%, ${variant === 2 ? 92 : variant === 3 ? 88 : 96}%)`;
+    disc = colour;
+    const [r, g, b] = [1, 3, 5].map((k) => parseInt(colour.slice(k, k + 2), 16));
+    ink = (0.299 * r + 0.587 * g + 0.114 * b) > 150 ? '#1F2937' : '#FFFFFF';
+    labelInk = '#1F2937';
+  }
   const safe = String(label).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
 <rect width="600" height="600" fill="${bg}"/>
 <circle cx="300" cy="300" r="${variant === 2 ? 190 : 170}" fill="${disc}"/>
 <g fill="none" stroke="${ink}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">${GLYPHS[st.glyph]}</g>
-<text x="300" y="540" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="30" font-weight="600" fill="${ink}" text-anchor="middle">${safe}</text>
+<text x="300" y="540" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="30" font-weight="600" fill="${labelInk || ink}" text-anchor="middle">${safe}</text>
 </svg>`;
 }
 
-function writeSampleImages(catalog) {
+function writeSampleImages(catalog, details = {}) {
   let n = 0;
   for (const p of catalog.products) {
-    for (const [i, img] of (p.images || []).entries()) {
-      if (img.full && img.full.startsWith('/assets/images/sample/')) { write(img.full, sampleSvg(p.name, p.category_id, i + 1)); n++; }
+    const all = (details[p.slug] && details[p.slug].images) || p.images || [];
+    for (const [i, img] of all.entries()) {
+      if (img.full && img.full.startsWith('/assets/images/sample/')) { write(img.full, sampleSvg(p.name, p.category_id, img.sample_color ? (i % 3) + 1 : i + 1, img.sample_color)); n++; }
     }
   }
   for (const c of catalog.categories) {
@@ -336,14 +368,16 @@ function renderPage(ctx, page, common) {
     alternates: L.codes.length > 1 && !page.noindex ? langs.map((l) => ({ hreflang: LANGUAGES[l.code].locale, href: l.href })).concat([{ hreflang: 'x-default', href: rawPath }]) : [],
     title: page.title, description: page.description, path: page.path, image: page.image || common.ogImage,
     imageWidth: page.image ? null : 1200, imageHeight: page.image ? null : 630,
-    type: page.type === 'product' ? 'product' : 'website', noindex: page.noindex || !PRODUCTION,
+    type: page.type === 'product' ? 'product' : 'website', noindex: page.noindex || !PRODUCTION || !!s._preview_build,
     jsonld: page.jsonld || [], siteUrl: common.siteUrl, siteName: s.business_name
   });
   const meta = html`<meta name="x-api-url" content="${common.apiUrl}">
 <meta name="x-build" content="${common.buildId}">
 <meta name="x-catalog-version" content="${common.catalogVersion}">
 <meta name="x-production" content="${PRODUCTION ? '1' : '0'}">
-${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" type="font/woff2" crossorigin>` : ''}`;
+${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" type="font/woff2" crossorigin>` : ''}
+${page.heroMeta ? html`<meta name="x-hero" content="${page.heroMeta}">` : ''}
+${page.coverPreload ? page.coverPreload : ''}`;
   const pageCtx = { ...ctx, currentCategory: page.currentCategory || null, langs };
   const bodyAttrs = Object.entries({ 'data-page': page.type, ...(page.bodyAttrs || {}) })
     .map(([k, v]) => `${k}="${String(v).replace(/"/g, '&quot;')}"`).join(' ');
@@ -351,13 +385,14 @@ ${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" t
     '{{HEAD}}': head.toString(),
     '{{META}}': meta.toString(),
     '{{THEME_COLOR}}': s.primary_color,
+    '{{ICONS}}': common.icons,
     '{{LANG}}': LANGUAGES[L.current].locale,
     '{{LANG_CODE}}': L.current,
     '{{BASE}}': T.getBase(),
     '{{BUILD}}': common.buildId,
     '{{SKIP}}': t('common.skip'),
     '{{BODY_ATTRS}}': bodyAttrs,
-    '{{ANNOUNCE}}': T.announcementBar(pageCtx).toString(),
+    '{{ANNOUNCE}}': T.previewRibbon(pageCtx).toString() + T.announcementBar(pageCtx).toString(),
     '{{HEADER}}': T.header(pageCtx).toString(),
     '{{MAIN}}': page.main.toString(),
     '{{FOOTER}}': T.footer(pageCtx, common.pages).toString(),
@@ -366,6 +401,116 @@ ${common.preload ? html`<link rel="preload" href="${common.preload}" as="font" t
   // split/join (not String.replace) so "$" signs in product text are never treated specially.
   return SHELL.replace(/\{\{[A-Z_]+\}\}/g, (token) => (token in fill ? '\u0000' + token + '\u0000' : token))
     .split('\u0000').map((piece) => (piece in fill ? fill[piece] : piece)).join('');
+}
+
+/** A file inside the shop for a /client/assets/… or /assets/… address (or null). */
+function assetFile(src) {
+  if (!src) return null;
+  const rel = decodeURI(src).replace(/^\//, '');
+  return rel.startsWith('client/') ? path.join(ROOT, rel) : path.join(PUB, rel);
+}
+
+/**
+ * Logo and favicon: checks the files, keeps the logo height inside its limits, and records the
+ * logo's real shape so the header can reserve exactly the right space.
+ */
+function checkBrandFiles(settings) {
+  const L = LIMITS;
+  if (settings.logo_path) {
+    const src = T.localImagePath(settings.logo_path, { svg: true });
+    const file = assetFile(src);
+    if (!src) { warn(`Logo: "${settings.logo_path}" must be a .svg, .png, .webp or .jpg file inside client/assets. The shop name is shown instead.`); settings.logo_path = ''; }
+    else if (!fs.existsSync(file)) { warn(`Logo: "${decodeURI(src)}" was not found (spelling and capital letters matter). The shop name is shown instead.`); settings.logo_path = ''; }
+    else {
+      const kb = Math.round(fs.statSync(file).size / 1024);
+      if (kb > L.logo_file_kb) warn(`Logo: the file is ${kb} KB — please keep it under ${L.logo_file_kb} KB (an SVG, or a PNG about 480 × 120 pixels).`);
+      const dim = imageSize(file);
+      if (dim && dim.width && dim.height) {
+        settings._logo_w = dim.width; settings._logo_h = dim.height;
+        if (dim.width / dim.height > 6) warn('Logo: it is very wide, so it will look small. A logo about 4 times wider than tall looks best.');
+      }
+    }
+  }
+  const raw = Number(settings.logo_height_px);
+  if (settings.logo_height_px !== undefined && (!Number.isFinite(raw) || raw < L.logo_height_px.min || raw > L.logo_height_px.max)) {
+    warn(`Logo height: ${settings.logo_height_px} is outside the allowed ${L.logo_height_px.min}–${L.logo_height_px.max} pixels, so ${Math.max(L.logo_height_px.min, Math.min(L.logo_height_px.max, Math.round(raw) || L.logo_height_px.default))} is used. (Phones always use at most 44 pixels.)`);
+  }
+  settings._favicon = null;
+  if (settings.favicon_path) {
+    const src = T.localImagePath(settings.favicon_path, { svg: true });
+    const file = assetFile(src);
+    if (!src || !/\.(svg|png|ico)$/i.test(src)) warn(`Favicon: "${settings.favicon_path}" must be an .svg, .png or .ico file inside client/assets. The standard icon is used.`);
+    else if (!fs.existsSync(file)) warn(`Favicon: "${decodeURI(src)}" was not found (spelling and capital letters matter). The standard icon is used.`);
+    else {
+      const dim = imageSize(file) || {};
+      const kb = Math.round(fs.statSync(file).size / 1024);
+      if (kb > L.favicon_file_kb) warn(`Favicon: the file is ${kb} KB — please keep it under ${L.favicon_file_kb} KB.`);
+      if (dim.width && dim.height && dim.width !== dim.height) warn(`Favicon: it is ${dim.width} × ${dim.height}. It should be square (best 512 × 512), otherwise browsers squash it.`);
+      if (dim.type === 'png' && dim.width && dim.width < L.favicon_min_px) warn(`Favicon: ${dim.width} pixels is too small — use at least ${L.favicon_min_px} (best 512 × 512).`);
+      settings._favicon = { src, type: /\.svg$/i.test(src) ? 'image/svg+xml' : /\.ico$/i.test(src) ? 'image/x-icon' : 'image/png', size: dim.width || 0 };
+    }
+  }
+  if (Array.isArray(settings.trust_strip_json) && settings.trust_strip_json.length) {
+    const sprite = fs.readFileSync(path.join(PUB, 'icons', 'sprite.svg'), 'utf8');
+    const icons = new Set([...sprite.matchAll(/id="i-([a-z0-9-]+)"/g)].map((m) => m[1]));
+    if (settings.trust_strip_json.length > L.trust_items) warn(`Trust strip: ${settings.trust_strip_json.length} items; the limit is ${L.trust_items}.`);
+    settings.trust_strip_json.forEach((it, i) => {
+      if (!it || !it.text) { warn(`Trust strip item ${i + 1} has no "text" — skipped.`); return; }
+      if (it.icon && !icons.has(it.icon)) {
+        warn(`Trust strip "${it.text}": there is no icon called "${it.icon}" (a tick is shown). Icons: ${[...icons].join(', ')}.`);
+        settings.trust_strip_json[i] = { ...it, icon: 'check' };
+      }
+      if (String(it.text).length > L.trust_text_chars) warn(`Trust strip "${it.text}": please keep it to ${L.trust_text_chars} characters (it was shortened).`);
+    });
+  }
+  const fmt = String(settings.tab_title_format || '');
+  if (fmt && !fmt.includes('{page}')) warn('Tab names: tab_title_format must contain {page} (for example "{page} — {shop}"). The standard format is used.');
+  const homeT = T.tabTitle(settings, '') || '';
+  if (homeT.length > L.tab_title_chars) warn(`Tab names: the home page name is ${homeT.length} characters; Google shows about ${L.tab_title_chars}.`);
+  checkPaints(settings).forEach(warn);
+}
+
+/**
+ * Cover picture: each version must have its exact shape (3:1 computer, 2:1 tablet, 1:1 phone) and a
+ * sensible size. A wrong picture is left out (never stretched); without a usable computer picture the
+ * normal colour banner is shown. Records the real sizes so the page reserves exactly the right space.
+ */
+function checkCover(settings) {
+  const c = normalizeCover(settings.hero_cover_json);
+  if (!c) { settings.hero_cover_json = null; return; }
+  c._dims = {};
+  for (const slot of Object.keys(COVER_SPEC)) {
+    if (!c[slot]) continue;
+    const src = T.localImagePath(c[slot]);
+    const file = src ? assetFile(src) : null;
+    if (!src) { warn(`Cover: the ${COVER_SPEC[slot].label.toLowerCase()} picture "${c[slot]}" must be a .jpg, .png or .webp file inside client/assets. It was not used.`); c[slot] = ''; continue; }
+    if (!fs.existsSync(file)) { warn(`Cover: the ${COVER_SPEC[slot].label.toLowerCase()} picture "${decodeURI(src)}" was not found (spelling and capital letters matter). It was not used.`); c[slot] = ''; continue; }
+    const dim = imageSize(file) || {};
+    const problem = checkCoverPicture(slot, { width: dim.width, height: dim.height, kb: Math.round(fs.statSync(file).size / 1024) });
+    if (problem) warn('Cover: ' + problem);
+    if (isBlocking(problem)) { c[slot] = ''; continue; }
+    c._dims[slot] = { w: dim.width, h: dim.height };
+  }
+  if (!c.desktop) {
+    warn('Cover: no usable computer picture (3 : 1, e.g. 1920 × 640), so the normal colour banner is shown.');
+    settings.hero_cover_json = null;
+    return;
+  }
+  coverWarnings(c).forEach(warn);
+  settings.hero_cover_json = c;
+}
+
+/** The <link> tags for the browser-tab icon and the phone home-screen icon. */
+function iconLinks(settings) {
+  const f = settings._favicon;
+  const tags = [];
+  if (f) {
+    tags.push(`<link rel="icon" href="${f.src}" type="${f.type}"${f.type === 'image/png' && f.size ? ` sizes="${f.size}x${f.size}"` : ''}>`);
+    tags.push(`<link rel="apple-touch-icon" href="${f.type === 'image/png' && f.size >= 180 ? f.src : '/client/assets/apple-touch-icon.png'}">`);
+  } else {
+    tags.push('<link rel="icon" href="/client/assets/favicon.svg" type="image/svg+xml">', '<link rel="icon" href="/client/assets/favicon-32.png" sizes="32x32" type="image/png">', '<link rel="apple-touch-icon" href="/client/assets/apple-touch-icon.png">');
+  }
+  return tags.join('\n');
 }
 
 /** Offer posters: the picture must be inside the shop, exist (spelling and capital letters matter) and be small. */
@@ -390,6 +535,71 @@ function checkPopupImages(settings) {
   });
 }
 
+/** Owner-picked swatch colours per option value: { "Colour": { "Maroon": "#7F1D1D" } } (colour codes only). */
+function cleanSwatches(sw, names) {
+  const out = {};
+  names.forEach((n) => {
+    if (!sw[n] || typeof sw[n] !== 'object') return;
+    Object.entries(sw[n]).forEach(([val, hex]) => { if (/^#[0-9a-fA-F]{6}$/.test(String(hex))) (out[n] = out[n] || {})[val] = String(hex).toUpperCase(); });
+  });
+  return out;
+}
+
+/**
+ * Keeps one product inside LIMITS (limits.js): at most 3 option types (Colour, Size…), 20 values per
+ * option, 100 combinations, 60 photos (6 per set), 8 key features, 8 specification groups / 40 rows.
+ * Anything over a limit is left out and the build log says exactly what, so nothing breaks silently.
+ */
+function applyProductLimits(p, detail) {
+  const L = LIMITS;
+  const who = `Product "${p.name || p.id}"`;
+  let optionNames = (p.option_names || []).slice();
+  if (optionNames.length > L.option_types) {
+    warn(`${who}: ${optionNames.length} option types; the limit is ${L.option_types}. Only ${optionNames.slice(0, L.option_types).join(', ')} are used.`);
+    optionNames = optionNames.slice(0, L.option_types);
+  }
+  let variants = (p.variants || []).filter((v) => v.active !== false);
+  for (const name of optionNames) {
+    const values = [];
+    variants.forEach((v) => { const x = (v.options || {})[name]; if (x !== undefined && !values.includes(x)) values.push(x); });
+    if (values.length > L.option_values) {
+      const keep = new Set(values.slice(0, L.option_values));
+      warn(`${who}: ${values.length} different "${name}" values; the limit is ${L.option_values}. The extra ones are not shown.`);
+      variants = variants.filter((v) => keep.has((v.options || {})[name]));
+    }
+  }
+  if (variants.length > L.variants) {
+    warn(`${who}: ${variants.length} combinations; the limit is ${L.variants}. Only the first ${L.variants} are shown.`);
+    variants = variants.slice(0, L.variants);
+  }
+  if (detail) {
+    if (Array.isArray(detail.images) && detail.images.length > L.photos_total) {
+      warn(`${who}: ${detail.images.length} photos; the limit is ${L.photos_total} in total (${L.product_photos} per colour). The extra ones are not shown.`);
+      detail.images = detail.images.slice(0, L.photos_total);
+    }
+    if (Array.isArray(detail.gallery) && detail.gallery.length > L.product_photos) {
+      warn(`${who}: ${detail.gallery.length} photos in the main set; the limit is ${L.product_photos}. The first ${L.product_photos} are shown.`);
+      detail.gallery = detail.gallery.slice(0, L.product_photos);
+    }
+    if (!detail.gallery && Array.isArray(detail.images) && detail.images.length > L.product_photos && !variants.some((v) => Array.isArray(v.images) && v.images.length)) {
+      warn(`${who}: ${detail.images.length} photos; up to ${L.product_photos} are shown per product (or ${L.product_photos} per colour).`);
+    }
+    variants.forEach((v) => {
+      if (Array.isArray(v.images) && v.images.length > L.product_photos) warn(`${who}: the "${Object.values(v.options || {}).join(' / ')}" photos are ${v.images.length}; the limit is ${L.product_photos}.`);
+    });
+    if (Array.isArray(detail.highlights) && detail.highlights.length > L.highlights) {
+      warn(`${who}: ${detail.highlights.length} key features; the limit is ${L.highlights}.`);
+      detail.highlights = detail.highlights.slice(0, L.highlights);
+    }
+    if (typeof detail.description_html === 'string' && detail.description_html.length > L.description_chars) {
+      warn(`${who}: the description is ${detail.description_html.length} characters; the limit is ${L.description_chars}. It was shortened.`);
+      detail.description_html = detail.description_html.slice(0, L.description_chars);
+    }
+    detail.specs = T.normalizeSpecs(detail.specs, (m) => warn(`${who}: ${m}`));
+  }
+  return { optionNames, variants };
+}
+
 /* ======================================================================== main */
 
 function main() {
@@ -410,7 +620,15 @@ function main() {
   SHELL = fs.readFileSync(path.join(PUB, 'index.html'), 'utf8');
 
   const settings = buildSettings(cfg);
+  const liveBranch = String((cfg.site || {}).production_branch || 'main');
+  const PREVIEW_BUILD = !!BRANCH && BRANCH !== liveBranch;
+  if (PREVIEW_BUILD) {
+    settings._preview_build = true;
+    console.log(`  Preview copy: branch "${BRANCH}" (the live shop is "${liveBranch}"). Ribbon on, search engines kept out, ordering off.`);
+  }
   checkPopupImages(settings);
+  checkBrandFiles(settings);
+  checkCover(settings);
 
   /* --- languages: the default at the site root, others under /<code>/ */
   const wanted = Array.isArray(settings.languages_json) ? settings.languages_json : ['en'];
@@ -449,16 +667,17 @@ function main() {
   const cssParts = ['tokens.css', 'base.css', 'components.css', 'layout.css', 'pages.css'].map((f) => fs.readFileSync(path.join(PUB, 'css', f), 'utf8'));
   const siteCss = cssParts.join('\n');
   write('css/site.css', siteCss);
+  if (Array.isArray(settings.hero_banners_json) && settings.hero_banners_json.length > LIMITS.banners) {
+    warn(`Banners: ${settings.hero_banners_json.length} banners set; the limit is ${LIMITS.banners}, so only the first ${LIMITS.banners} are used.`);
+    settings.hero_banners_json = settings.hero_banners_json.slice(0, LIMITS.banners);
+  }
   const banners = Array.isArray(settings.hero_banners_json) ? settings.hero_banners_json : [];
-  const focalRules = [...new Set(banners.filter((b) => b && b.image).map((b) => T.focalKey(b)))]
-    .map((k) => { const [x, y] = k.split('-'); return `.hero__img[data-focal="${k}"] { object-position: ${x}% ${y}%; }`; }).join('\n');
-  const brand = brandCss({ primary: settings.primary_color, secondary: settings.secondary_color, accent: settings.accent_color }) + (focalRules ? '\n' + focalRules + '\n' : '')
-    + '\n' + displayCss(settings, fontsList);
-  write('css/brand.css', brand);
+  const brandAll = lookCss(settings, fontsList, NOW);
+  write('css/brand.css', brandAll);
 
   /* --- build id = fingerprint of everything that affects the pages */
   const jsFiles = listFiles(path.join(PUB, 'js')).map((f) => fs.readFileSync(f, 'utf8')).join('');
-  const buildId = hash(siteCss + brand + jsFiles + JSON.stringify(catalog) + JSON.stringify(settings) + JSON.stringify(pages) + SHELL, 12);
+  const buildId = hash(siteCss + brandAll + jsFiles + JSON.stringify(catalog) + JSON.stringify(settings) + JSON.stringify(pages) + SHELL, 12);
 
   /* --- data files the browser reads */
   const publicSettings = { ...settings };
@@ -469,7 +688,7 @@ function main() {
   write('pages.json', JSON.stringify(pages.map(({ slug, title, show_in_footer }) => ({ slug, title, show_in_footer }))));
   write('pincode-rules.json', JSON.stringify(pincodeRules && Array.isArray(pincodeRules.rules) ? pincodeRules : { rules: [] }));
   write('build.json', JSON.stringify({ build_id: buildId, built_at: NOW.toISOString(), catalog_version: catalog.catalog_version, production: PRODUCTION, sample }));
-  const imgCount = sample ? writeSampleImages(catalog) : 0;
+  const imgCount = sample ? writeSampleImages(catalog, details) : 0;
 
   /* --- pages (one full set per language) */
   const ogImage = '/' + String(cfgValue(seoCfg.og_image) || 'client/assets/og-default.png').replace(/^\//, '');
@@ -483,7 +702,16 @@ function main() {
   setStrings(stringsFor(lang), lang);
   T.setBase(lang === defaultLang ? '' : lang);
   const dir = lang === defaultLang ? '' : lang + '/';
-  const common = { siteUrl, apiUrl, buildId, catalogVersion: catalog.catalog_version, pages, ogImage, preload, lang: { codes, default: defaultLang, current: lang } };
+  const heroShown = settings.home_layout !== 'B' && T.homeSections(settings).includes('banner');
+  const heroMeta = heroMetaContent(settings, NOW);
+  // The cover picture is the biggest thing on the home page: ask for the right version early.
+  const cv = settings.hero_cover_json;
+  const coverPreload = cv && heroShown && !banners.some((b) => b && b.image) ? raw([
+    cv.mobile ? `<link rel="preload" as="image" href="${T.localImagePath(cv.mobile)}" media="(max-width: 767px)" fetchpriority="high">` : '',
+    cv.tablet ? `<link rel="preload" as="image" href="${T.localImagePath(cv.tablet)}" media="(min-width: 768px) and (max-width: 1279px)" fetchpriority="high">` : '',
+    `<link rel="preload" as="image" href="${T.localImagePath(cv.desktop)}" media="${cv.tablet ? '(min-width: 1280px)' : cv.mobile ? '(min-width: 768px)' : 'all'}" fetchpriority="high">`
+  ].filter(Boolean).join('\n')) : '';
+  const common = { siteUrl, apiUrl, buildId, catalogVersion: catalog.catalog_version, pages, ogImage, preload, icons: iconLinks(settings), lang: { codes, default: defaultLang, current: lang } };
   const out = (rel, pageHtml, loc, lastmod) => {
     write(dir + rel, pageHtml);
     if (loc) sitemap.push({ loc, lastmod });
@@ -491,7 +719,7 @@ function main() {
 
   // Home
   out('index.html', renderPage(ctx, {
-    path: T.link('/'), type: 'home', title: defaultTitle, description: defaultDesc,
+    path: T.link('/'), type: 'home', title: T.tabTitle(settings, '') || defaultTitle, description: defaultDesc, heroMeta, coverPreload,
     jsonld: [orgLd, SEO.websiteLd(settings, siteUrl)],
     main: T.homeMain(ctx, { hasReturnPolicy, pinnedRows: settings.home_pinned_rows_json || [] })
   }, common), T.link('/'), null);
@@ -502,7 +730,7 @@ function main() {
     const sorted = list.slice().sort((a, b) => Number(T.isInStock(b)) - Number(T.isInStock(a)) || (a.bestseller_rank || 999) - (b.bestseller_rank || 999));
     const crumbs = [{ name: t('common.home'), href: T.link('/') }, { name: c.name }];
     out(`c/${c.slug}/index.html`, renderPage(ctx, {
-      path: T.categoryUrl(c), type: 'category', title: `${c.name} — ${settings.business_name}`,
+      path: T.categoryUrl(c), type: 'category', title: c.seo_title || T.tabTitle(settings, c.name),
       description: t('listing.count', { n: list.length }) + ' · ' + c.name + ' · ' + settings.business_name,
       image: c.image && !c.image.endsWith('.svg') ? c.image : null,
       jsonld: [SEO.breadcrumbLd(crumbs.map((x, i) => (i === 0 ? { ...x } : { name: x.name, href: T.categoryUrl(c) })), siteUrl), SEO.itemListLd(sorted, siteUrl)],
@@ -525,7 +753,7 @@ function main() {
       const raster = firstImg && !/\.svg$/i.test(firstImg.full || '') ? (firstImg.full || firstImg.card) : null;
       out(`p/${p.slug}/index.html`, renderPage(ctx, {
         path: T.productUrl(p), type: 'product',
-        title: (d && d.seo_title) || `${p.name} — ${settings.business_name}`,
+        title: (d && d.seo_title) || T.tabTitle(settings, p.name),
         description: (d && d.seo_description) || p.short || SEO.stripTags(d && d.description_html) || p.name,
         image: raster, jsonld: [SEO.productLd(p, d, settings, siteUrl, category), SEO.breadcrumbLd(crumbs, siteUrl)],
         currentCategory: p.category_id, bodyAttrs: { 'data-slug': p.slug },
@@ -541,26 +769,26 @@ function main() {
   for (const pg of pages) {
     const isContact = pg.slug === 'contact';
     out(`pages/${pg.slug}/index.html`, renderPage(ctx, {
-      path: T.pageUrl(pg.slug), type: isContact ? 'contact' : 'static', title: `${pg.title} — ${settings.business_name}`,
+      path: T.pageUrl(pg.slug), type: isContact ? 'contact' : 'static', title: T.tabTitle(settings, pg.title),
       description: SEO.stripTags(pg.html) || pg.title,
       main: isContact ? T.contactMain(ctx, pg) : T.pageMain(ctx, pg)
     }, common), T.pageUrl(pg.slug), null);
   }
   if (!pages.some((p) => p.slug === 'contact')) {
-    out('pages/contact/index.html', renderPage(ctx, { path: T.link('/pages/contact/'), type: 'contact', title: `${t('footer.contact')} — ${settings.business_name}`, description: t('footer.contact'), main: T.contactMain(ctx, null) }, common), T.link('/pages/contact/'), null);
+    out('pages/contact/index.html', renderPage(ctx, { path: T.link('/pages/contact/'), type: 'contact', title: T.tabTitle(settings, t('footer.contact')), description: t('footer.contact'), main: T.contactMain(ctx, null) }, common), T.link('/pages/contact/'), null);
   }
 
   // Search, cart, checkout (placeholder until Phase 3), 404, offline
   const allSorted = cat.products.slice().sort((a, b) => Number(T.isInStock(b)) - Number(T.isInStock(a)) || (a.bestseller_rank || 999) - (b.bestseller_rank || 999));
-  out('search/index.html', renderPage(ctx, { path: T.link('/search/'), type: 'search', title: `${t('search.title_all')} — ${settings.business_name}`, description: defaultDesc, noindex: true,
+  out('search/index.html', renderPage(ctx, { path: T.link('/search/'), type: 'search', title: T.tabTitle(settings, t('search.title_all')), description: defaultDesc, noindex: true,
     main: T.listingMain(ctx, { mode: 'search', title: t('search.title_all'), products: allSorted, crumbs: [{ name: t('common.home'), href: T.link('/') }, { name: t('search.title_all') }] }) }, common));
-  out('cart/index.html', renderPage(ctx, { path: T.link('/cart/'), type: 'cart', title: `${t('cart.title_plain')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.cartPageMain(ctx) }, common));
+  out('cart/index.html', renderPage(ctx, { path: T.link('/cart/'), type: 'cart', title: T.tabTitle(settings, t('cart.title_plain')), description: defaultDesc, noindex: true, main: T.cartPageMain(ctx) }, common));
   if (!fs.existsSync(path.join(PUB, 'js', 'checkout.js'))) {
-    out('checkout/index.html', renderPage(ctx, { path: T.link('/checkout/'), type: 'checkout-soon', title: `${t('checkout_soon.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: T.checkoutSoonMain(ctx) }, common));
+    out('checkout/index.html', renderPage(ctx, { path: T.link('/checkout/'), type: 'checkout-soon', title: T.tabTitle(settings, t('checkout_soon.title')), description: defaultDesc, noindex: true, main: T.checkoutSoonMain(ctx) }, common));
   }
   if (lang === defaultLang) {
-  out('404.html', renderPage(ctx, { path: '/404.html', type: 'notfound', title: `${t('notfound.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: raw(fragment('404.html', T.notFoundMain(ctx))) }, common));
-  out('offline.html', renderPage(ctx, { path: '/offline.html', type: 'offline', title: `${t('offline.title')} — ${settings.business_name}`, description: defaultDesc, noindex: true, main: raw(fragment('offline.html', T.offlineMain(ctx))) }, common));
+  out('404.html', renderPage(ctx, { path: '/404.html', type: 'notfound', title: T.tabTitle(settings, t('notfound.title')), description: defaultDesc, noindex: true, main: raw(fragment('404.html', T.notFoundMain(ctx))) }, common));
+  out('offline.html', renderPage(ctx, { path: '/offline.html', type: 'offline', title: T.tabTitle(settings, t('offline.title')), description: defaultDesc, noindex: true, main: raw(fragment('offline.html', T.offlineMain(ctx))) }, common));
   }
   }
   setStrings(stringsFor(defaultLang), defaultLang);
@@ -570,7 +798,7 @@ function main() {
   const lastmod = NOW.toISOString().slice(0, 10);
   write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.map((u) => `  <url><loc>${siteUrl}${u.loc}</loc><lastmod>${u.lastmod || lastmod}</lastmod></url>`).join('\n')}\n</urlset>\n`);
   const robotsTpl = fs.readFileSync(path.join(PUB, 'robots.txt'), 'utf8');
-  write('robots.txt', PRODUCTION
+  write('robots.txt', PRODUCTION && !settings._preview_build
     ? robotsTpl.replace('__SITEMAP__', `${siteUrl}/sitemap.xml`)
     : '# Practice mode: search engines are asked not to list this test shop.\nUser-agent: *\nDisallow: /\n');
 
@@ -579,15 +807,19 @@ function main() {
     name: settings.business_name, short_name: settings.business_name.slice(0, 12),
     description: settings.tagline, theme_color: settings.primary_color
   });
+  const fav = settings._favicon;
+  if (fav && fav.type === 'image/png' && fav.size >= 192) {
+    manifest.icons = [{ src: fav.src, sizes: `${fav.size}x${fav.size}`, type: 'image/png', purpose: 'any' }].concat(manifest.icons.filter((i) => i.purpose === 'maskable'));
+  }
   write('manifest.webmanifest', JSON.stringify(manifest, null, 2));
 
   let headers = fs.readFileSync(path.join(PUB, '_headers'), 'utf8');
-  if (!PRODUCTION) headers += '\n# Practice mode: keep the test shop out of search engines.\n/*\n  X-Robots-Tag: noindex\n';
+  if (!PRODUCTION || settings._preview_build) headers += '\n# Practice mode: keep the test shop out of search engines.\n/*\n  X-Robots-Tag: noindex\n';
   write('_headers', headers);
 
   const precache = ['/', '/offline.html', `/css/site.css?v=${buildId}`, `/css/brand.css?v=${buildId}`, `/js/app.js?v=${buildId}`,
     '/icons/sprite.svg', ...codes.concat(['en']).filter((c, i, a) => a.indexOf(c) === i).map((c) => `/strings/${c}.json`), '/settings.public.json', '/catalog.json', '/manifest.webmanifest', '/assets/placeholder-product.svg',
-    ...CORE_MODULES.map((m) => `/js/${m}`)];
+    `/js/early.js?v=${buildId}`, ...CORE_MODULES.map((m) => `/js/${m}`)];
   const sw = fs.readFileSync(path.join(PUB, 'sw.js'), 'utf8')
     .replace(/__BUILD_ID__/g, buildId)
     .replace('"__PRECACHE__"', JSON.stringify(precache));
@@ -596,7 +828,7 @@ function main() {
   /* --- report */
   const coreJs = CORE_MODULES.map((m) => fs.readFileSync(path.join(PUB, 'js', m), 'utf8')).join('\n');
   const jsGz = gzipSize(coreJs + fs.readFileSync(path.join(PUB, 'js', 'app.js'), 'utf8'));
-  const cssGz = gzipSize(siteCss + brand);
+  const cssGz = gzipSize(siteCss + brandAll);
   const catGz = gzipSize(JSON.stringify(catalog));
   const fileCount = listFiles(DIST).length;
 

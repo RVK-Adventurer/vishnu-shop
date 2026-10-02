@@ -10,9 +10,9 @@ import { formatRupees } from './money.js';
 import { setHtml, local, $ } from './state.js';
 import { settings } from './settings.js';
 import { loadCatalog, addRecent, recentIds } from './catalog.js';
-import { priceBlock, productCard, icon, leadVariant, codEnabled, link } from './templates.js';
+import { priceBlock, productCard, icon, leadVariant, codEnabled, link, galleryInner } from './templates.js';
 import { matchPincode, isPincode, deliveryDate } from './validators.js';
-import { wireVariantPicker, variantImageIndex } from './variants.js';
+import { wireVariantPicker, variantImageIndex, photoSet } from './variants.js';
 import { initGallery } from './ui/gallery.js';
 import { stepperValue } from './ui/stepper.js';
 import { addAndCelebrate } from './ui/cart-drawer.js';
@@ -40,7 +40,19 @@ export async function init() {
   let variant = (p.variants || []).find((v) => v.sku === fromUrl) || (p.variants || []).find((v) => v.sku === p.lead_sku) || leadVariant(p);
   if (!variant) return;
 
-  const gallery = initGallery($('[data-gallery]', page), p.images || []);
+  const galleryRoot = $('[data-gallery]', page);
+  const leadV = (p.variants || []).find((v) => v.sku === p.lead_sku) || leadVariant(p);
+  let currentSet = photoSet(p, leadV);
+  let gallery = initGallery(galleryRoot, currentSet.map((i) => p.images[i]).filter(Boolean));
+  /** Shows the variant's own photos (e.g. the Red colour's set). Returns true if the photos changed. */
+  const useSetFor = (v) => {
+    const set = photoSet(p, v);
+    if (!galleryRoot || set.join() === currentSet.join()) return false;
+    currentSet = set;
+    setHtml(galleryRoot, galleryInner(p, p.images || [], set, t, p.fit || 'fit-contain'));
+    gallery = initGallery(galleryRoot, set.map((i) => p.images[i]).filter(Boolean));
+    return true;
+  };
   const form = $('[data-buy-form]', page);
   const stepperEl = $('[data-stepper]', form);
   const addBtn = $('[data-add-to-cart]', page);
@@ -64,7 +76,7 @@ export async function init() {
     buyBtn.disabled = !v.in_stock;
     if (stickyAdd) stickyAdd.disabled = !v.in_stock;
     if (stickyPrice) stickyPrice.textContent = formatRupees(v.price);
-    if (scroll && (p.variants || []).length > 1) gallery.goTo(variantImageIndex(v));
+    if ((p.variants || []).length > 1 && !useSetFor(v) && scroll) gallery.goTo(Math.max(0, currentSet.indexOf(variantImageIndex(v))));
     if ((p.variants || []).length > 1) history.replaceState(null, '', location.pathname + '?sku=' + encodeURIComponent(v.sku));
   }
 
@@ -97,36 +109,8 @@ export async function init() {
 
   /* ---- delivery check */
   const pinForm = $('[data-pin-check]', page);
-  const pinInput = $('[data-pin-input]', page);
-  const pinResult = $('[data-pin-result]', page);
-  const check = async (pin) => {
-    if (!isPincode(pin)) {
-      setHtml(pinResult, html`<p class="pin-line pin-line--no">${icon('alert', 16)}<span>${t('product.pin_invalid')}</span></p>`);
-      pinInput.setAttribute('aria-invalid', 'true');
-      return;
-    }
-    pinInput.removeAttribute('aria-invalid');
-    local.set('pincode', pin);
-    const rules = await pincodeRules();
-    const m = matchPincode(pin, rules);
-    if (!m.serviceable) {
-      setHtml(pinResult, html`<p class="pin-line pin-line--no">${icon('alert', 16)}<span>${t('product.pin_no', { pincode: pin })}</span></p>`);
-      return;
-    }
-    const days = m.rule && Number.isInteger(m.rule.delivery_days) ? m.rule.delivery_days : s.default_delivery_days;
-    const date = deliveryDate(new Date(), days, s.skip_sundays_delivery);
-    const codHere = codEnabled(s) && !(m.rule && m.rule.cod_allowed === false);
-    setHtml(pinResult, html`<p class="pin-line pin-line--ok">${icon('check-circle', 16)}<span>${t('product.pin_yes', { date: formatDate(date) })}</span></p>
-      ${codEnabled(s) ? html`<p class="pin-line pin-line--info">${icon(codHere ? 'cash' : 'info', 16)}<span>${codHere ? t('product.pin_cod_yes') : t('product.pin_cod_no')}</span></p>` : ''}
-      ${m.rule && m.rule.request_only ? html`<p class="pin-line pin-line--info">${icon('phone', 16)}<span>${t('product.pin_request')}</span></p>` : ''}`);
-  };
-  pinForm.addEventListener('submit', (e) => { e.preventDefault(); check(pinInput.value.trim()); });
-  pinInput.addEventListener('input', () => {
-    pinInput.value = pinInput.value.replace(/\D/g, '').slice(0, 6);
-    if (pinInput.value.length === 6) check(pinInput.value);
-  });
-  const savedPin = local.get('pincode');
-  if (savedPin && isPincode(savedPin)) { pinInput.value = savedPin; check(savedPin); }
+  if (pinForm) initPinCheck(pinForm, s, page);
+
 
   /* ---- share */
   const shareBtn = $('[data-share]', page);
@@ -151,4 +135,40 @@ export async function init() {
       row.hidden = false;
     }
   }
+}
+
+/** Delivery check by pincode. Mode DATE shows "Delivery by <date>", DAYS shows "Delivery in N days". */
+function initPinCheck(pinForm, s, page) {
+  const mode = pinForm.getAttribute('data-mode') || 'DATE';
+
+  const pinInput = $('[data-pin-input]', page);
+  const pinResult = $('[data-pin-result]', page);
+  const check = async (pin) => {
+    if (!isPincode(pin)) {
+      setHtml(pinResult, html`<p class="pin-line pin-line--no">${icon('alert', 16)}<span>${t('product.pin_invalid')}</span></p>`);
+      pinInput.setAttribute('aria-invalid', 'true');
+      return;
+    }
+    pinInput.removeAttribute('aria-invalid');
+    local.set('pincode', pin);
+    const rules = await pincodeRules();
+    const m = matchPincode(pin, rules);
+    if (!m.serviceable) {
+      setHtml(pinResult, html`<p class="pin-line pin-line--no">${icon('alert', 16)}<span>${t('product.pin_no', { pincode: pin })}</span></p>`);
+      return;
+    }
+    const days = m.rule && Number.isInteger(m.rule.delivery_days) ? m.rule.delivery_days : s.default_delivery_days;
+    const date = deliveryDate(new Date(), days, s.skip_sundays_delivery);
+    const codHere = codEnabled(s) && !(m.rule && m.rule.cod_allowed === false);
+    setHtml(pinResult, html`<p class="pin-line pin-line--ok">${icon('check-circle', 16)}<span>${(mode === 'DAYS' ? t('product.pin_yes_days', { n: days }) : t('product.pin_yes', { date: formatDate(date) }))}</span></p>
+      ${codEnabled(s) ? html`<p class="pin-line pin-line--info">${icon(codHere ? 'cash' : 'info', 16)}<span>${codHere ? t('product.pin_cod_yes') : t('product.pin_cod_no')}</span></p>` : ''}
+      ${m.rule && m.rule.request_only ? html`<p class="pin-line pin-line--info">${icon('phone', 16)}<span>${t('product.pin_request')}</span></p>` : ''}`);
+  };
+  pinForm.addEventListener('submit', (e) => { e.preventDefault(); check(pinInput.value.trim()); });
+  pinInput.addEventListener('input', () => {
+    pinInput.value = pinInput.value.replace(/\D/g, '').slice(0, 6);
+    if (pinInput.value.length === 6) check(pinInput.value);
+  });
+  const savedPin = local.get('pincode');
+  if (savedPin && isPincode(savedPin)) { pinInput.value = savedPin; check(savedPin); }
 }

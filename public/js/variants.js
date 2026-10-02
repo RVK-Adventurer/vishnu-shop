@@ -91,3 +91,18 @@ export function wireVariantPicker(root, p, variant, onChange) {
 export function variantImageIndex(variant) {
   return variant && Number.isInteger(variant.image) ? variant.image : 0;
 }
+
+/**
+ * The photos to show for a variant (up to 6, as positions in the product's photo list):
+ * the variant's own set (e.g. the photos of the Red colour) when it has one, otherwise the
+ * product's main set (`gallery`, else the first 6 photos).
+ */
+export function photoSet(p, variant, max = 6) {
+  const n = (p.images || []).length;
+  const valid = (list) => (Array.isArray(list) ? list.filter((i, k, a) => Number.isInteger(i) && i >= 0 && i < n && a.indexOf(i) === k).slice(0, max) : []);
+  const own = valid(variant && variant.images);
+  if (own.length) return own;
+  const main = valid(p.gallery);
+  if (main.length) return main;
+  return Array.from({ length: Math.min(n, max) }, (x, i) => i);
+}

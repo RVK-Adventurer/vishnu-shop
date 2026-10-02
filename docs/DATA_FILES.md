@@ -12,7 +12,7 @@ All money is **whole paise** (₹1 = 100). All dates are ISO text.
   "catalog_version": "content hash, changes whenever anything below changes",
   "generated_at": "2026-10-01T20:48:05.123+05:30",
   "categories": [
-    { "id": "cat-sweets", "name": "Sweets & Snacks", "slug": "sweets-snacks", "parent_id": "", "image": "/assets/images/2026-10/cat-sweets-card.webp", "sort": 1, "active": true }
+    { "id": "cat-sweets", "name": "Sweets & Snacks", "slug": "sweets-snacks", "parent_id": "", "image": "/assets/images/2026-10/cat-sweets-card.webp", "sort": 1, "active": true, "show_in_menu": true }
   ],
   "products": [
     {
@@ -22,8 +22,9 @@ All money is **whole paise** (₹1 = 100). All dates are ISO text.
       "images": [ { "thumb": "/assets/images/2026-10/p0001-1-thumb.webp", "card": "…-card.webp", "full": "…-full.webp", "w": 1200, "h": 1200, "alt": "Kaju Katli box" } ],
       "option_names": ["Weight"],
       "variants": [
-        { "sku": "P0001-1", "options": { "Weight": "250 g" }, "price": 32000, "mrp": 36000, "in_stock": true, "low_stock": false, "image": 0 }
+        { "sku": "P0001-1", "options": { "Weight": "250 g" }, "price": 32000, "mrp": 36000, "in_stock": true, "low_stock": false, "image": 0, "images": [0, 1, 2] }
       ],
+      "swatches": { "Colour": { "Mango Yellow": "#F2B705" } },
       "created_at": "2026-09-01T10:00:00.000+05:30", "bestseller_rank": 1, "order_mode": "DEFAULT", "active": true
     }
   ]
@@ -34,17 +35,27 @@ All money is **whole paise** (₹1 = 100). All dates are ISO text.
 - `variants` never carry stock counts — only `in_stock` and `low_stock` (Section 8.6).
 - `bestseller_rank`: 1 = best seller in the last 30 days (top 10 only; others `null`).
 - `order_mode`: `DEFAULT` or `REQUEST_ONLY` (Section 7.14).
+- Options (1.4): up to **3** `option_names` (e.g. `["Colour", "Size"]`), up to **20** values each, up to **100** variants. Over the limit, the extras are left out and the build log says so.
+- Variant `images` (optional, 1.4): positions in the detail file's `images` list that belong to this variant — up to **6**. Usually every variant of the same colour has the same list. Choosing that colour shows those photos. `image` is the photo the gallery jumps to.
+- `swatches` (optional): exact swatch colours for colour names the shop doesn't know (colour codes only).
+- Category `show_in_menu` (default `true`): `false` keeps the category page and its products but leaves it out of the header bar, phone menu and home category tiles. `active: false` hides the category completely.
 - A product the build can't use (bad slug, no variants, price not whole paise) is skipped and listed in the build log — it never stops the build.
 
 ## `data/products/<slug>.json` — details for one product
 
 ```json
-{ "id": "P0001", "slug": "kaju-katli", "description_html": "<p>…</p>", "specs": [["Brand", "…"], ["HSN code", "1704"]],
+{ "id": "P0001", "slug": "kaju-katli", "description_html": "<p>…</p>",
+  "highlights": ["Made fresh every morning", "No added colours"],
+  "specs": [ { "group": "General", "rows": [["Brand", "…"], ["Weight", "250 g"]] }, { "group": "Tax", "rows": [["HSN code", "1704"]] } ],
   "images": [ { "thumb": "…", "card": "…", "full": "…", "w": 1200, "h": 1200, "alt": "…" } ],
+  "gallery": [0, 1, 2, 3],
   "seo_title": "", "seo_description": "" }
 ```
 
-`description_html` is sanitized by the server on save and again by the build (allowed: p, br, strong, em, u, ul, ol, li, h2–h4, a, blockquote, tables).
+- `description_html`: cleaned by the server on save and again by the build (`public/js/html.js`). Allowed: paragraphs, headings (h2–h4), bold, italic, underline, strike, highlight, sub/superscript, lists, links, quotes, lines, tables (with merged cells and captions), boxes, code, the shop's own pictures, and the `rt-…` formatting classes (alignment, size, line and paragraph spacing, indent, colours, highlights, table styles, tick lists, note/warning boxes, two columns). Up to 20,000 characters.
+- `highlights` (1.4): up to 8 "Key features", 120 characters each.
+- `specs`: either a simple list `[["Brand", "…"], …]` or groups `[{ "group": "…", "rows": [...] }]`. Up to 8 groups and 40 rows.
+- `images`: every photo of the product, up to 60 (6 per colour). `gallery` (optional): the main set of up to 6 photos, used when the chosen variant has no photos of its own (default: the first 6).
 
 ## `data/settings.public.json`
 

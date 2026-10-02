@@ -39,7 +39,11 @@ function initHeaderShadow() {
   update();
 }
 
-async function boot() {
+/**
+ * Starts the page. The Design preview (/preview/) calls boot({ preview: true }) itself after drawing
+ * a page with the owner's draft settings; there, nothing talks to the server or installs the app.
+ */
+export async function boot({ preview = false } = {}) {
   document.documentElement.classList.add('js');
   initAnnouncement();
   initHeaderShadow();
@@ -63,11 +67,11 @@ async function boot() {
   initQuickAdd();
   initPrefetch();
   wirePhoneLinks();
-  refreshStoreState();
+  if (!preview) refreshStoreState();
   initRows();
   await route();
-  initPwa();
+  if (!preview) initPwa();
   initPromos();
 }
 
-boot();
+if (!document.documentElement.hasAttribute('data-preview')) boot();

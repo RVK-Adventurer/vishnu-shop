@@ -136,7 +136,10 @@
     "specifications": "Specifications",
     "reviews": "Ratings",
     "related": "You may also like",
-    "unavailable_option": "{value} — out of stock"
+    "unavailable_option": "{value} — out of stock",
+    "key_features": "Key features",
+    "show_all_specs": "Show all {n} specifications",
+    "pin_yes_days": "Delivery in {n} days"
   },
   "cart": {
     "title": "Your cart ({n})",
@@ -417,5 +420,10 @@
     "code_copied": "Code copied — paste it at checkout",
     "ends": "Offer ends {date}",
     "shop_now": "Shop now"
+  },
+  "preview": {
+    "ribbon": "Preview copy — customers can’t see this page. Orders are switched off here.",
+    "open_tool": "Design preview",
+    "orders_off": "This is the preview copy of the shop, so ordering is switched off here. Customers order on the live shop."
   }
 }

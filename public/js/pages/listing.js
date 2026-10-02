@@ -7,7 +7,7 @@
 import { loadCatalog } from '../catalog.js';
 import { buildIndex } from '../search.js';
 import * as F from '../filters.js';
-import { productCard, emptyState, icon, link } from '../templates.js';
+import { productCard, emptyState, icon, link, tabTitle } from '../templates.js';
 import { html } from '../html.js';
 import { t } from '../i18n.js';
 import { settings } from '../settings.js';
@@ -50,7 +50,7 @@ export async function init() {
   if (mode === 'search') {
     const title = state.q ? t('search.results_for', { q: state.q }) : t('search.title_all');
     if (titleEl) titleEl.textContent = title;
-    setPageMeta(`${title} — ${settings().business_name || ''}`, title);
+    setPageMeta(tabTitle(settings(), title), title);
   }
 
   /* ---- filter form placement: side panel (lg+) or bottom sheet */

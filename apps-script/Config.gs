@@ -91,7 +91,7 @@ var PROP = {
 /*
  * Each entry: key: { v: default, t: type, g: group, pub: published to settings.public.json?,
  *                    min/max (numbers), e: ENUMS name (choices), len: max text length }
- * Types: 'text', 'int', 'paise', 'dec', 'bool', 'json', 'enum', 'color', 'phone', 'email'.
+ * Types: 'text', 'int', 'paise', 'dec', 'bool', 'json', 'enum', 'color', 'paint', 'phone', 'email'.
  * Groups match the settings screens and their permissions (Section 11.9):
  *   branding, store, tax_shipping, payments, capacity, layout, features, checklist.
  */
@@ -124,11 +124,47 @@ var DEFAULT_CONFIG = {
   languages_json:     { v: ['en'], t: 'json', g: 'layout', pub: true },
   default_language:   { v: 'en', t: 'enum', e: 'LANGUAGE', g: 'layout', pub: true },
   announcement_auto:  { v: true, t: 'bool', g: 'branding', pub: true },
-  trust_strip_json:   { v: [], t: 'json', g: 'branding', pub: true },
+  trust_strip_json:   { v: [], t: 'json', g: 'branding', pub: true },   // up to 6 × { icon, text, link?, show? }
+  show_trust_strip:   { v: true, t: 'bool', g: 'branding', pub: true },
+  /* 1.4: logo, favicon, tab names (limits in public/js/limits.js) */
+  logo_mode:          { v: 'LOGO_AND_NAME', t: 'enum', e: 'LOGO_MODE', g: 'branding', pub: true },
+  logo_height_px:     { v: 40, t: 'int', g: 'branding', pub: true, min: 24, max: 72 },
+  tab_title_format:   { v: '{page} — {shop}', t: 'text', g: 'branding', pub: true, len: 60 },
+  tab_title_home:     { v: '', t: 'text', g: 'branding', pub: true, len: 70 },
+  /* 1.4: banners */
+  banner_frequency:   { v: 'ALWAYS', t: 'enum', e: 'BANNER_FREQUENCY', g: 'branding', pub: true },
+  banner_start:       { v: 'FIRST', t: 'enum', e: 'BANNER_START', g: 'branding', pub: true },
+  /* 1.5: cover picture for the welcome banner (public/js/cover.js: 3:1 computer, 2:1 tablet, 1:1 phone) */
+  hero_cover_json:    { v: {}, t: 'json', g: 'branding', pub: true },
+  /* 1.4: colours and gradients for each area ('' = theme colour) */
+  header_bg:          { v: '', t: 'paint', g: 'branding', pub: true },
+  catbar_bg:          { v: '', t: 'paint', g: 'branding', pub: true },
+  announcement_bg:    { v: '', t: 'paint', g: 'branding', pub: true },
+  footer_bg:          { v: '', t: 'paint', g: 'branding', pub: true },
+  hero_bg:            { v: '', t: 'paint', g: 'branding', pub: true },
+  button_bg:          { v: '', t: 'paint', g: 'branding', pub: true },
+  page_bg:            { v: '', t: 'paint', g: 'branding', pub: true },
+  /* 1.4: product pages */
+  product_image_ratio: { v: 'SQUARE', t: 'enum', e: 'IMAGE_RATIO', g: 'branding', pub: true },
+  delivery_display:   { v: 'DATE', t: 'enum', e: 'DELIVERY_DISPLAY', g: 'tax_shipping', pub: true },
+  delivery_custom_text: { v: '', t: 'text', g: 'tax_shipping', pub: true, len: 80 },
+  /* 1.4: footer */
+  footer_sections_json: { v: ['about', 'care', 'policies', 'payments'], t: 'json', g: 'layout', pub: true },
+  footer_columns_json:  { v: [], t: 'json', g: 'layout', pub: true },   // up to 4 × { title, links: up to 8 × { text, href } }
+  footer_about_text:    { v: '', t: 'text', g: 'layout', pub: true, len: 300 },
+  footer_show_contact:  { v: true, t: 'bool', g: 'layout', pub: true },
+  footer_show_social:   { v: true, t: 'bool', g: 'layout', pub: true },
+  footer_show_hours:    { v: true, t: 'bool', g: 'layout', pub: true },
+  footer_copyright_text: { v: '© {year} {shop}', t: 'text', g: 'layout', pub: true, len: 120 },
 
   /* Layout */
   home_layout:            { v: 'A', t: 'enum', e: 'HOME_LAYOUT', g: 'layout', pub: true },
   home_pinned_rows_json:  { v: [], t: 'json', g: 'layout', pub: true },
+  // Home page sections in order; leave a name out to hide it. Names: banner, trust, categories, pinned,
+  // bestsellers, new_arrivals, deals, recently_viewed, all_products (used with home_layout "A").
+  home_sections_json:     { v: ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed'], t: 'json', g: 'layout', pub: true },
+  show_category_menu:     { v: true, t: 'bool', g: 'layout', pub: true },   // categories in the header bar, phone menu and home tiles
+  show_all_products_link: { v: true, t: 'bool', g: 'layout', pub: true },   // "All products" link at the start of the header bar
 
   /* Store details */
   store_open:         { v: true, t: 'bool', g: 'store', pub: true },
@@ -386,6 +422,21 @@ function validateConfigValue_(key, value) {
     case 'color':
       if (!/^#[0-9A-Fa-f]{6}$/.test(String(value))) throw new Error(label + ' must be a colour like #4338CA.');
       return String(value).toUpperCase();
+    case 'paint': {
+      // '' (use the theme), one colour "#7C3AED", or a gradient of 2–3 colours (same rules as public/js/theme.js).
+      if (value === '' || value === null || value === undefined) return '';
+      if (typeof value === 'object') {
+        var cols = value.colors;
+        if (!Array.isArray(cols) || cols.length < 1 || cols.length > 3 || cols.some(function (c) { return !/^#[0-9A-Fa-f]{6}$/.test(String(c)); })) throw new Error(label + ': choose 1 to 3 colours like #7C3AED.');
+        var ang = Math.round(Number(value.angle || 135));
+        if (!(ang >= 0 && ang <= 360)) throw new Error(label + ': the gradient angle must be 0–360.');
+        return { colors: cols.map(function (c) { return String(c).toUpperCase(); }), angle: ang, style: value.style === 'radial' ? 'radial' : 'linear' };
+      }
+      var sv = String(value).trim();
+      if (/^#[0-9A-Fa-f]{6}$/.test(sv)) return sv.toUpperCase();
+      if (/^(linear|radial)-gradient\(\s*(\d{1,3}deg\s*,\s*)?#[0-9A-Fa-f]{6}\s*,\s*#[0-9A-Fa-f]{6}(\s*,\s*#[0-9A-Fa-f]{6})?\s*\)$/i.test(sv)) return sv;
+      throw new Error(label + ' must be a colour like #7C3AED or a gradient like linear-gradient(135deg, #7C3AED, #DB2777).');
+    }
     case 'phone': {
       if (value === '' || value === null || value === undefined) return '';
       var p = normalizePhone10_(value);

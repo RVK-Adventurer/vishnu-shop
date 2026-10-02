@@ -74,11 +74,12 @@ var TAB_SPECS = {
 
   Sessions: 'token_hash user_id kind expires_at@ created_at@ user_agent revoked?',
 
-  Categories: 'category_id name slug parent_id image_path sort# active?',
+  Categories: 'category_id name slug parent_id image_path sort# active? show_in_menu? seo_title',
 
   Products: 'product_id slug name description_html category_id tags brand base_price_paise# mrp_paise# ' +
     'gst_rate_percent% hsn track_inventory low_stock_threshold# order_mode image_ids_json{} seo_title ' +
-    'seo_description active? created_at@ updated_at@ rating_avg% rating_count#',
+    'seo_description active? created_at@ updated_at@ rating_avg% rating_count# ' +
+    'short highlights_json{} specs_json{} option_names_json{} swatches_json{} gallery_json{}',
 
   Variants: 'sku product_id option_values_json{} price_paise# mrp_paise# stock# thumbnail_image_id ' +
     'image_ids_json{} active? sort#',
@@ -250,7 +251,13 @@ var ENUMS = {
   SOLD_COUNTS_MODE: ['OFF', 'MONTH', 'TOTAL', 'BOTH'],
   LANGUAGE: ['en', 'ta', 'hi'],
   POPUP_FREQUENCY: ['DAY', 'SESSION', 'ONCE'],
-  POPUP_PAGES: ['ALL', 'HOME']
+  POPUP_PAGES: ['ALL', 'HOME'],
+  /* 1.4 additions */
+  LOGO_MODE: ['LOGO_AND_NAME', 'LOGO_ONLY', 'NAME_ONLY'],
+  BANNER_FREQUENCY: ['ALWAYS', 'SESSION', 'DAY'],
+  BANNER_START: ['FIRST', 'RANDOM', 'NEXT'],
+  IMAGE_RATIO: ['SQUARE', 'PORTRAIT', 'LANDSCAPE'],
+  DELIVERY_DISPLAY: ['DATE', 'DAYS', 'TEXT', 'HIDDEN']
 };
 
 /** Drop-down lists added to the Sheet for anyone editing it by hand ("Tab.column": ENUMS key). */

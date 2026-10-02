@@ -81,6 +81,24 @@ export function checkConfig(cfg, { production = false } = {}) {
   };
   Object.entries(DISPLAY_OPTIONS).forEach(([k, list]) => choice(k, list));
   choice('sold_counts_mode', ['OFF', 'MONTH', 'TOTAL', 'BOTH']);
+  choice('home_layout', ['A', 'B']);
+  choice('banner_frequency', ['ALWAYS', 'SESSION', 'DAY']);
+  choice('banner_start', ['FIRST', 'RANDOM', 'NEXT']);
+  choice('delivery_display', ['DATE', 'DAYS', 'TEXT', 'HIDDEN']);
+  if (disp.footer_sections_json !== undefined && (!Array.isArray(disp.footer_sections_json) || disp.footer_sections_json.some((x) => !['about', 'care', 'policies', 'payments'].includes(String(x).toLowerCase())))) {
+    warnings.push('display.footer_sections_json should list some of "about", "care", "policies", "payments".');
+  }
+  if (disp.footer_columns_json !== undefined && !Array.isArray(disp.footer_columns_json)) warnings.push('display.footer_columns_json should look like [{"title": "Shop", "links": [{"text": "Sarees", "href": "/c/sarees/"}]}].');
+  if (disp.trust_strip_json !== undefined && !Array.isArray(disp.trust_strip_json)) warnings.push('display.trust_strip_json should look like [{"icon": "truck", "text": "Free delivery"}].');
+  const SECTIONS = ['banner', 'trust', 'categories', 'pinned', 'bestsellers', 'new_arrivals', 'deals', 'recently_viewed', 'all_products'];
+  if (disp.home_sections_json !== undefined) {
+    if (!Array.isArray(disp.home_sections_json)) warnings.push('display.home_sections_json should look like ["banner", "categories", "bestsellers"].');
+    else disp.home_sections_json.filter((x) => !SECTIONS.includes(String(x).trim().toLowerCase()))
+      .forEach((x) => warnings.push(`display.home_sections_json: "${x}" is not a home section (choose from ${SECTIONS.join(', ')}) — skipped.`));
+  }
+  ['show_category_menu', 'show_all_products_link', 'reviews_enabled', 'show_trust_strip', 'footer_show_contact', 'footer_show_social', 'footer_show_hours'].forEach((k) => {
+    if (disp[k] !== undefined && typeof disp[k] !== 'boolean') warnings.push(`display.${k} must be true or false (no quotes).`);
+  });
   const fonts = ['system', 'poppins', 'lora', 'mukta', 'hind-madurai', 'noto-sans-tamil', 'baloo-2'];
   choice('font_body', fonts);
   choice('font_heading', fonts);

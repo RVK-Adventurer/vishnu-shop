@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Design preview</title>
+<link rel="icon" href="/client/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/preview.css">
+<script type="module" src="/js/preview/lab.js"></script>
+</head>
+<body class="lab">
+<header class="lab-bar">
+  <div class="lab-bar__title">
+    <svg class="icon" width="22" height="22" aria-hidden="true"><use href="/icons/sprite.svg#i-eye"></use></svg>
+    <h1>Design preview</h1>
+    <span class="lab-badge">Only you see this · nothing is published</span>
+  </div>
+  <div class="lab-bar__controls">
+    <label class="lab-field"><span>Page</span><select class="select select--sm" data-lab-page></select></label>
+    <label class="lab-field" data-lab-slug-wrap hidden><span data-lab-slug-label>Product</span><select class="select select--sm" data-lab-slug></select></label>
+    <label class="lab-field" data-lab-lang-wrap hidden><span>Language</span><select class="select select--sm" data-lab-lang></select></label>
+    <div class="segmented" role="group" aria-label="Colour mode" data-lab-theme>
+      <button type="button" aria-pressed="true" data-theme="auto">Auto</button>
+      <button type="button" aria-pressed="false" data-theme="light">Light</button>
+      <button type="button" aria-pressed="false" data-theme="dark">Dark</button>
+    </div>
+    <label class="switch lab-switch" title="Show banners as a new customer sees them"><input type="checkbox" checked data-lab-first><span class="switch__track" aria-hidden="true"></span><span>First visit</span></label>
+    <label class="switch lab-switch" title="Show your offer pop-up on the preview"><input type="checkbox" data-lab-popups><span class="switch__track" aria-hidden="true"></span><span>Pop-ups</span></label>
+  </div>
+</header>
+<div class="lab-devices" role="group" aria-label="Screen size" data-lab-devices></div>
+<div class="lab-tabs-phone" role="tablist" aria-label="Show">
+  <button type="button" role="tab" aria-selected="true" data-lab-view="controls">Settings</button>
+  <button type="button" role="tab" aria-selected="false" data-lab-view="stage">Preview</button>
+</div>
+<div class="lab-main" data-lab-main>
+  <aside class="lab-panel" aria-label="Settings" data-lab-panel>
+    <div class="lab-tabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-lab-tab="easy">Easy settings</button>
+      <button type="button" role="tab" aria-selected="false" data-lab-tab="pictures">Pictures</button>
+      <button type="button" role="tab" aria-selected="false" data-lab-tab="json">Settings text</button>
+      <button type="button" role="tab" aria-selected="false" data-lab-tab="checks">Checks <span class="count-dot" data-lab-check-count hidden></span></button>
+    </div>
+    <div class="lab-pane" data-lab-pane="easy"></div>
+    <div class="lab-pane" data-lab-pane="pictures" hidden></div>
+    <div class="lab-pane" data-lab-pane="json" hidden></div>
+    <div class="lab-pane" data-lab-pane="checks" hidden></div>
+    <div class="lab-actions">
+      <button class="btn btn--primary btn--block" type="button" data-lab-copy>Copy settings for GitHub</button>
+      <button class="btn btn--ghost btn--sm" type="button" data-lab-reset>Start again from the live shop</button>
+    </div>
+  </aside>
+  <section class="lab-stage" aria-label="Preview" data-lab-stage></section>
+</div>
+<div class="toasts" data-toasts aria-live="polite"></div>
+</body>
+</html>

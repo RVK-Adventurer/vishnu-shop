@@ -13,12 +13,16 @@
  *   font_body / font_heading   'system' or a font id from /assets/fonts/fonts.json
  */
 
+import { LIMITS, clampTo } from './limits.js';
+
 export const DISPLAY_OPTIONS = {
   page_width: ['STANDARD', 'WIDE', 'FULL'],
   ui_corners: ['SHARP', 'STANDARD', 'ROUND'],
   ui_shadows: ['NONE', 'SOFT', 'STRONG'],
   ui_spacing: ['COMPACT', 'COMFORTABLE', 'AIRY'],
-  ui_text_size: ['NORMAL', 'LARGE', 'XLARGE']
+  ui_text_size: ['NORMAL', 'LARGE', 'XLARGE'],
+  product_image_ratio: ['SQUARE', 'PORTRAIT', 'LANDSCAPE'],
+  logo_mode: ['LOGO_AND_NAME', 'LOGO_ONLY', 'NAME_ONLY']
 };
 
 export const DISPLAY_DEFAULTS = {
@@ -27,6 +31,9 @@ export const DISPLAY_DEFAULTS = {
   ui_shadows: 'SOFT',
   ui_spacing: 'COMFORTABLE',
   ui_text_size: 'NORMAL',
+  product_image_ratio: 'SQUARE',
+  logo_mode: 'LOGO_AND_NAME',
+  logo_height_px: LIMITS.logo_height_px.default,
   font_body: 'system',
   font_heading: 'system'
 };
@@ -59,6 +66,7 @@ const SPACING = {
   COMFORTABLE: { 5: 24, 6: 32, 7: 48, 8: 64, 9: 96 },
   AIRY: { 5: 28, 6: 40, 7: 60, 8: 80, 9: 120 }
 };
+const RATIO = { SQUARE: '1 / 1', PORTRAIT: '4 / 5', LANDSCAPE: '4 / 3' };
 const TEXT_SIZE = { NORMAL: '100%', LARGE: '112.5%', XLARGE: '125%' };
 
 function pick(value, list, fallback) {
@@ -69,6 +77,7 @@ function pick(value, list, fallback) {
 export function normalizeDisplay(s = {}) {
   const out = {};
   for (const [k, list] of Object.entries(DISPLAY_OPTIONS)) out[k] = pick(s[k], list, DISPLAY_DEFAULTS[k]);
+  out.logo_height_px = clampTo(LIMITS.logo_height_px, s.logo_height_px ?? LIMITS.logo_height_px.default);
   out.font_body = s.font_body || 'system';
   out.font_heading = s.font_heading || 'system';
   return out;
@@ -98,6 +107,9 @@ export function displayVariables(settings, fonts = []) {
     '--space-7': sp[7] + 'px',
     '--space-8': sp[8] + 'px',
     '--space-9': sp[9] + 'px',
+    '--img-ratio': RATIO[d.product_image_ratio],
+    '--img-aspect': { SQUARE: '1', PORTRAIT: '0.8', LANDSCAPE: '1.3333' }[d.product_image_ratio],
+    '--logo-h': d.logo_height_px + 'px',
     '--font-body': fontStack(fonts, d.font_body),
     '--font-heading': fontStack(fonts, d.font_heading === 'system' ? d.font_body : d.font_heading)
   };

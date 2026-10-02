@@ -44,11 +44,16 @@ export function initGallery(root, images) {
     if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
   });
 
-  root.addEventListener('click', (e) => {
-    const z = e.target.closest('[data-zoom]');
-    if (!z) return;
-    openZoom(images, Number(z.getAttribute('data-zoom')) || 0, z);
-  });
+  // One click listener per gallery, even when the photos are swapped for another colour.
+  root._galleryImages = images;
+  if (!root._galleryWired) {
+    root._galleryWired = true;
+    root.addEventListener('click', (e) => {
+      const z = e.target.closest('[data-zoom]');
+      if (!z) return;
+      openZoom(root._galleryImages || [], Number(z.getAttribute('data-zoom')) || 0, z);
+    });
+  }
 
   return { goTo, current: () => current };
 }

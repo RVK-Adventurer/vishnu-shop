@@ -176,3 +176,9 @@
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-micro: 0ms; --dur-std: 0ms; --dur-route: 0ms; }
 }
+
+/* Copies of the page colours, kept for pop-up menus inside areas the owner has painted (theme.js). */
+:root {
+  --base-surface: var(--surface); --base-surface-2: var(--surface-2); --base-text: var(--text); --base-text-2: var(--text-2);
+  --base-muted: var(--muted); --base-border: var(--border); --base-primary-text: var(--primary-text);
+}

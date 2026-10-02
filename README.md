@@ -35,6 +35,9 @@ The shop is built in seven phases. Each phase ends with "how to upload and test 
 | 0 | Fact checks, database layout, settings, setup menu, automatic jobs, Setup Guide steps 1–4 | ✅ Delivered |
 | 1 | The customer website (read-only): design system, home, categories, product pages, search, cart, style guide, Setup Guide steps 6–8 | ✅ Delivered |
 | 1.1 | v1.9 additions: full-width pages, look-and-feel choices, 6 fonts, Tamil, wording changes, "bought" counts, timed popups and announcements (docs/V1.9_ADDITIONS.md) | ✅ Delivered |
+| 1.2–1.3 | Poster popups, home sections, menus | ✅ Delivered |
+| 1.4 | Logo/favicon/tab names, banner timing, editable trust strip, any colours and gradients, footer builder, 6 photos per colour, 3 option types, Word-style descriptions, key features, grouped specifications, delivery wording, picture guide (docs/IMAGE_GUIDE.md) | ✅ Delivered |
+| 1.5 | Cover picture (computer/tablet/phone versions, photo or finished design, shade, position, strength), Design preview at /preview/ (all settings, 4 screen sizes, light/dark, try pictures), private test copy on a preview branch | ✅ Delivered |
 | 2 | Backend core + admin website shell: login, staff, products, photos, publishing, settings (including the v1.9 switches) | Next |
 | 3 | Checkout and money: all payment options, orders, refunds, COD, requests, daily limit | — |
 | 4 | Instant PDF invoices and the Bill Designer | — |
